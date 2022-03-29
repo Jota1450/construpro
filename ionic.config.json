@@ -1,0 +1,7 @@
+{
+  "name": "construpro",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
