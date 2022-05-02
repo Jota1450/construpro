@@ -1,0 +1,72 @@
+<ion-content>
+  <div class="row">
+    <div class="col title-container">
+      <h3 class="title"><span class="Constru">CONSTRU </span><span class="Pro">PRO</span></h3>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-5 registrotext">
+      <h5 class="registrolabel">Registro</h5>
+    </div>
+    <div class="col-7">
+      
+    </div>
+  </div>
+
+  <div style="padding-left: 10px; padding-right: 10px;">
+  
+    <div class="row">
+      <div class="col">
+        <pro-input [title]="'Nombres'" [type]="'text'" ></pro-input>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <pro-input [title]="'Apellidos'" [type]="'text'" ></pro-input>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <pro-select [title]="'Tipo de documento'" [options]="options" ></pro-select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <pro-input [title]="'Numero de documento'" [type]="'text'" ></pro-input>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <pro-input [title]="'Correo'" [type]="'email'" ></pro-input>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <pro-input [title]="'Contraseña'" [type]="'password'" ></pro-input>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <pro-input [title]="'Confirmar contraseña'" [type]="'password'"></pro-input>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col buttons">
+      <div style="display: flex;">
+        <pro-button-outline [text]="'Volver'" [routerLink]="['/login']"   style="margin: 5px;"></pro-button-outline>
+        <pro-button [text]="'Registrarse'" [routerLink]="['/home']" style="margin: 5px;"></pro-button>
+      </div>
+    </div>
+  </div>
+
+</ion-content>

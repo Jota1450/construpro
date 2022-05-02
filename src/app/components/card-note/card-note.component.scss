@@ -1,0 +1,38 @@
+
+.card-anotacion{
+    background: #FFFFFF;
+    border: 1px solid #171717;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.date-anotacion{
+font-style: normal !important;
+font-weight: 400 !important;
+font-size: 14px !important;
+line-height: 21px !important;
+}
+
+.content-anotacion{
+    display: flex;
+}
+
+.time-anotacion{
+    font-style: normal !important;
+    font-weight: 700 !important;
+    font-size: 16px !important;
+    color: #980000 !important;
+    padding: 0 8px;
+    border-right-color: #000;
+    border-right-width: 1px;
+    border-right-style: solid;
+}
+
+
+.text-anotacion{
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: #171717;
+    padding: 0 8px;
+}

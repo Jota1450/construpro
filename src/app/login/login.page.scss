@@ -1,0 +1,54 @@
+.title-container{
+    margin-top: 25px;
+}
+.title{
+    text-align: center;
+}
+.Constru{
+    font-style: normal;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 40px;
+    /* identical to box height */
+    
+    text-align: center;
+    
+    color: #980000;
+}
+.Pro{
+    font-style: normal;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 40px;
+    /* identical to box height */
+    
+    text-align: center;
+    
+    color: #3C3844;
+}
+.img-cont{
+    text-align: center;
+}
+.img-top{
+    padding: 20px 20px 20px 20px;
+}
+.email{
+    padding-left: 10%;
+    padding-right: 10%;
+}
+.password{
+    padding-left: 10%;
+    padding-right: 10%;
+}
+.forgotpassword{
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    align-items: center;
+    text-align: right;
+}
+.buttons{
+    display: flex;
+    justify-content: space-around;
+}

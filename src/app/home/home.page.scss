@@ -1,0 +1,32 @@
+.menubutton{
+    color: #980000;
+  }
+  .toolbartitle{
+    color: #980000;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 36px;
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    left: 0;
+  }
+  .card{
+    align-items: center;
+    border: none !important; 
+    margin: 10px;
+  }
+  .floatingbutton{
+    position: fixed;
+    bottom: 20px;
+    right: 15px;
+  }
+  .addbutton{
+      --background:  #980000;;
+      --transition: background-color 15ms linear;
+  }
+  .addicon{
+    width: 60%;
+    height: 60%;
+  }

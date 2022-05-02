@@ -1,0 +1,23 @@
+.header{
+    position: sticky;
+    top: 0px;
+    max-height: 35%;
+}
+.imgcontainer{
+    text-align: center;
+}
+.img{
+    
+    object-fit: fill;
+}
+.buttonback{
+    position: absolute;
+    --background: #FFFFFF;
+    --color: #980000;
+}
+.form{
+    margin: 5%;
+}
+.buttoncreate{
+    align-content: center;
+}
