@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'pro-card-project',
@@ -7,9 +7,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProCardProject implements OnInit {
 
+  @Input() title ='';
+  @Input() address ='';
+  @Input() startDate ='';
+  @Input() endDate ='';
+  @Input() contractNumber ='';
+  @Input() contracts = [];
+  @Input() id = '';
+  
+
   constructor() { }
 
   ngOnInit() {}
+
 
 }
 

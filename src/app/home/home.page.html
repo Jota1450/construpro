@@ -10,24 +10,14 @@
 </ion-header>
 
 <ion-content>
-  <div class="row">
+  <div class="row" *ngFor="let contract of contracts">
       <div class="col card">
-          <pro-card-project></pro-card-project>
-      </div>
-  </div>
-  <div class="row">
-      <div class="col card">
-          <pro-card-project></pro-card-project>
-      </div>
-  </div>
-  <div class="row">
-      <div class="col card">
-          <pro-card-project></pro-card-project>
+          <pro-card-project [title]="[contract.title]" [address]= "[contract.address]"  [startDate]="[contract.startDate]" [endDate]="[contract.endDate]" [contractNumber]="[contract.contractNumber]" ></pro-card-project>
       </div>
   </div>
 
   <div class="floatingbutton" >
-      <ion-fab-button class="addbutton"><ion-icon class="addicon" name="add"></ion-icon></ion-fab-button>
+      <ion-fab-button [routerLink]="['/project-create']" class="addbutton"><ion-icon class="addicon" name="add"></ion-icon></ion-fab-button>
   </div>
 
 </ion-content>
