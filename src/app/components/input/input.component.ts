@@ -14,13 +14,13 @@ export class ProInput implements OnInit {
   @Input() required = true;
   @Input() disabled = false;
   @Output() outputValue= new EventEmitter();
-  
+
   constructor() { }
 
   ngOnInit() {}
 
   emitChange(){
-    this.outputValue.emit(this.value); 
+    this.outputValue.emit(this.value);
   }
 }
 

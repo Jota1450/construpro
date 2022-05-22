@@ -10,51 +10,51 @@
       <h5 class="registrolabel">Registro</h5>
     </div>
     <div class="col-7">
-      
+
     </div>
   </div>
 
   <div style="padding-left: 10px; padding-right: 10px;">
-  
+
     <div class="row">
       <div class="col">
-        <pro-input [title]="'Nombres'" [type]="'text'" ></pro-input>
+        <pro-input [title]="'Nombres'" [type]="'text'" (outputValue)="names = $event"></pro-input>
       </div>
     </div>
 
     <div class="row">
       <div class="col">
-        <pro-input [title]="'Apellidos'" [type]="'text'" ></pro-input>
+        <pro-input [title]="'Apellidos'" [type]="'text'" (outputValue)="lastNames = $event"></pro-input>
       </div>
     </div>
 
     <div class="row">
       <div class="col">
-        <pro-select [title]="'Tipo de documento'" [options]="options" ></pro-select>
+        <pro-select [title]="'Tipo de documento'" [options]="options" (outputValue)="documentType = $event"></pro-select>
       </div>
     </div>
 
     <div class="row">
       <div class="col">
-        <pro-input [title]="'Numero de documento'" [type]="'text'" ></pro-input>
+        <pro-input [title]="'Numero de documento'" [type]="'text'" (outputValue)="documentNumber = $event"></pro-input>
       </div>
     </div>
 
     <div class="row">
       <div class="col">
-        <pro-input [title]="'Correo'" [type]="'email'" ></pro-input>
+        <pro-input [title]="'Correo'" [type]="'email'" (outputValue)="email = $event"></pro-input>
       </div>
     </div>
 
     <div class="row">
       <div class="col">
-        <pro-input [title]="'Contraseña'" [type]="'password'" ></pro-input>
+        <pro-input [title]="'Contraseña'" [type]="'password'" (outputValue)="password = $event"></pro-input>
       </div>
     </div>
 
     <div class="row">
       <div class="col">
-        <pro-input [title]="'Confirmar contraseña'" [type]="'password'"></pro-input>
+        <pro-input [title]="'Confirmar contraseña'" [type]="'password'" (outputValue)="confirmPassword = $event"></pro-input>
       </div>
     </div>
 
@@ -64,7 +64,7 @@
     <div class="col buttons">
       <div style="display: flex;">
         <pro-button-outline [text]="'Volver'" [routerLink]="['/login']"   style="margin: 5px;"></pro-button-outline>
-        <pro-button [text]="'Registrarse'" [routerLink]="['/home']" style="margin: 5px;"></pro-button>
+        <pro-button [text]="'Registrarse'" (click)="saveUser()" style="margin: 5px;"></pro-button>
       </div>
     </div>
   </div>
