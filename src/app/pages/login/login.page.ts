@@ -1,8 +1,7 @@
-import { Message } from './../../../node_modules/protobufjs/index.d';
 import { Router, Routes } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../services/auth.service';
 import Swal from 'sweetalert2';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
