@@ -13,7 +13,7 @@ export class ProInput implements OnInit {
   @Input() title = 'Title';
   @Input() required = true;
   @Input() disabled = false;
-  @Output() outputValue= new EventEmitter();
+  @Output() outputValue = new EventEmitter();
 
   constructor() { }
 

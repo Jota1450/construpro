@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from '../../models/user';
 import { UsersService } from '../../services/users.service';
 
@@ -13,36 +14,77 @@ export class RegisterPage implements OnInit {
     { value: 'C.C.', text: 'C.C.' },
     { value: 'T.I.', text: 'T.I.' }
   ];
-
+  /*
   names: string;
   lastNames: string;
   email: string;
   password: string;
   confirmPassword: string;
   documentType: string;
-  documentNumber: string;
+  documentNumber: string;*/
+  formRegister: FormGroup;
 
   constructor(
-    private usersService: UsersService
+    private usersService: UsersService,
+    private formBuilder: FormBuilder,
   ) { }
 
   ngOnInit() {
-  }
-
-  async saveUser(){
-    // creamos objeto para user para guardar
-    const user: User = {
-      names: this.names,
-      lastNames: this.lastNames,
-      email:  this.email,
-      password:  this.password,
-      documentType:  this.documentType,
-      documentNumber:  this.documentNumber
-    };
-    await this.usersService.createUser(user).then(
-      (resp) => {
-        console.log('response', resp);
+    this.formRegister = this.formBuilder.group(
+      {
+        names: new FormControl('', [
+          Validators.required
+        ]),
+        lastNames: new FormControl('', [
+          Validators.required
+        ]),
+        email: new FormControl('', [
+          Validators.required,
+          Validators.email
+        ]),
+        password: new FormControl('', [
+          Validators.required
+        ]),
+        confirmPassword: new FormControl('', [
+          Validators.required
+        ]),
+        documentType: new FormControl('', [
+          Validators.required
+        ]),
+        documentNumber: new FormControl('', [
+          Validators.required
+        ]),
       }
     );
+  }
+
+  setValue(name: string, value: any){
+    this.formRegister.get(name).setValue(value);
+  }
+
+  passAreValid(): boolean{
+    return this.formRegister.get('password').value === this.formRegister.get('confirmPassword').value;
+  }
+
+  async saveUser() {
+    if (this.formRegister.valid && this.passAreValid()) {
+      const user: User = {
+        names: this.formRegister.get('names').value,
+        lastNames: this.formRegister.get('lastNames').value,
+        email: this.formRegister.get('email').value,
+        password: this.formRegister.get('password').value,
+        documentType: this.formRegister.get('documentType').value,
+        documentNumber: this.formRegister.get('documentNumber').value
+      };
+      await this.usersService.createUser(user).then(
+        (resp) => {
+          console.log('response', resp);
+        }
+      );
+    } else {
+      console.log('formControl', this.formRegister);
+    }
+    // creamos objeto para user para guardar
+    //this.formRegister.get
   }
 }

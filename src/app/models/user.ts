@@ -6,4 +6,5 @@ export interface User {
   password: string;
   documentType: string;
   documentNumber: string;
+  rol?: string;
 }

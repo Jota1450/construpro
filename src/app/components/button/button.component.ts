@@ -7,7 +7,8 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ProButton implements OnInit {
 
-  @Input() text: string = "button";
+  @Input() text = 'button';
+  @Input() type = 'button';
 
   constructor() { }
 
