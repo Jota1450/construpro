@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { ProjectsService } from './../../services/projects.service';
+import { Project } from './../../models/project';
+import { Component, OnInit } from '@angular/core';
 import { ComponentsModule } from '../../components/components.module';
 
 @Component({
@@ -6,36 +8,25 @@ import { ComponentsModule } from '../../components/components.module';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit {
 
-  contracts = [
-    {
-      title: 'Casa 5',
-      address: 'Calle 5 #5-5',
-      startDate: '20-05-2022',
-      endDate: '25-05-2022',
-      contractNumber: '1',
-      id: '1'
-    },
-    {
-      title: 'Casa 6',
-      address: 'Calle 5 #5-5',
-      startDate: '20-05-2022',
-      endDate: '25-05-2022',
-      contractNumber: '2',
-      id: '2'
-    },
-    {
-      title: 'Torre 6',
-      address: 'Calle 7 #7-8',
-      startDate: '20-05-2022',
-      endDate: '25-05-2022',
-      contractNumber: '3',
-      id: '3'
-    }
+  projects: Project[] = [];
 
-  ];
+  constructor(
+    private projectsService: ProjectsService
+  ) { }
 
-  constructor() { }
+  ngOnInit() {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+    this.getAllProjects();
+  }
+
+  async getAllProjects(){
+    // En este metodo todos los proyectos.
+    await this.projectsService.getAllProjects().subscribe(
+      projects => this.projects = projects
+    );
+  }
 
 }

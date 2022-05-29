@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from '../../models/user';
+import { Component, OnInit } from '@angular/core';
 import { UsersService } from '../../services/users.service';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
@@ -58,14 +58,6 @@ export class RegisterPage implements OnInit {
     );
   }
 
-  setValue(name: string, value: any){
-    this.formRegister.get(name).setValue(value);
-  }
-
-  passAreValid(): boolean{
-    return this.formRegister.get('password').value === this.formRegister.get('confirmPassword').value;
-  }
-
   async saveUser() {
     if (this.formRegister.valid && this.passAreValid()) {
       const user: User = {
@@ -86,5 +78,13 @@ export class RegisterPage implements OnInit {
     }
     // creamos objeto para user para guardar
     //this.formRegister.get
+  }
+
+  setValue(name: string, value: any){
+    this.formRegister.get(name).setValue(value);
+  }
+
+  passAreValid(): boolean{
+    return this.formRegister.get('password').value === this.formRegister.get('confirmPassword').value;
   }
 }

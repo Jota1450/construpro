@@ -9,10 +9,16 @@
 </ion-header>
 
 <ion-content>
-  <div class="row" *ngFor="let contract of contracts">
-      <div class="col card">
-          <pro-card-project [title]="contract.title" [address]= "contract.address"  [startDate]="contract.startDate" [endDate]="contract.endDate" [contractNumber]="contract.contractNumber" ></pro-card-project>
-      </div>
+  <ng-container *ngIf="projects.length !== 0">
+    <div class="row" *ngFor="let contract of projects">
+        <div class="col card">
+            <pro-card-project [title]="contract.name" [address]= "contract.address"  [startDate]="contract.initialDate" [endDate]="contract.finalDate" [contractNumber]="contract.contractNumber" ></pro-card-project>
+        </div>
+    </div>
+  </ng-container>
+
+  <div div *ngIf="projects.length === 0" style="height: 100%; display: flex; align-items: center; justify-content: space-around;">
+    No hay proyectos...
   </div>
 
   <div class="floatingbutton" >

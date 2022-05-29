@@ -1,61 +1,84 @@
-
 <ion-content>
   <header class="header">
     <div class="imgcontainer">
-      <ion-button class="buttonback">
+      <ion-button class="buttonback" [routerLink]="['/home']">
         <ion-icon slot="start" name="arrow-back"></ion-icon>
       </ion-button>
-      <img class="img-fluid" style="max-height: 30%;" src="https://images.adsttc.com/media/images/5d34/e507/284d/d109/5600/0240/newsletter/_FI.jpg?1563747560">
+      <img class="img-fluid" style="max-height: 30%;"
+        src="https://images.adsttc.com/media/images/5d34/e507/284d/d109/5600/0240/newsletter/_FI.jpg?1563747560">
     </div>
   </header>
 
   <div class="form">
-
-    <div class="row">
-      <div class="col">
-        <pro-input [title]="'Nombre del proyecto'" [type]="'text'" ></pro-input>
-      </div>
-    </div>
-
-    <div class="row">
-
-      <div class="col">
-        <pro-input [title]="'N.I.T.'" [type]="'text'" ></pro-input>
+    <form [formGroup]="formProject">
+      <div class="row">
+        <div class="col">
+          <pro-input [title]="'Nombre del proyecto'" [type]="'text'" (outputValue)="setValue('name', $event)">
+          </pro-input>
+        </div>
       </div>
 
-      <div class="col">
-        <pro-input [title]="'No. Contrato'" [type]="'text'" ></pro-input>
+      <div class="row">
+
+        <div class="col">
+          <pro-input [title]="'N.I.T.'" [type]="'text'" (outputValue)="setValue('NIT', $event)"></pro-input>
+        </div>
+
+        <div class="col">
+          <pro-input [title]="'No. Contrato'" [type]="'text'" (outputValue)="setValue('contractNumber', $event)">
+          </pro-input>
+        </div>
+
       </div>
 
-    </div>
-
-    <div class="row">
-      <div class="col">
-        <pro-input [title]="'Dirección de la obra'" [type]="'text'" ></pro-input>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col">
-        <pro-input [title]="'Nombre del proyecto'" [type]="'text'" ></pro-input>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col">
-        <pro-input [title]="'Nombre del proyecto'" [type]="'text'" ></pro-input>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col">
-        <pro-input [title]="'Fecha inicio'" [type]="'date'"></pro-input>
+      <div class="row">
+        <div class="col">
+          <pro-input [title]="'Dirección de la obra'" [type]="'text'" (outputValue)="setValue('address', $event)">
+          </pro-input>
+        </div>
       </div>
 
-      <div class="col">
-        <pro-input [title]="'Fecha fin'" [type]="'date'"></pro-input>
-      </div>
-    </div>
+      <div class="row">
+        <div class="col">
+          <pro-input [title]="'Fecha inicio'" [type]="'date'" (outputValue)="setValue('initialDate', $event)">
+          </pro-input>
+        </div>
 
+        <div class="col">
+          <pro-input [title]="'Fecha fin'" [type]="'date'" (outputValue)="setValue('finalDate', $event)"></pro-input>
+        </div>
+      </div>
+
+
+      <div class="card" style="padding: 10px;">
+        <div class="card" style="padding: 10px;" formArrayName="party"
+          *ngFor="let user of party.controls; let i = index">
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" (click)="removePartyUser(i)">
+            x
+          </span>
+          <div class="row" [formGroupName]="i">
+            <div class="col">
+              <pro-select [title]="'Usuario'" [options]="mapUsers(users)" (outputValue)="setUser(i.toString() ,'id', $event)">
+              </pro-select>
+            </div>
+
+            <div class="col">
+              <pro-select [title]="'Rol'" [options]="mapRoles(roles)" (outputValue)="setUser(i.toString(),'rol', $event)">
+              </pro-select>
+            </div>
+          </div>
+        </div>
+
+        <button class="adduserrole" (click)="addPartyUser()">Agregar
+          <span>
+            <ion-icon name="add"></ion-icon>
+          </span>
+        </button>
+
+      </div>
+      <pro-button [text]="'Crear'" [type]="'submit'" (click)="saveProject()"></pro-button>
+    </form>
   </div>
+
+
 </ion-content>

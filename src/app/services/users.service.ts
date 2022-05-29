@@ -1,12 +1,17 @@
+import { Rol } from 'src/app/models/rol';
 import { AuthService } from './auth.service';
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { User } from '../models/user';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
+
+  private roles: Rol[];
 
   constructor(
     private firestore: AngularFirestore,
@@ -14,20 +19,64 @@ export class UsersService {
   ) { }
 
   async createUser(user: User) {
+    try {
+      // creamos el usuario en Firebase Athentication
+      const resultUser = await this.authService.registerUser(user.email, user.password);
 
-    // creamos el usuario en Firebase Athentication
-    const resultUser = await this.authService.registerUser(user.email, user.password);
+      // obtenemos el uid resultante de la creacion del registro
+      // !!!! -- Pendiente Crear validacion de error
+      // !!!! -- No guardar contraseña
+      // !!!! -- Agregar mensajes de payload
+      //
+      user.id = resultUser.uid;
+      user.password = null;
 
-    // obtenemos el uid resultante de la creacion del registro
-    // !!!! -- Pendiente Crear validacion de error
-    // !!!! -- No guardar contraseña
-    // !!!! -- Agregar mensajes de response
-    //
-    user.id = resultUser.uid;
-    user.password = null;
+      // guardamos el usuario en Firestore Database
+      const result = await this.firestore.collection('Users').doc(user.id).set(user);
+      return result;
 
-    // guardamos el usuario en Firestore Database
-    const result = await this.firestore.collection('Users').doc(user.id).set(user);
-    return result;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  getAllRoles(): Observable<Rol[]> {
+    try {
+      const rolesCollection: AngularFirestoreCollection<Rol> = this.firestore.collection('Roles', ref => ref);
+
+      return rolesCollection.snapshotChanges().pipe(
+        map(changes => changes.map(
+          action => {
+            const data = action.payload.doc.data() as Rol;
+            data.id = action.payload.doc.id;
+            return data;
+          }
+        ))
+      );
+
+    } catch (error) {
+      return error;
+    }
+
+    //return roles;
+  }
+
+  getAllUsers(): Observable<User[]> {
+    try {
+      const rolesCollection: AngularFirestoreCollection<User> = this.firestore.collection('Users', ref => ref);
+
+      return rolesCollection.snapshotChanges().pipe(
+        map(changes => changes.map(
+          action => {
+            const data = action.payload.doc.data() as User;
+            data.id = action.payload.doc.id;
+            return data;
+          }
+        ))
+      );
+    } catch (error) {
+      return error;
+    }
+
   }
 }
