@@ -9,7 +9,7 @@
 </ion-header>
 
 <ion-content>
-  <ng-container *ngIf="projects.length !== 0">
+  <ng-container *ngIf="projects.length > 0">
     <div class="row" *ngFor="let contract of projects">
         <div class="col card">
             <pro-card-project [title]="contract.name" [address]= "contract.address"  [startDate]="contract.initialDate" [endDate]="contract.finalDate" [contractNumber]="contract.contractNumber" ></pro-card-project>
