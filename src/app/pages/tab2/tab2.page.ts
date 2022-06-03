@@ -7,6 +7,38 @@ import { Component } from '@angular/core';
 })
 export class Tab2Page {
 
-  constructor() {}
+  notes = [
+    {
+      date: 'Lunes, 20 de Febrero, 2021',
+      time: '05:00 PM',
+      note: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla varius hendrerit lacinia. Sed id risus.'
+    },
+    {
+      date: 'Lunes, 20 de Febrero, 2021',
+      time: '05:00 PM',
+      note: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla varius hendrerit lacinia. Sed id risus.'
+    },
+    {
+      date: 'Lunes, 20 de Febrero, 2021',
+      time: '05:00 PM',
+      note: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla varius hendrerit lacinia. Sed id risus.'
+    },
+    {
+      date: 'Lunes, 20 de Febrero, 2021',
+      time: '05:00 PM',
+      note: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla varius hendrerit lacinia. Sed id risus.'
+    },
+    {
+      date: 'Lunes, 20 de Febrero, 2021',
+      time: '05:00 PM',
+      note: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla varius hendrerit lacinia. Sed id risus.'
+    },
+    {
+      date: 'Lunes, 20 de Febrero, 2021',
+      time: '05:00 PM',
+      note: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla varius hendrerit lacinia. Sed id risus.'
+    },
+  ];
+  constructor() { }
 
 }

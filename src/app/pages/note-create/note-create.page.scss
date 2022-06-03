@@ -1,3 +1,4 @@
+
 .menubutton {
     color: #980000;
   }
@@ -16,3 +17,14 @@
     position: absolute;
     text-align: center;
   }
+.buttonback{
+    position: absolute;
+    --background: #FFFFFF;
+    --color: #980000;
+}
+.form{
+    margin: 5%;
+}
+.buttoncreate{
+    align-content: center;
+}

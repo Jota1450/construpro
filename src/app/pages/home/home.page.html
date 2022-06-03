@@ -11,7 +11,7 @@
 <ion-content>
   <div class="row" *ngFor="let contract of contracts">
       <div class="col card">
-          <pro-card-project [title]="contract.title" [address]= "contract.address"  [startDate]="contract.startDate" [endDate]="contract.endDate" [contractNumber]="contract.contractNumber" ></pro-card-project>
+          <pro-card-project [routerLink]="['/tabs/tab2']" [title]="contract.title" [address]="contract.address"  [startDate]="contract.startDate" [endDate]="contract.endDate" [contractNumber]="contract.contractNumber" ></pro-card-project>
       </div>
   </div>
 
