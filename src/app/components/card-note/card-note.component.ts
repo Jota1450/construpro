@@ -7,9 +7,9 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class ProCardNote implements OnInit {
 
-  @Input() date: "";
-  @Input() time: "";
-  @Input() note: "";
+  @Input() date= '';
+  @Input() time= '';
+  @Input() note= '';
   
   constructor() { }
 

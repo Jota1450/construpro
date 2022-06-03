@@ -33,26 +33,34 @@ export class RegisterPage implements OnInit {
     this.formRegister = this.formBuilder.group(
       {
         names: new FormControl('', [
-          Validators.required
+          Validators.required,
+          Validators.pattern('[a-zA-Z]*'),
+          Validators.maxLength(5)
         ]),
         lastNames: new FormControl('', [
-          Validators.required
+          Validators.required,
+          Validators.pattern('[a-zA-Z]*'),
+          Validators.maxLength(5)
         ]),
         email: new FormControl('', [
           Validators.required,
           Validators.email
         ]),
         password: new FormControl('', [
-          Validators.required
+          Validators.required,
+          Validators.min(8)
         ]),
         confirmPassword: new FormControl('', [
-          Validators.required
+          Validators.required,
+          Validators.min(8)
         ]),
         documentType: new FormControl('', [
           Validators.required
         ]),
         documentNumber: new FormControl('', [
-          Validators.required
+          Validators.required,
+          Validators.pattern('^(0|[1-9][0-9]*)$'),
+          
         ]),
       }
     );

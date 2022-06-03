@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-buttons [routerLink]="['/tabs/tab2']" class="menubutton">
+        <ion-icon slot="start" name="arrow-back"></ion-icon>
+      </ion-buttons>
+      <ion-title class="toolbartitle">Proyectos</ion-title>
+
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <div class="row">
+      <div class="col">
+        <pro-input [title]="'Dirección de la obra'" [type]="'text'" ></pro-input>
+      </div>
+    </div>
+
+</ion-content>
