@@ -120,7 +120,7 @@ export class ProjectCreatePage implements OnInit {
   async getAllUsers(){
     // En este metodo obtenemos los roles
 
-    await this.usersService.getAllUsers().subscribe(
+    this.usersService.getAllUsers().subscribe(
       users => this.users = users
     );
     //console.log('goku', this.roles);

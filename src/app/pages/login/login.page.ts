@@ -1,7 +1,9 @@
+import { UsersService } from './../../services/users.service';
 import { Router, Routes } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 import { AuthService } from 'src/app/services/auth.service';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 @Component({
   selector: 'app-login',
@@ -12,47 +14,45 @@ export class LoginPage implements OnInit {
 
   email: string;
   password: string;
+  alert = Swal.mixin({
+    toast: true,
+    position: 'center',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer);
+      toast.addEventListener('mouseleave', Swal.resumeTimer);
+    },
+  });
 
   constructor(
     private authService: AuthService,
+    private usersService: UsersService,
     private router: Router,
+    private localStorage: LocalStorageService
   ) { }
 
   ngOnInit() {
   }
 
-  presionar(){
-    console.log(this.email);
-    console.log('password: ', this.password);
-  }
+  async logIn() {
+    this.localStorage.clear();
+    await this.authService.signIn(this.email, this.password).then(
+      async (res) => {
+        if (res) {
+          this.usersService.getUser(res.user.uid).subscribe(
+            result => {
+              this.localStorage.setUserData(result);
+            }
+          );
 
-  async logIn(){
+          await this.localStorage.getUserData().then(
+            response => {
+              //console.log('goku', (response));
+            }
+          );
 
-    //debugger;
-    const alert = Swal.mixin({
-      toast: true,
-      position: 'center',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer);
-        toast.addEventListener('mouseleave', Swal.resumeTimer);
-      },
-    });
-
-
-    /*const response = await this.authService.signIn(this.email, this.password);
-    console.log(response);
-    if (this.authService.getUid != null) {
-      this.router.navigate(['/home']);
-    }
-
-    */
-    this.authService.signIn(this.email, this.password).then(
-      (res) => {
-        if (res.user) {
-          console.log(this.authService.getUid);
           if (this.authService.getUid != null) {
             this.router.navigate(['/home']);
           };
@@ -61,7 +61,7 @@ export class LoginPage implements OnInit {
     ).catch(
       (error) => {
         //console.log(error);
-        alert.fire({
+        this.alert.fire({
           title: error.message,
           text: 'Do you want to continue',
           icon: 'error',

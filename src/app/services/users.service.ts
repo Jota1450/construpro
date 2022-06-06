@@ -1,7 +1,7 @@
 import { Rol } from 'src/app/models/rol';
 import { AuthService } from './auth.service';
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { User } from '../models/user';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -59,6 +59,28 @@ export class UsersService {
     }
 
     //return roles;
+  }
+
+  getUser(id: string): Observable<User> {
+    try {
+      const userDoc: AngularFirestoreDocument<User> = this.firestore.doc<User>(`Users/${id}`);
+      return userDoc.snapshotChanges().pipe(
+        map(
+          action => {
+            if(action.payload.exists === false){
+              return null;
+            } else {
+              const data = action.payload.data() as User;
+              data.id = action.payload.id;
+              return data;
+            }
+          }
+        )
+      );
+      //return this.firestore.collection('Users').doc(id).get();
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   getAllUsers(): Observable<User[]> {

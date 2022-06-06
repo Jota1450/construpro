@@ -1,3 +1,4 @@
+import { UsersService } from './users.service';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
@@ -9,70 +10,107 @@ export class AuthService {
 
   constructor(
     public afStore: AngularFirestoreModule,
-    public fireAuth: AngularFireAuth
+    public fireAuth: AngularFireAuth,
   ) { }
 
   get isLoggedIn(): boolean {
-    const user = JSON.parse(localStorage.getItem('user'));
-    return user !== null && user.emailVerified !== false ? true : false;
+    try {
+      const user = JSON.parse(localStorage.getItem('user'));
+      return user !== null && user.emailVerified !== false ? true : false;
+    } catch (error) {
+      return error;
+    }
   }
   // Returns true when user's email is verified
   get isEmailVerified(): boolean {
-    const user = JSON.parse(localStorage.getItem('user'));
-    return user.emailVerified !== false ? true : false;
+    try {
+      const user = JSON.parse(localStorage.getItem('user'));
+      return user.emailVerified !== false ? true : false;
+    } catch (error) {
+      return error;
+    }
+
   }
 
-  async signIn(email, password) {
-    const dataS = await this.fireAuth.signInWithEmailAndPassword(
-      email,
-      password
-    );
-    return dataS;
+  async signIn(email, password){
+    try {
+      const dataS = await this.fireAuth.signInWithEmailAndPassword(
+        email,
+        password
+      );
+
+      //console.log('response', dataS.user.uid);
+
+      return dataS;
+    } catch (error) {
+      return error;
+    }
   }
   // Register user with email/password
   async registerUser(email, password) {
-    const result = await this.fireAuth.createUserWithEmailAndPassword(
-      email,
-      password
-    );
+    try {
+      const result = await this.fireAuth.createUserWithEmailAndPassword(
+        email,
+        password
+      );
 
-    if (result != null) {
-      // result.user.sendEmailVerification();
-      return result.user;
+      if (result != null) {
+        // result.user.sendEmailVerification();
+        return result.user;
+      }
+    } catch (error) {
+      return error;
     }
+
   }
 
-  async getUid(){
-    const user =  await this.fireAuth.currentUser;
-    //user.sendEmailVerification();
-    return user.uid;
+  async getUid() {
+    try {
+      const user = await this.fireAuth.currentUser;
+      //user.sendEmailVerification();
+      return user.uid;
+    } catch (error) {
+      return error;
+    }
+
   }
 
   async stateUser() {
-    return await this.fireAuth.authState;
+    try {
+      return await this.fireAuth.authState;
+    } catch (error) {
+      return error;
+    }
   }
   // Email verification when new user register
   // Recover password
   passwordRecover(passwordResetEmail) {
-    return this.fireAuth.sendPasswordResetEmail(passwordResetEmail)
-      .then(() => {
-        window.alert(
-          'Password reset email has been sent, please check your inbox.'
-        );
-      })
-      .catch((error) => {
-        window.alert(error);
-      });
+    try {
+      return this.fireAuth.sendPasswordResetEmail(passwordResetEmail)
+        .then(() => {
+          window.alert(
+            'Password reset email has been sent, please check your inbox.'
+          );
+        })
+        .catch((error) => {
+          window.alert(error);
+        });
+    } catch (error) {
+      return error;
+    }
   }
   // Returns true when user is looged in
 
-
   signOut() {
-    return this.fireAuth.signOut().then(() => {
-      localStorage.removeItem('user');
-      localStorage.clear();
-      //  this.router.navigate(['login']);
-    });
+    try {
+      return this.fireAuth.signOut().then(() => {
+        localStorage.removeItem('user');
+        localStorage.clear();
+        //  this.router.navigate(['login']);
+      });
+    } catch (error) {
+      return error;
+    }
   }
 }
 
