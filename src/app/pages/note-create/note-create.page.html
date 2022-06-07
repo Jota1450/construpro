@@ -9,11 +9,18 @@
 </ion-header>
 
 <ion-content>
+  <div>
+    
 
-    <div class="row">
-      <div class="col">
-        <pro-input [title]="'Dirección de la obra'" [type]="'text'" ></pro-input>
+    <div class="form">
+      <div class="notedate">
+        <ion-label class="date">{{tiempo}}</ion-label>
       </div>
+      <ion-label>Anotación</ion-label>
+      <ion-textarea autoGrow="true"  class="textArea" placeholder="Detalles de la anotación"></ion-textarea>
     </div>
+  </div>
+  
+
 
 </ion-content>

@@ -22,9 +22,20 @@
     --background: #FFFFFF;
     --color: #980000;
 }
+.notedate{
+  padding-bottom: 20px;
+}
+.date{
+  font-style: normal !important; 
+  font-weight: 500 !important;
+  font-size: 20px !important;
+  line-height: 22px !important;
+}
 .form{
     margin: 5%;
 }
-.buttoncreate{
-    align-content: center;
+
+.textArea {
+  border-radius: 10px !important;
+  border: 1px solid #171717 !important;
 }

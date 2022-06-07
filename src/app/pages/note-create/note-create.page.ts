@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Project } from 'src/app/models/project';
+import { ProjectsService } from 'src/app/services/projects.service';
 
 @Component({
   selector: 'app-note-create',
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NoteCreatePage implements OnInit {
 
-  constructor() { }
+  public tiempo: String;
+
+  constructor(private projectService:ProjectsService) {
+
+   }
 
   ngOnInit() {
+    this.tiempo=this.projectService.timestamp()
   }
 
 }
