@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Project } from 'src/app/models/project';
+import { Rol } from 'src/app/models/rol';
+import { User } from 'src/app/models/user';
 import { ProjectsService } from 'src/app/services/projects.service';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-note-create',
@@ -10,13 +14,26 @@ import { ProjectsService } from 'src/app/services/projects.service';
 export class NoteCreatePage implements OnInit {
 
   public tiempo: String;
+  formProject: FormGroup;
+  users: User[];
+  roles: Rol[];
 
-  constructor(private projectService:ProjectsService) {
-
-   }
+  Users= [
+    'Sapolin',
+    'Sapolina',
+    'Jugui Yuquina',
+    'Mfrappe Yuquino']
+  
+  constructor(
+    private projectService:ProjectsService)
+    {
+   
+    }
 
   ngOnInit() {
+
     this.tiempo=this.projectService.timestamp()
+    
   }
 
 }

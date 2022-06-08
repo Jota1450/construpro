@@ -9,8 +9,8 @@
 </ion-header>
 
 <ion-content>
-  <div>
-    
+
+  <div>  
 
     <div class="form">
       <div class="notedate">
@@ -18,9 +18,26 @@
       </div>
       <ion-label>Anotación</ion-label>
       <ion-textarea autoGrow="true"  class="textArea" placeholder="Detalles de la anotación"></ion-textarea>
+    
+
+
+    <div class="row">
+    <div class="col">
+      <pro-select [title]="'Interventor Asignado'" [options]="users">
+      </pro-select>
     </div>
   </div>
-  
 
+
+  <div class="row">
+    <div class="col btn">
+      <pro-button [text]="'Crear'" [type]="'submit'"></pro-button>
+    </div>
+  </div>
+
+
+</div>
+
+  </div>
 
 </ion-content>
