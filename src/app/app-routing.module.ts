@@ -29,7 +29,11 @@ const routes: Routes = [
   {
     path: 'note-create',
     loadChildren: () => import('./pages/note-create/note-create.module').then( m => m.NoteCreatePageModule)
+  },  {
+    path: 'note-detail',
+    loadChildren: () => import('./pages/note-detail/note-detail.module').then( m => m.NoteDetailPageModule)
   },
+
 ];
 @NgModule({
   imports: [

@@ -18,11 +18,12 @@ export class NoteCreatePage implements OnInit {
   users: User[];
   roles: Rol[];
 
-  Users= [
-    'Sapolin',
-    'Sapolina',
-    'Jugui Yuquina',
-    'Mfrappe Yuquino']
+  Users = [
+  {value:'1',text:'Sapolin'},
+  {value:'2',text:'Sapolina'},
+  {value:'3',text:'Jugui Yuquina'},
+  {value:'4',text:'Mfrappe Yuquino'}
+    ]
   
   constructor(
     private projectService:ProjectsService)
