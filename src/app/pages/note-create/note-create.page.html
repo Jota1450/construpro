@@ -1,42 +1,46 @@
 <ion-header>
   <ion-toolbar>
-      <ion-buttons [routerLink]="['/tabs/tab2']" class="menubutton">
-        <ion-icon slot="start" name="arrow-back"></ion-icon>
-      </ion-buttons>
-      <ion-title class="toolbartitle">Proyectos</ion-title>
+    <ion-buttons [routerLink]="['/tabs/tab2']" class="menubutton">
+      <ion-icon slot="start" name="arrow-back"></ion-icon>
+    </ion-buttons>
+    <ion-title class="toolbartitle">Proyectos</ion-title>
 
-    </ion-toolbar>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
-  <div>  
+  <div>
 
-    <div class="form">
+    <div class="form" [formGroup]="formNote">
       <div class="notedate">
-        <ion-label class="date">{{tiempo}}</ion-label>
+        <ion-label class="date">{{ 'today' }}</ion-label>
       </div>
       <ion-label>Anotación</ion-label>
-      <ion-textarea autoGrow="true"  class="textArea" placeholder="Detalles de la anotación"></ion-textarea>
-    
+      <ion-textarea autoGrow="true"
+      class="textArea"
+      formControlName="body"
+      placeholder="Detalles de la anotación">
+      </ion-textarea>
 
 
-    <div class="row">
-    <div class="col">
-      <pro-select [title]="'Interventor Asignado'" [options]="Users">
-      </pro-select>
+
+      <div class="row">
+        <div class="col">
+          <pro-select [title]="'Interventor Asignado'" [options]="Users" (outputValue)="setValue('user', $event)">
+          </pro-select>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col btn">
+          <pro-button [text]="'Crear'" [type]="'submit'" (click)="saveNote()"></pro-button>
+        </div>
+      </div>
+
+
     </div>
-  </div>
-
-
-  <div class="row">
-    <div class="col btn">
-      <pro-button [text]="'Crear'" [type]="'submit'"></pro-button>
-    </div>
-  </div>
-
-
-</div>
 
   </div>
 

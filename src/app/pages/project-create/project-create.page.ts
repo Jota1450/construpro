@@ -148,8 +148,8 @@ export class ProjectCreatePage implements OnInit {
         contractNumber: this.formProject.get('contractNumber').value,
         NIT: this.formProject.get('NIT').value,
         address: this.formProject.get('address').value,
-        initialDate: this.formProject.get('initialDate').value,
-        finalDate: this.formProject.get('finalDate').value,
+        initialDate: new Date(this.formProject.get('initialDate').value),
+        finalDate: new Date(this.formProject.get('finalDate').value),
         party: this.party.value
       };
       await this.projectsService.saveProject(project).then(

@@ -1,3 +1,4 @@
+import { UsersService } from './../../services/users.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { ProjectsService } from './../../services/projects.service';
 import { Project } from './../../models/project';
@@ -20,6 +21,7 @@ export class HomePage implements OnInit {
     private projectsService: ProjectsService,
     private localStorage: LocalStorageService,
     private router: Router,
+    private usersService: UsersService
   ) { }
 
   async ngOnInit() {
@@ -32,7 +34,18 @@ export class HomePage implements OnInit {
 
   async saveProjectData(project: Project){
     this.localStorage.setProjectData(project);
-    this.router.navigate(['/tabs/tab1']);
+    //this.findCurrentRol(project);
+    this.router.navigate(['/tabs']);
+  }
+
+  findCurrentRol(project: Project){
+    console.log('party',project.party);
+    const rolId = project?.party?.find(element => element.id === this.user.id).id;
+    this.usersService.getRol(rolId).subscribe(
+      (rol) => {
+        this.localStorage.setCurrentRol(rol);
+      }
+    );
   }
 
   async getCurrentUser() {

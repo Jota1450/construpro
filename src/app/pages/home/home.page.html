@@ -10,9 +10,9 @@
 
 <ion-content>
   <ng-container *ngIf="projects.length > 0">
-    <div class="row" *ngFor="let contract of projects">
-        <div class="col card" (click)="saveProjectData(contract)">
-            <pro-card-project [title]="contract.name" [address]= "contract.address"  [startDate]="contract.initialDate" [endDate]="contract.finalDate" [contractNumber]="contract.contractNumber" ></pro-card-project>
+    <div class="row" *ngFor="let project of projects">
+        <div class="col card" (click)="saveProjectData(project)">
+            <pro-card-project [title]="project.name" [address]= "project.address"  [startDate]="project.initialDate" [endDate]="project.finalDate" [contractNumber]="project.contractNumber" ></pro-card-project>
         </div>
     </div>
   </ng-container>

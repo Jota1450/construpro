@@ -35,12 +35,12 @@ export class RegisterPage implements OnInit {
         names: new FormControl('', [
           Validators.required,
           Validators.pattern('[a-zA-Z]*'),
-          Validators.maxLength(5)
+          Validators.min(3)
         ]),
         lastNames: new FormControl('', [
           Validators.required,
           Validators.pattern('[a-zA-Z]*'),
-          Validators.maxLength(5)
+          Validators.min(3)
         ]),
         email: new FormControl('', [
           Validators.required,
@@ -60,7 +60,6 @@ export class RegisterPage implements OnInit {
         documentNumber: new FormControl('', [
           Validators.required,
           Validators.pattern('^(0|[1-9][0-9]*)$'),
-          
         ]),
       }
     );

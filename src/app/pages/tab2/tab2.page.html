@@ -11,7 +11,7 @@
 
   <div class="row" *ngFor="let note of notes">
     <div class="col card">
-      <pro-card-note [routerLink]="['/note-detail']" [date]="note.date" [time]="note.time" [note]="note.note"></pro-card-note>
+    <pro-card-note [routerLink]="['/note-detail']" [time]="'5:00'" [date]="formatDate(note.date)" [note]="note.body"></pro-card-note>
     </div>
   </div>
 

@@ -40,6 +40,29 @@ export class UsersService {
     }
   }
 
+
+  getRol(id: string): Observable<Rol> {
+    try {
+      const rolDoc: AngularFirestoreDocument<Rol> = this.firestore.doc<Rol>(`Rol/${id}`);
+      return rolDoc.snapshotChanges().pipe(
+        map(
+          action => {
+            if(action.payload.exists === false){
+              return null;
+            } else {
+              const data = action.payload.data() as Rol;
+              data.id = action.payload.id;
+              return data;
+            }
+          }
+        )
+      );
+      //return this.firestore.collection('Users').doc(id).get();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   getAllRoles(): Observable<Rol[]> {
     try {
       const rolesCollection: AngularFirestoreCollection<Rol> = this.firestore.collection('Roles', ref => ref);

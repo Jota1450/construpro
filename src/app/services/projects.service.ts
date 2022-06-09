@@ -3,8 +3,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Timestamp } from "firebase/firestore";
-import * as moment from "moment";
+import { Timestamp } from 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -45,15 +44,5 @@ export class ProjectsService {
       return error;
     }
 
-  }
-
-  timestamp(): String{
-    let tiempof = ""
-    const tiempo = Timestamp.now();
-    const tiempoformateado = moment(tiempo.toDate()).format('dddd, D MMMM YYYY')
-    
-    tiempof=tiempoformateado;
-
-    return tiempof;
   }
 }
