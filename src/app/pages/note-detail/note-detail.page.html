@@ -1,12 +1,47 @@
 <ion-header>
   <ion-toolbar>
-      <ion-buttons slot="start">
-        <ion-menu-button class="menubutton" autoHide="false"></ion-menu-button>
-      </ion-buttons>
-      <ion-title class="toolbartitle">Project Name</ion-title>
-    </ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button class="menubutton" autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="toolbartitle">Project Name</ion-title>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-item class="timeitem">
+  <div class="row itemrow">
+    <div class="col-8">
+      <div class="date-anotacion">
+        <span>
+          {{date}}
+        </span>
+      </div>
+    </div>
+    <div class="col-4">
+
+      <div class="content-anotacion">
+        <div class="time-anotacion">
+          {{time}}
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</ion-item>
+ <ion-card style="border-radius: 8px;box-shadow: 0 2px 2px 0;">
+   <ion-card-header style="text-align: center; background-color: #f7f7f7">
+    <ion-label class="textAlabel" position="fixed">Anotación</ion-label>
+   </ion-card-header>
+  <ion-card-content>
+    <ion-textarea class="textArea" autoGrow="True" 
+    readonly value="{{note}}">
+    </ion-textarea>
+  </ion-card-content>
+  
+ </ion-card>
+  
+
+ 
 
 </ion-content>

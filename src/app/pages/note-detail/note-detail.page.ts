@@ -7,9 +7,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NoteDetailPage implements OnInit {
 
+  public date= 'Lunes, 5 de Mayo 2022';
+  public time= '5:43 PM';
+  public note= 'El valecita tiro dos bloques de queso pa ralla y se fritaron dos patacones bien melos';
+
+  details=[
+    { date:'Lunes, 5 de Mayo 2022',
+      time:'5:43 PM',
+      note:'El valecita tiro dos bloques de queso pa ralla y se fritaron dos patacones bien melos'
+    },
+  ]
+
   constructor() { }
 
   ngOnInit() {
   }
+
+
 
 }
