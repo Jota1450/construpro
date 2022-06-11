@@ -8,6 +8,7 @@ import { ExploreContainerComponentModule } from '../../explore-container/explore
 
 import { Tab3PageRoutingModule } from './tab3-routing.module';
 import { NgCalendarModule } from 'ionic2-calendar';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { NgCalendarModule } from 'ionic2-calendar';
     RouterModule.forChild([{ path: '', component: Tab3Page }]),
     Tab3PageRoutingModule,
     NgCalendarModule,
+    ComponentsModule
   ],
   declarations: [Tab3Page]
 })

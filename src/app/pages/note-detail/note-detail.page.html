@@ -8,5 +8,9 @@
 </ion-header>
 
 <ion-content>
+  <ng-container *ngIf="note">
+    {{note.body}}
+  {{note.date}}
+  </ng-container>
 
 </ion-content>

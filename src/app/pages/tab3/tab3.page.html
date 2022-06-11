@@ -1,35 +1,37 @@
 <ion-header>
   <ion-toolbar>
-      <ion-buttons slot="start">
-        <ion-menu-button class="menubutton" autoHide="false"></ion-menu-button>
-      </ion-buttons>
-      <ion-title class="toolbartitle">Project Name</ion-title>
-    </ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button class="menubutton" autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="toolbartitle">Project Name</ion-title>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-<div>
-  <ion-item slot="end">
-    <ion-label>{{viewTitle}}</ion-label>
+  <div>
+    <ion-item slot="end">
+      <ion-label>{{ viewTitle | uppercase }}</ion-label>
 
-    <ion-buttons>
-      <ion-button ion-button slot="start" [disabled]="isToday" (click)="today()">Today</ion-button>
-      <ion-button ion-button slot=" " (click)="changeMode('month')">M</ion-button>
-      <ion-button ion-button slot="end" (click)="changeMode('week')">W</ion-button>
-      <ion-button ion-button slot="end" (click)="changeMode('day')">D</ion-button>
-    </ion-buttons>
-  </ion-item>
-</div>
-    
-  
-    <calendar [eventSource]="eventSource"
-    [calendarMode]="calendar.mode"
-    [currentDate]="calendar.currentDate"
-    (onCurrentDateChanged)="onCurrentDateChanged($event)"
-    (onEventSelected)="onEventSelected($event)"
-    (onTitleChanged)="onViewTitleChanged($event)"
-    (onTimeSelected)="onTimeSelected($event)"
-    [step]="calendar.step">
-</calendar>
+      <ion-buttons>
+        <pro-button [text]="'Hoy'" (click)="today()" style="margin: 5px;"></pro-button>
+      </ion-buttons>
+    </ion-item>
+  </div>
+
+  <calendar
+  [locale]="'es-ES'"
+  [eventSource]="eventSource"
+  [calendarMode]="calendar.mode"
+[showEventDetail] = "false"
+  [currentDate]="calendar.currentDate"
+  (onCurrentDateChanged)="onCurrentDateChanged($event)" (onEventSelected)="onEventSelected($event)"
+  (onTitleChanged)="onViewTitleChanged($event)" (onTimeSelected)="onTimeSelected($event)" [step]="calendar.step">
+  </calendar>
+
+  <div class="row" *ngFor="let note of notes">
+    <div class="col card">
+    <pro-card-note [routerLink]="['/note-detail']" [time]="'5:00'" [date]="formatDate(note.date)" [note]="note.body"></pro-card-note>
+    </div>
+  </div>
 
 </ion-content>

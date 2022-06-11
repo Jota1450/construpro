@@ -28,7 +28,6 @@ export class NoteCreatePage implements OnInit {
   ];
 
   constructor(
-    private projectService: ProjectsService,
     private formBuilder: FormBuilder,
     private localStorageService: LocalStorageService,
     private notesService: NotesService

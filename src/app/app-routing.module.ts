@@ -29,9 +29,14 @@ const routes: Routes = [
   {
     path: 'note-create',
     loadChildren: () => import('./pages/note-create/note-create.module').then( m => m.NoteCreatePageModule)
-  },  {
-    path: 'note-detail',
+  },
+  {
+    path: 'note-detail/:id',
     loadChildren: () => import('./pages/note-detail/note-detail.module').then( m => m.NoteDetailPageModule)
+  },
+  {
+    path: 'calendar',
+    loadChildren: () => import('./pages/calendar/calendar.module').then( m => m.CalendarPageModule)
   },
 
 ];
