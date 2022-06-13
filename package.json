@@ -34,6 +34,7 @@
     "moment": "^2.29.3",
     "ng2-validation": "^4.2.0",
     "rxjs": "~6.6.0",
+    "signature_pad": "^4.0.5",
     "sweetalert2": "^11.4.14",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"

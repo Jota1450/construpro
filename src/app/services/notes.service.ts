@@ -23,13 +23,22 @@ export class NotesService {
     }
   }
 
+  async updateNote(id: string, note: Note) {
+    try {
+      const result = await this.firestore.collection('Notes').doc(id).set(note);
+      return result;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   getNote(id: string): Observable<Note> {
     try {
       const rolDoc: AngularFirestoreDocument<Note> = this.firestore.doc<Note>(`Notes/${id}`);
       return rolDoc.snapshotChanges().pipe(
         map(
           action => {
-            if(action.payload.exists === false){
+            if (action.payload.exists === false) {
               return null;
             } else {
               const data = action.payload.data() as Note;
@@ -65,12 +74,53 @@ export class NotesService {
     }
   }
 
+  getAllNotesOrderedByDate(): Observable<Note[]> {
+    try {
+      // Obtenemos todos las Anotaciones.
+      const rolesCollection: AngularFirestoreCollection<Note> = this.firestore.collection('Notes', ref => ref.orderBy('date', 'asc'));
+
+      return rolesCollection.snapshotChanges().pipe(
+        map(changes => changes.map(
+          action => {
+            const data = action.payload.doc.data() as Note;
+            data.id = action.payload.doc.id;
+            return data;
+          }
+        ))
+      );
+    } catch (error) {
+      return error;
+    }
+  }
+
   getNotesById(projectId: string): Observable<Note[]> {
     try {
       // Obtenemos todos los proyectos.
       // eslint-disable-next-line max-len
-      const rolesCollection: AngularFirestoreCollection<Note> = this.firestore.collection('Notes', ref => ref.where('projectId', '==', projectId) );
+      const rolesCollection: AngularFirestoreCollection<Note> = this.firestore.collection('Notes', ref => ref.where('projectId', '==', projectId).orderBy('date', 'desc'));
 
+      //rolesCollection.ref.orderBy('date', 'desc');
+      return rolesCollection.snapshotChanges().pipe(
+        map(changes => changes.map(
+          action => {
+            const data = action.payload.doc.data() as Note;
+            data.id = action.payload.doc.id;
+            return data;
+          }
+        ))
+      );
+    } catch (error) {
+      return error;
+    }
+  }
+
+  getNotesByDate(projectId: string, date: Date): Observable<Note[]> {
+    try {
+      // Obtenemos todos los proyectos.
+      // eslint-disable-next-line max-len
+      const rolesCollection: AngularFirestoreCollection<Note> = this.firestore.collection('Notes', ref => ref.where('projectId', '==', projectId).where('dateIsoString', '==', `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`));
+
+      //rolesCollection.ref.orderBy('date', 'desc');
       return rolesCollection.snapshotChanges().pipe(
         map(changes => changes.map(
           action => {

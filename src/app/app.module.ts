@@ -12,10 +12,10 @@ import { AppComponent } from './app.component';
 // Firebase
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
-import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
+import { AngularFireStorageModule, BUCKET } from '@angular/fire/compat/storage';
 import { environment } from 'src/environments/environment';
-
 
 
 @NgModule({
@@ -29,10 +29,10 @@ import { environment } from 'src/environments/environment';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     AngularFirestoreModule,
-    AngularFirestoreModule,
     AngularFireDatabaseModule,
+    AngularFireStorageModule,
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, { provide: BUCKET, useValue: 'construpro-a0a36.appspot.com' }],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

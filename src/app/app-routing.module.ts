@@ -34,10 +34,6 @@ const routes: Routes = [
     path: 'note-detail/:id',
     loadChildren: () => import('./pages/note-detail/note-detail.module').then( m => m.NoteDetailPageModule)
   },
-  {
-    path: 'calendar',
-    loadChildren: () => import('./pages/calendar/calendar.module').then( m => m.CalendarPageModule)
-  },
 
 ];
 @NgModule({

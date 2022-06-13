@@ -1,3 +1,4 @@
+import { SignatureComponent } from './signature/signature.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProButton } from './button/button.component';
@@ -8,7 +9,7 @@ import { ProCardProject } from './card-project/card-project.component';
 import { ProSelect } from './select/select.component';
 import { ProInput } from './input/input.component';
 
-import { FormsModule } from '@angular/forms'; 
+import { FormsModule } from '@angular/forms';
 
 
 /* En este modulo debemos declarar e importar los componentes*/
@@ -19,19 +20,21 @@ import { FormsModule } from '@angular/forms';
     ProCardNote,
     ProCardProject,
     ProInput,
-    ProSelect
+    ProSelect,
+    SignatureComponent
   ],
   imports: [
     CommonModule,
     FormsModule
   ],
-  exports:[ 
+  exports:[
     ProButton,
     ProButtonOutline,
     ProCardNote,
     ProCardProject,
     ProInput,
-    ProSelect
+    ProSelect,
+    SignatureComponent
   ]
 })
 export class ComponentsModule { }

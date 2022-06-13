@@ -1,3 +1,4 @@
+import { Project } from 'src/app/models/project';
 import { NotesService } from './../../services/notes.service';
 import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
@@ -18,8 +19,10 @@ registerLocaleData(localeEs);
 export class Tab3Page {
   eventSource;
   viewTitle;
+  date: Date;
 
   notes: Note[];
+  project: Project;
 
   isToday: boolean;
   calendar = {
@@ -64,16 +67,40 @@ export class Tab3Page {
 
   async onInit() {
     await this.getNotes();
+    await this.localStorageService.getProjectData().then(
+      (project) => this.project = project
+    );
   }
 
   async getNotes() {
     // En este metodo todos los proyectos.
     const id: string = (await this.localStorageService.getProjectData()).id;
     if (id) {
-      await this.notesService.getNotesById(id).subscribe(
-        notes => this.notes = notes
+      await this.notesService.getNotesByDate(id, this.date).subscribe(
+        notes => {
+          this.notes = notes;
+          console.log(notes);
+        }
       );
     }
+  }
+
+  onTimeSelected(ev) {
+    console.log('Selected time: ' + ev.selectedTime + ', hasEvents: ' +
+      (ev.events !== undefined && ev.events.length !== 0) + ', disabled: ' + ev.disabled);
+
+    this.date = new Date(ev.selectedTime);
+
+    console.log('aaa', this.date.toUTCString());
+
+    this.getNotes();
+  }
+
+  onCurrentDateChanged(event: Date) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    event.setHours(0, 0, 0, 0);
+    this.isToday = today.getTime() === event.getTime();
   }
 
   /*
@@ -98,18 +125,6 @@ export class Tab3Page {
     this.calendar.currentDate = new Date();
   }
 
-  onTimeSelected(ev) {
-    console.log('Selected time: ' + ev.selectedTime + ', hasEvents: ' +
-      (ev.events !== undefined && ev.events.length !== 0) + ', disabled: ' + ev.disabled);
-  }
-
-  onCurrentDateChanged(event: Date) {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    event.setHours(0, 0, 0, 0);
-    this.isToday = today.getTime() === event.getTime();
-  }
-
   onRangeChanged(ev) {
     console.log('range changed: startTime: ' + ev.startTime + ', endTime: ' + ev.endTime);
   }
@@ -120,7 +135,7 @@ export class Tab3Page {
     return date < current;
   };
 
-  formatDate(date){
+  formatDate(date) {
     return moment(date.toDate().toString()).format('dddd, D MMMM YYYY');
   }
 }

@@ -1,16 +1,24 @@
 <ion-header>
   <ion-toolbar>
-      <ion-buttons slot="start">
-        <ion-menu-button class="menubutton" autoHide="false"></ion-menu-button>
-      </ion-buttons>
-      <ion-title class="toolbartitle">Project Name</ion-title>
-    </ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button style="color: #980000  !important;"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="toolbartitle">Project Name</ion-title>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ng-container *ngIf="note">
-    {{note.body}}
-  {{note.date}}
-  </ng-container>
+    {{ note.body }}
+    {{ note.date }}
 
+
+    <ng-container *ngIf="note.signatureBase64 && note.signatureImageUrl; else elseTemplate">
+      <img *ngIf="note.signatureImageUrl" [src]="note.signatureImageUrl" alt="">
+    </ng-container>
+    <ng-template #elseTemplate>
+      <app-signature [note]="note" *ngIf="userCanSign()">
+      </app-signature>
+    </ng-template>
+  </ng-container>
 </ion-content>

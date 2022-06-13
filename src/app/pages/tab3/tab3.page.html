@@ -3,7 +3,12 @@
     <ion-buttons slot="start">
       <ion-menu-button class="menubutton" autoHide="false"></ion-menu-button>
     </ion-buttons>
-    <ion-title class="toolbartitle">Project Name</ion-title>
+    <ng-container *ngIf="project; else elseTemplate">
+      <ion-title class="toolbartitle">{{project.name}}</ion-title>
+    </ng-container>
+    <ng-template #elseTemplate>
+      <ion-title class="toolbartitle">Project Name</ion-title>
+    </ng-template>
   </ion-toolbar>
 </ion-header>
 
@@ -22,7 +27,7 @@
   [locale]="'es-ES'"
   [eventSource]="eventSource"
   [calendarMode]="calendar.mode"
-[showEventDetail] = "false"
+  [showEventDetail] = "false"
   [currentDate]="calendar.currentDate"
   (onCurrentDateChanged)="onCurrentDateChanged($event)" (onEventSelected)="onEventSelected($event)"
   (onTitleChanged)="onViewTitleChanged($event)" (onTimeSelected)="onTimeSelected($event)" [step]="calendar.step">
@@ -30,7 +35,7 @@
 
   <div class="row" *ngFor="let note of notes">
     <div class="col card">
-    <pro-card-note [routerLink]="['/note-detail']" [time]="'5:00'" [date]="formatDate(note.date)" [note]="note.body"></pro-card-note>
+    <pro-card-note [routerLink]="['/note-detail/'+note.id]" [time]="'5:00'" [date]="formatDate(note.date)" [note]="note.body"></pro-card-note>
     </div>
   </div>
 

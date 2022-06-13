@@ -7,13 +7,16 @@ import { IonicModule } from '@ionic/angular';
 import { NoteDetailPageRoutingModule } from './note-detail-routing.module';
 
 import { NoteDetailPage } from './note-detail.page';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    NoteDetailPageRoutingModule
+    NoteDetailPageRoutingModule,
+
+    ComponentsModule,
   ],
   declarations: [NoteDetailPage]
 })

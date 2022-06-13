@@ -4,4 +4,8 @@ export interface Note {
   body: string;
   projectId: string;
   inspectorId: string;
+
+  dateIsoString: string;
+  signatureBase64?: string;
+  signatureImageUrl?: string;
 }

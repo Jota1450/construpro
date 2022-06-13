@@ -1,3 +1,4 @@
+import { Project } from 'src/app/models/project';
 import { NotesService } from './../../services/notes.service';
 import { Component, OnInit } from '@angular/core';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
@@ -11,44 +12,8 @@ import * as moment from 'moment';
 })
 export class Tab2Page{
 
-
-  /// Losm Tabs no se el pueden implementar el motodo ngOnInit
-  /*
-  notes = [
-    {
-      date: 'Lunes, 20 de Febrero, 2021',
-      time: '05:00 PM',
-      note: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla varius hendrerit lacinia. Sed id risus.'
-    },
-    {
-      date: 'Lunes, 20 de Febrero, 2021',
-      time: '05:00 PM',
-      note: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla varius hendrerit lacinia. Sed id risus.'
-    },
-    {
-      date: 'Lunes, 20 de Febrero, 2021',
-      time: '05:00 PM',
-      note: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla varius hendrerit lacinia. Sed id risus.'
-    },
-    {
-      date: 'Lunes, 20 de Febrero, 2021',
-      time: '05:00 PM',
-      note: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla varius hendrerit lacinia. Sed id risus.'
-    },
-    {
-      date: 'Lunes, 20 de Febrero, 2021',
-      time: '05:00 PM',
-      note: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla varius hendrerit lacinia. Sed id risus.'
-    },
-    {
-      date: 'Lunes, 20 de Febrero, 2021',
-      time: '05:00 PM',
-      note: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla varius hendrerit lacinia. Sed id risus.'
-    },
-  ];
-  */
-
   notes: Note[];
+  project: Project;
 
   constructor(
     private notesService: NotesService,
@@ -57,7 +22,9 @@ export class Tab2Page{
 
   async onInit(){
     await this.getNotes();
-    //this.notes[0].date.toISOString();
+    await this.localStorageService.getProjectData().then(
+      (project) => this.project = project
+    );
   }
 
   formatDate(date){

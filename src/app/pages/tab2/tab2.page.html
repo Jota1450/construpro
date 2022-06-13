@@ -3,7 +3,12 @@
     <ion-buttons slot="start">
       <ion-menu-button class="menubutton" autoHide="false"></ion-menu-button>
     </ion-buttons>
-    <ion-title class="toolbartitle">Project Name</ion-title>
+    <ng-container *ngIf="project; else elseTemplate">
+      <ion-title class="toolbartitle">{{project.name}}</ion-title>
+    </ng-container>
+    <ng-template #elseTemplate>
+      <ion-title class="toolbartitle">Project Name</ion-title>
+    </ng-template>
   </ion-toolbar>
 </ion-header>
 
