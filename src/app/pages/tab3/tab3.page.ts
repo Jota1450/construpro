@@ -66,6 +66,7 @@ export class Tab3Page {
   }
 
   async onInit() {
+    this.date = new Date();
     await this.getNotes();
     await this.localStorageService.getProjectData().then(
       (project) => this.project = project
@@ -90,9 +91,6 @@ export class Tab3Page {
       (ev.events !== undefined && ev.events.length !== 0) + ', disabled: ' + ev.disabled);
 
     this.date = new Date(ev.selectedTime);
-
-    console.log('aaa', this.date.toUTCString());
-
     this.getNotes();
   }
 
@@ -123,6 +121,8 @@ export class Tab3Page {
 
   today() {
     this.calendar.currentDate = new Date();
+    this.date = this.calendar.currentDate;
+    this.getNotes();
   }
 
   onRangeChanged(ev) {

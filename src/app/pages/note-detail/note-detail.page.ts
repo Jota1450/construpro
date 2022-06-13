@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Note } from 'src/app/models/note';
 import { User } from 'src/app/models/user';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-note-detail',
@@ -46,6 +47,10 @@ export class NoteDetailPage implements OnInit {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  formatDate(date){
+    return moment(date).format('dddd, D MMMM YYYY');
   }
 
   userCanSign(): boolean{
