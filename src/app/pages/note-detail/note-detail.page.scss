@@ -1,3 +1,71 @@
 button-inner{
   color: #980000  !important;
 }
+.menubutton {
+    color: #980000;
+}
+
+.toolbartitle {
+    color: #980000;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 36px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0 90px 1px;
+    position: absolute;
+    text-align: center;
+}
+.itemrow{
+    display: contents;
+}
+.date-anotacion {
+    text-align: justify;
+    font-style: normal !important;
+    font-weight: 600 !important;
+    font-size: 16px !important;
+    line-height: 26px !important;
+    border-right-color: #e1d7d7;
+    border-right-width: 1px;
+    border-right-style: solid;
+    padding: 20px 10px 20px 10px;
+    border-bottom-color: #e1d7d7;
+
+}
+
+.content-anotacion {
+    display: flex;
+}
+
+.time-anotacion {
+    text-align: justify;
+    font-style: normal !important;
+    font-weight: 700 !important;
+    font-size: 16px !important;
+    color: #980000 !important;
+    padding: 20px 10px 20px 10px;
+}
+
+.text-anotacion {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: #171717;
+    padding: 0 8px;
+}
+
+.textAlabel {
+    font-size: 17px;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #000;
+}
+
+.textArea {
+   // border-radius: 10px !important;
+   // border: 1px solid #171717 !important;
+   color: #000;
+}

@@ -51,4 +51,5 @@ export class NoteDetailPage implements OnInit {
   userCanSign(): boolean{
     return this.note.inspectorId === this.user.id;
   }
+
 }
