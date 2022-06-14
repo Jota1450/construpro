@@ -20,6 +20,10 @@ export class LocalStorageService {
     this.storage.clear();
   }
 
+  deleteProjectData(){
+    this.storage.remove('project');
+  }
+
   setProjectData(project: Project) {
     // Store the value under "my-key"
     this.storage.set('project', project);

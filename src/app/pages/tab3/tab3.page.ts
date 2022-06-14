@@ -121,7 +121,7 @@ export class Tab3Page {
 
   today() {
     this.calendar.currentDate = new Date();
-    this.date = this.calendar.currentDate;
+    this.date = new Date();
     this.getNotes();
   }
 

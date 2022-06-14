@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Rol } from 'src/app/models/rol';
 import { Project } from 'src/app/models/project';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-project-create',
@@ -16,6 +17,18 @@ export class ProjectCreatePage implements OnInit {
   formProject: FormGroup;
   users: User[];
   roles: Rol[];
+
+  alert = Swal.mixin({
+    toast: true,
+    position: 'center',
+    showConfirmButton: true,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer);
+      toast.addEventListener('mouseleave', Swal.resumeTimer);
+    },
+  });
 
   constructor(
     private formBuilder: FormBuilder,
@@ -155,6 +168,22 @@ export class ProjectCreatePage implements OnInit {
       await this.projectsService.saveProject(project).then(
         (resp) => {
           console.log('response', resp);
+          if (resp) {
+            this.alert.fire({
+              icon: 'success',
+              title: 'Bien!!!',
+              text: 'Anotación registrada correctamente',
+              footer: '<a href="">Aceptar</a>'
+            });
+          }
+        }
+      ).catch(
+        (error) => {
+          this.alert.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something went wrong!',
+          });
         }
       );
     } else {

@@ -25,6 +25,7 @@ export class HomePage implements OnInit {
   ) { }
 
   async ngOnInit() {
+    this.localStorage.deleteProjectData();
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
     this.getAllProjects();
@@ -33,7 +34,7 @@ export class HomePage implements OnInit {
   }
 
   async saveProjectData(project: Project){
-    this.localStorage.setProjectData(project);
+    await this.localStorage.setProjectData(project);
     //this.findCurrentRol(project);
     this.router.navigate(['/tabs']);
   }

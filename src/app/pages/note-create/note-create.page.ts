@@ -2,13 +2,12 @@ import { NotesService } from './../../services/notes.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { Note } from './../../models/note';
 import { Component, OnInit } from '@angular/core';
-import { Project } from 'src/app/models/project';
 import { Rol } from 'src/app/models/rol';
 import { User } from 'src/app/models/user';
-import { ProjectsService } from 'src/app/services/projects.service';
 import { UsersService } from 'src/app/services/users.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-note-create',
@@ -23,14 +22,17 @@ export class NoteCreatePage implements OnInit {
 
   today = new Date();
 
-  /*
-  Users = [
-    { value: '1', text: 'Sapolin' },
-    { value: '2', text: 'Sapolina' },
-    { value: '3', text: 'Jugui Yuquina' },
-    { value: '4', text: 'Mfrappe Yuquino' }
-  ];
-  */
+  alert = Swal.mixin({
+    toast: true,
+    position: 'center',
+    showConfirmButton: true,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer);
+      toast.addEventListener('mouseleave', Swal.resumeTimer);
+    },
+  });
 
   constructor(
     private formBuilder: FormBuilder,
@@ -84,6 +86,23 @@ export class NoteCreatePage implements OnInit {
         await this.notesService.saveNote(note).then(
           (resp) => {
             console.log('response', resp);
+            if (resp) {
+              this.alert.fire({
+                icon: 'success',
+                title: 'Bien!!!',
+                text: 'Anotación registrada correctamente',
+              });
+            }
+          }
+        ).catch(
+          error => {
+            if (error) {
+              this.alert.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+              });
+            }
           }
         );
       }
@@ -94,7 +113,7 @@ export class NoteCreatePage implements OnInit {
     //this.formRegister.get
   }
 
-  async getAllUsers(){
+  async getAllUsers() {
     // En este metodo obtenemos los roles
     this.usersService.getAllUsers().subscribe(
       users => this.users = users
@@ -102,10 +121,10 @@ export class NoteCreatePage implements OnInit {
     //console.log('goku', this.roles);
   }
 
-  mapUsers(users: User[]){
+  mapUsers(users: User[]) {
     // Con este metodo mapeamos el objeto Rol con de acuerdo a los
     // indicadores con que se mapean los elementos en el componente
     // Select.
-    return users.map( user => ({ text: user.names, value: user.id}));
+    return users.map(user => ({ text: user.names, value: user.id }));
   }
 }
