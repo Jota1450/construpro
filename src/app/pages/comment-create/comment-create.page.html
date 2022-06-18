@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button style="color: #980000 !important;"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="toolbartitle">Comentario</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div>
+
+    <div class="form">
+      <div class="notedate">
+        <ion-label class="date-comment">aaaaaaaa fecha</ion-label>
+      </div>
+
+      <ion-label>Realiza tu Comentario</ion-label>
+      <ion-textarea autoGrow="true"
+      class="textArea"
+      placeholder="Detalles del comentario">
+      </ion-textarea>
+
+      <div class="row">
+        <div class="col btn">
+          <pro-button [text]="'Crear'" [type]="'submit'" ></pro-button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</ion-content>

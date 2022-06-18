@@ -33,7 +33,11 @@ const routes: Routes = [
   {
     path: 'note-detail/:id',
     loadChildren: () => import('./pages/note-detail/note-detail.module').then( m => m.NoteDetailPageModule)
+  },  {
+    path: 'comment-create',
+    loadChildren: () => import('./pages/comment-create/comment-create.module').then( m => m.CommentCreatePageModule)
   },
+
 
 ];
 @NgModule({

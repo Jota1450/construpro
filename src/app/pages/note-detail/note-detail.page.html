@@ -3,8 +3,8 @@
     <ion-buttons slot="start">
       <ion-back-button style="color: #980000  !important;"></ion-back-button>
     </ion-buttons>
-    <ion-title class="toolbartitle">Project Name</ion-title>
-  </ion-toolbar>
+      <ion-title class="toolbartitle">Project Name</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
@@ -41,12 +41,41 @@
 
     </ion-card>
 
-    <ng-container *ngIf="note.signatureBase64 && note.signatureImageUrl; else elseTemplate">
-      <img *ngIf="note.signatureImageUrl" [src]="note.signatureImageUrl" alt="">
-    </ng-container>
-    <ng-template #elseTemplate>
-      <app-signature [note]="note" *ngIf="userCanSign()">
-      </app-signature>
-    </ng-template>
+    <div class="line">
+
+      <ng-container *ngIf="note.signatureBase64 && note.signatureImageUrl; else elseTemplate">
+        <img *ngIf="note.signatureImageUrl" [src]="note.signatureImageUrl" alt="">
+      </ng-container>
+      <ng-template #elseTemplate>
+        <app-signature [note]="note" *ngIf="userCanSign()">
+        </app-signature>
+      </ng-template>
+
+    </div>
+
+    <div class="comments">
+      <ion-card>
+        <div class="row">
+          <ion-card-content>
+            <ion-textarea class="textArea" autoGrow="True" readonly value="{{ note.body }}">
+            </ion-textarea>
+          </ion-card-content>
+        </div>
+        <div class="row">
+          <div class="col-9">
+            Sapito que la hizo
+          </div>
+          <div class="col-3">
+            fecha sapito
+          </div>
+        </div>
+      </ion-card>
+    </div>
+
+    <div class="floatingbutton" >
+      <ion-fab-button [routerLink]="['/comment-create']" class="addbutton"><ion-icon class="addicon" name="pencil-outline"></ion-icon></ion-fab-button>
+    </div>
+    
+
   </ng-container>
 </ion-content>

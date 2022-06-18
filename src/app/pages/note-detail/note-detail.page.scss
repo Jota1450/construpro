@@ -64,6 +64,23 @@ button-inner{
     color: #000;
 }
 
+.line{
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+    border-color: #980000;
+    padding: 10px 10px 50px 10px;
+}
+
+.floatingbutton {
+    position: fixed;
+    bottom: 20px;
+    right: 15px;
+  }
+  
+  .addbutton {
+    --background: #980000;;
+    --transition: background-color 15ms linear;
+  }
 .textArea {
    // border-radius: 10px !important;
    // border: 1px solid #171717 !important;
