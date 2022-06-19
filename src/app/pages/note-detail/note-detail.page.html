@@ -8,6 +8,7 @@
 </ion-header>
 
 <ion-content>
+
   <ng-container *ngIf="note">
     <ion-item class="timeitem">
       <div class="row itemrow">
@@ -52,21 +53,30 @@
       </ng-template>
 
     </div>
+    <div class="comment-label-div">
+      <ion-label class="comment-label">Comentarios:</ion-label>
+    </div>
+
 
     <div class="comments">
-      <ion-card>
-        <div class="row">
-          <ion-card-content>
-            <ion-textarea class="textArea" autoGrow="True" readonly value="{{ note.body }}">
+      <ion-card *ngFor="let comment of comments">
+        <ion-card-header class=" comentador-bar">
+          <div class="comentador">
+            Gabriel Patricio De la hoz Torres
+          </div>
+        </ion-card-header>
+        <div class="row comment">
+          <ion-card-content class="comment-content">
+            <ion-textarea class="textArea" autoGrow="True" readonly value="Cule vaina maluca cambia eso nojoda eche o te voy a mandar a quebrar tu no sabes quien soy yo">
             </ion-textarea>
           </ion-card-content>
         </div>
         <div class="row">
-          <div class="col-9">
-            Sapito que la hizo
+          <div class="col-7">
+
           </div>
-          <div class="col-3">
-            fecha sapito
+          <div class="col-5 comment-date">
+            18/06/2022 5:48PM
           </div>
         </div>
       </ion-card>
@@ -75,7 +85,8 @@
     <div class="floatingbutton" >
       <ion-fab-button [routerLink]="['/comment-create']" class="addbutton"><ion-icon class="addicon" name="pencil-outline"></ion-icon></ion-fab-button>
     </div>
-    
+
+    <div class="buttonh"></div>
 
   </ng-container>
 </ion-content>
