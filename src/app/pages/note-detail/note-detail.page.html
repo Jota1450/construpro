@@ -3,8 +3,8 @@
     <ion-buttons slot="start">
       <ion-back-button style="color: #980000  !important;"></ion-back-button>
     </ion-buttons>
-      <ion-title class="toolbartitle">Project Name</ion-title>
-    </ion-toolbar>
+    <ion-title class="toolbartitle">Project Name</ion-title>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>
@@ -15,7 +15,7 @@
         <div class="col-8">
           <div class="date-anotacion">
             <span>
-              {{ formatDate(note.dateIsoString) }}
+              {{ formatDateString(note.dateIsoString) }}
             </span>
           </div>
         </div>
@@ -58,32 +58,36 @@
     </div>
 
 
-    <div class="comments">
-      <ion-card *ngFor="let comment of comments">
-        <ion-card-header class=" comentador-bar">
-          <div class="comentador">
-            Gabriel Patricio De la hoz Torres
+    <ng-container *ngIf="comments">
+      <div class="comments">
+        <ion-card *ngFor="let comment of comments">
+          <ion-card-header class=" comentador-bar">
+            <div class="comentador">
+              {{ comment.user.names }} {{ comment.user.lastNames }}
+            </div>
+          </ion-card-header>
+          <div class="row comment">
+            <ion-card-content class="comment-content">
+              <ion-textarea class="textArea" autoGrow="True" readonly [value]="comment.body">
+              </ion-textarea>
+            </ion-card-content>
           </div>
-        </ion-card-header>
-        <div class="row comment">
-          <ion-card-content class="comment-content">
-            <ion-textarea class="textArea" autoGrow="True" readonly value="Cule vaina maluca cambia eso nojoda eche o te voy a mandar a quebrar tu no sabes quien soy yo">
-            </ion-textarea>
-          </ion-card-content>
-        </div>
-        <div class="row">
-          <div class="col-7">
+          <div class="row">
+            <div class="col-7">
 
+            </div>
+            <div class="col-5 comment-date">
+              {{ formatDateString(comment.createdAt) }}
+            </div>
           </div>
-          <div class="col-5 comment-date">
-            18/06/2022 5:48PM
-          </div>
-        </div>
-      </ion-card>
-    </div>
+        </ion-card>
+      </div>
+    </ng-container>
 
-    <div class="floatingbutton" >
-      <ion-fab-button [routerLink]="['/comment-create/'+note.id]" class="addbutton"><ion-icon class="addicon" name="pencil-outline"></ion-icon></ion-fab-button>
+    <div class="floatingbutton">
+      <ion-fab-button [routerLink]="['/comment-create/'+note.id]" class="addbutton">
+        <ion-icon class="addicon" name="pencil-outline"></ion-icon>
+      </ion-fab-button>
     </div>
 
     <div class="buttonh"></div>

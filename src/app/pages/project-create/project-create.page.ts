@@ -80,7 +80,7 @@ export class ProjectCreatePage implements OnInit {
     this.party.removeAt(index);
   }
 
-  initForm(){
+  initForm() {
     this.formProject = this.formBuilder.group(
       {
         name: new FormControl('', [
@@ -89,6 +89,7 @@ export class ProjectCreatePage implements OnInit {
         contractNumber: new FormControl('', [
           Validators.required
         ]),
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         NIT: new FormControl('', [
           Validators.required
         ]),
@@ -121,7 +122,7 @@ export class ProjectCreatePage implements OnInit {
     this.party.get(index).get(name).setValue(value);
   }
 
-  async getAllRoles(){
+  async getAllRoles() {
     // En este metodo obtenemos los roles
 
     await this.usersService.getAllRoles().subscribe(
@@ -130,7 +131,7 @@ export class ProjectCreatePage implements OnInit {
     //console.log('goku', this.roles);
   }
 
-  async getAllUsers(){
+  async getAllUsers() {
     // En este metodo obtenemos los roles
 
     this.usersService.getAllUsers().subscribe(
@@ -139,18 +140,37 @@ export class ProjectCreatePage implements OnInit {
     //console.log('goku', this.roles);
   }
 
-  mapRoles(roles: Rol[]){
+  mapRoles(roles: Rol[]) {
     // Con este metodo mapeamos el objeto Rol con de acuerdo a los
     // indicadores con que se mapean los elementos en el componente
     // Select.
-    return roles.map( rol => ({ text: rol.espName, value: rol.id}));
+    return roles.map(rol => ({ text: rol.espName, value: rol.id }));
   }
 
-  mapUsers(users: User[]){
+  mapUsers(users: User[]) {
     // Con este metodo mapeamos el objeto Rol con de acuerdo a los
     // indicadores con que se mapean los elementos en el componente
     // Select.
-    return users.map( user => ({ text: user.names, value: user.id}));
+    return users.map(user => ({ text: user.names, value: user }));
+  }
+
+  mapParty() {
+    const party: User[] = [];
+    this.party.value.forEach(element => {
+      const user: User = {
+        id: element.id.id,
+        names: element.id.names,
+        lastNames: element.id.lastNames,
+        email: element.id.email,
+        password: element.id.password,
+        documentType: element.id.documentType,
+        documentNumber: element.id.documentNumber,
+        rol: element.rol,
+        createdAt: element.id.createdAt
+      };
+      party.push(user);
+    });
+    return party;
   }
 
   async saveProject() {
@@ -159,13 +179,15 @@ export class ProjectCreatePage implements OnInit {
       const project: Project = {
         name: this.formProject.get('name').value,
         contractNumber: this.formProject.get('contractNumber').value,
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         NIT: this.formProject.get('NIT').value,
         address: this.formProject.get('address').value,
         initialDate: new Date(this.formProject.get('initialDate').value).toISOString(),
         finalDate: new Date(this.formProject.get('finalDate').value).toISOString(),
-        party: this.party.value,
+        party: this.mapParty(),
         createdAt: new Date().toISOString(),
       };
+      console.log('project', project);
       await this.projectsService.saveProject(project).then(
         (resp) => {
           console.log('response', resp);

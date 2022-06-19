@@ -16,7 +16,7 @@ export class TabsPage {
 
   onInit(){
     this.localStorageService.getProjectData().then(
-      res => console.log('mierda',res)
+      res => console.log('res',res)
     );
   }
 

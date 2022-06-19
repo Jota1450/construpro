@@ -1,13 +1,14 @@
 import { CommentsService } from './../../services/comments.service';
-import { Comment } from './../../models/comment';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Note } from 'src/app/models/note';
 import { User } from 'src/app/models/user';
+import { Comment } from 'src/app/models/comment';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { NotesService } from 'src/app/services/notes.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
+import * as moment from 'moment';
 
 
 @Component({
