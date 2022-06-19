@@ -17,6 +17,7 @@ export class NoteDetailPage implements OnInit {
 
   note: Note;
   user: User;
+  comments=[1,2]
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
   //@ViewChild('signature', { static: true }) signaturePadElement: any;

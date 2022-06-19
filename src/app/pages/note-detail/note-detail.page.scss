@@ -65,24 +65,66 @@ button-inner{
 }
 
 .line{
+    display: flex;
+    justify-content: center;
     border-bottom-style: solid;
     border-bottom-width: 2px;
     border-color: #980000;
     padding: 10px 10px 50px 10px;
 }
 
+.textArea {
+   // border-radius: 10px !important;
+   // border: 1px solid #171717 !important;
+   color: #000;
+}
+.comment-label-div{
+    padding: 10px 10px;
+}
+.comment-label{
+    text-align: justify;
+    font-style: normal !important;
+    font-weight: 700 !important;
+    font-size: 24px !important;
+}
+
+.comentador{
+    text-align: justify;
+    font-style: normal !important;
+    font-weight: 500 !important;
+    font-size: 16px !important;
+}
+.comentador-bar{
+    background-color: #f7f7f7;
+    color: #000;
+}
+.comment-content{
+    padding: 0px 10px;
+}
+.comment{
+margin: 5px;
+margin-top: 10px;
+}
+
+.comment-date{
+    padding-right: 20px;
+    color: #000;
+    display: flex;
+    justify-content: end;
+}
+.buttonh{
+    height: 80px;
+}
+
+
 .floatingbutton {
     position: fixed;
     bottom: 20px;
     right: 15px;
+    z-index: 9999;
   }
   
   .addbutton {
     --background: #980000;;
     --transition: background-color 15ms linear;
   }
-.textArea {
-   // border-radius: 10px !important;
-   // border: 1px solid #171717 !important;
-   color: #000;
-}
