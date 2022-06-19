@@ -6,7 +6,8 @@ export interface Project {
   contractNumber: string;
   NIT: string;
   address: string;
-  initialDate: Date;
-  finalDate: Date;
+  initialDate: string;
+  finalDate: string;
   party: User[];
+  createdAt: string;
 }

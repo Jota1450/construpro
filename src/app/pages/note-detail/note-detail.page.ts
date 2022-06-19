@@ -19,9 +19,9 @@ export class NoteDetailPage implements OnInit {
   user: User;
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
-  @ViewChild('signature', { static: true }) signaturePadElement: any;
-  signaturePad: any;
-  signature: any;
+  //@ViewChild('signature', { static: true }) signaturePadElement: any;
+  //signaturePad: any;
+  //signature: any;
 
   constructor(
     private activatedRoute: ActivatedRoute,

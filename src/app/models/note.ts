@@ -8,4 +8,8 @@ export interface Note {
   dateIsoString: string;
   signatureBase64?: string;
   signatureImageUrl?: string;
+  signatureUser?: string;
+  signatureDate?: string;
+
+  createdAt: string;
 }

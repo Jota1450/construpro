@@ -11,7 +11,8 @@
 <ion-content>
   <div>
 
-    <div class="form">
+
+    <div class="form" [formGroup]="formComment">
       <div class="notedate">
         <ion-label class="date-comment">aaaaaaaa fecha</ion-label>
       </div>
@@ -19,12 +20,13 @@
       <ion-label>Realiza tu Comentario</ion-label>
       <ion-textarea autoGrow="true"
       class="textArea"
+      formControlName="body"
       placeholder="Detalles del comentario">
       </ion-textarea>
 
       <div class="row">
         <div class="col btn">
-          <pro-button [text]="'Crear'" [type]="'submit'" ></pro-button>
+          <pro-button [text]="'Crear'" [type]="'submit'" (click)="saveComment()"></pro-button>
         </div>
       </div>
 

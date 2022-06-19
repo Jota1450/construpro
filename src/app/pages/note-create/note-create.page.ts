@@ -73,15 +73,14 @@ export class NoteCreatePage implements OnInit {
       const id: string = (await this.localStorageService.getProjectData()).id;
       if (id) {
         const date = new Date();
-        //const colDate = date.toLocaleString('es-ES"', {timeZone: 'America/Bogota'});
-
         console.log('date', date);
         const note: Note = {
           date,
           dateIsoString: `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
           body: this.formNote.get('body').value,
           projectId: id,
-          inspectorId: this.formNote.get('user').value
+          inspectorId: this.formNote.get('user').value,
+          createdAt: date.toISOString()
         };
         await this.notesService.saveNote(note).then(
           (resp) => {

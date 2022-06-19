@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
 import { ComponentsModule } from '../../components/components.module';
 import { User } from 'src/app/models/user';
 import { Router } from '@angular/router';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-home',
@@ -37,6 +38,10 @@ export class HomePage implements OnInit {
     await this.localStorage.setProjectData(project);
     //this.findCurrentRol(project);
     this.router.navigate(['/tabs']);
+  }
+
+  formatDateString(date: string){
+    return moment(date).format('dddd, D MMMM YYYY');
   }
 
   findCurrentRol(project: Project){

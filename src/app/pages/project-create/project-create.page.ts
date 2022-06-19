@@ -161,9 +161,10 @@ export class ProjectCreatePage implements OnInit {
         contractNumber: this.formProject.get('contractNumber').value,
         NIT: this.formProject.get('NIT').value,
         address: this.formProject.get('address').value,
-        initialDate: new Date(this.formProject.get('initialDate').value),
-        finalDate: new Date(this.formProject.get('finalDate').value),
-        party: this.party.value
+        initialDate: new Date(this.formProject.get('initialDate').value).toISOString(),
+        finalDate: new Date(this.formProject.get('finalDate').value).toISOString(),
+        party: this.party.value,
+        createdAt: new Date().toISOString(),
       };
       await this.projectsService.saveProject(project).then(
         (resp) => {
@@ -173,7 +174,6 @@ export class ProjectCreatePage implements OnInit {
               icon: 'success',
               title: 'Bien!!!',
               text: 'Anotación registrada correctamente',
-              footer: '<a href="">Aceptar</a>'
             });
           }
         }

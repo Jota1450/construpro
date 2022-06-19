@@ -73,7 +73,8 @@ export class RegisterPage implements OnInit {
         email: this.formRegister.get('email').value,
         password: this.formRegister.get('password').value,
         documentType: this.formRegister.get('documentType').value,
-        documentNumber: this.formRegister.get('documentNumber').value
+        documentNumber: this.formRegister.get('documentNumber').value,
+        createdAt: new Date().toISOString(),
       };
       await this.usersService.createUser(user).then(
         (resp) => {

@@ -12,7 +12,7 @@
   <ng-container *ngIf="projects.length > 0">
     <div class="row" *ngFor="let project of projects">
         <div class="col card" (click)="saveProjectData(project)">
-            <pro-card-project [title]="project.name" [address]= "project.address"  [startDate]="project.initialDate" [endDate]="project.finalDate" [contractNumber]="project.contractNumber" ></pro-card-project>
+            <pro-card-project [title]="project.name" [address]= "project.address"  [startDate]="formatDateString(project.initialDate)" [endDate]="formatDateString(project.finalDate)" [contractNumber]="project.contractNumber" ></pro-card-project>
         </div>
     </div>
   </ng-container>
