@@ -12,4 +12,6 @@ export interface Note {
   signatureDate?: string;
 
   createdAt: string;
+
+  imageUrls?: any[];
 }
