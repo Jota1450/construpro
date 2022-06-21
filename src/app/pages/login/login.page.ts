@@ -54,7 +54,7 @@ export class LoginPage implements OnInit {
           );
 
           if (this.authService.getUid != null) {
-            this.router.navigate(['/home']);
+            this.router.navigate(['/menu/home']);
           };
         }
       }
