@@ -48,7 +48,7 @@
         <img *ngIf="note.signatureImageUrl" [src]="note.signatureImageUrl" alt="">
       </ng-container>
       <ng-template #elseTemplate>
-        <app-signature [note]="note" *ngIf="userCanSign()">
+        <app-signature [note]="note" [user]="user" *ngIf="userCanSign()">
         </app-signature>
       </ng-template>
 

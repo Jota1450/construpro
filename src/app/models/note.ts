@@ -1,3 +1,4 @@
+import { User } from './user';
 export interface Note {
   id?: string;
   date: Date;
@@ -8,8 +9,9 @@ export interface Note {
   dateIsoString: string;
   signatureBase64?: string;
   signatureImageUrl?: string;
-  signatureUser?: string;
+  signatureUser?: User;
   signatureDate?: string;
+  isSigned: boolean;
 
   createdAt: string;
 

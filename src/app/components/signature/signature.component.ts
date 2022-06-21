@@ -4,6 +4,8 @@ import SignaturePad from 'signature_pad';
 import { finalize } from 'rxjs/operators';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { NotesService } from 'src/app/services/notes.service';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { User } from 'src/app/models/user';
 
 
 @Component({
@@ -14,18 +16,25 @@ import { NotesService } from 'src/app/services/notes.service';
 export class SignatureComponent implements OnInit {
 
   urlAwait = '';
+
   // eslint-disable-next-line @typescript-eslint/member-ordering
   @ViewChild('signature', { static: true }) signaturePadElement: any;
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
   @Input() note: Note;
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  @Input() user: User;
   signaturePad: any;
   signature: any;
 
-  constructor(private fireStorage: AngularFireStorage, private notesService: NotesService,) { }
+  constructor(
+    private fireStorage: AngularFireStorage,
+    private notesService: NotesService,
+    private localStorage: LocalStorageService,
+  ) {}
 
 
-  ngOnInit() {
+  async ngOnInit() {
     this.signaturePad = new SignaturePad(this.signaturePadElement.nativeElement);
   }
 
@@ -82,6 +91,9 @@ export class SignatureComponent implements OnInit {
             this.urlAwait = response;
             this.note.signatureBase64 = signatureBase64;
             this.note.signatureImageUrl = response;
+            this.note.signatureDate = new Date().toISOString();
+            this.note.signatureUser = this.user;
+            this.note.isSigned = true;
             this.notesService.updateNote(this.note.id, this.note);
             return;
           }

@@ -114,6 +114,27 @@ export class NotesService {
     }
   }
 
+  getPendingNotesById(projectId: string): Observable<Note[]> {
+    try {
+      // Obtenemos todos los proyectos.
+      // eslint-disable-next-line max-len
+      const rolesCollection: AngularFirestoreCollection<Note> = this.firestore.collection('Notes', ref => ref.where('projectId', '==', projectId).where('isSigned', '==', false).orderBy('date', 'desc'));
+
+      //rolesCollection.ref.orderBy('date', 'desc');
+      return rolesCollection.snapshotChanges().pipe(
+        map(changes => changes.map(
+          action => {
+            const data = action.payload.doc.data() as Note;
+            data.id = action.payload.doc.id;
+            return data;
+          }
+        ))
+      );
+    } catch (error) {
+      return error;
+    }
+  }
+
   getNotesByDate(projectId: string, date: Date): Observable<Note[]> {
     try {
       // Obtenemos todos los proyectos.

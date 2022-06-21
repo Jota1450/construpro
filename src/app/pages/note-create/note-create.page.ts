@@ -119,9 +119,8 @@ export class NoteCreatePage implements OnInit {
       if (id) {
         const date = new Date();
         console.log('date', date);
-        if (this.images.length > 0) {
-          await this.uploadImages();
-        }
+
+
         const note: Note = {
           date,
           dateIsoString: `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
@@ -129,8 +128,14 @@ export class NoteCreatePage implements OnInit {
           projectId: id,
           inspectorId: this.formNote.get('user').value,
           createdAt: date.toISOString(),
-          imageUrls: (this.imageUrls.length > 0) ? this.imageUrls : null
+          isSigned: false
         };
+
+        if (this.images.length > 0) {
+          await this.uploadImages();
+          note.imageUrls = this.imageUrls;
+        }
+
         await this.notesService.saveNote(note).then(
           (resp) => {
             console.log('response', resp);
@@ -176,7 +181,6 @@ export class NoteCreatePage implements OnInit {
     this.users = this.project.party.filter(
       (user: User) => user.rol === 'xNmfGl6yMzlbOTuBl8jm'
     );
-    //console.log('goku', this.roles);
   }
 
   mapUsers(users: User[]) {
@@ -184,42 +188,6 @@ export class NoteCreatePage implements OnInit {
     // indicadores con que se mapean los elementos en el componente
     // Select.
     return users.map(user => ({ text: user.names, value: user.id }));
-  }
-
-  log($event) {
-    console.log('event', $event.target.files);
-  }
-
-  async uploadIMG($event) {
-    const file = $event.target.files[0];
-    console.log('file', file, typeof (file));
-    const filePath = `images/note_evidence_${file.name}_${new Date().toISOString()}`;
-    //const task = imgRef.put(file);
-    const fileRef = this.fireStorage.ref(filePath);
-    const task = this.fireStorage.upload(filePath, file);
-
-    task.snapshotChanges().pipe(
-      finalize(
-        () => {
-          fileRef.getDownloadURL().subscribe(
-            (link) => console.log(link),
-            (err: Error) => console.error('Observer got an error: ' + err),
-            () => console.log('Observer got a complete notification')
-          );
-        }
-      )
-    ).subscribe();
-    console.log('task', task);
-  }
-
-  generateRandomString(num) {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = ' ';
-    const charactersLength = characters.length;
-    for (let i = 0; i < num; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
   }
 
   uploadImages() {
@@ -280,5 +248,15 @@ export class NoteCreatePage implements OnInit {
         },
       );
     });
+  }
+
+  generateRandomString(num) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = ' ';
+    const charactersLength = characters.length;
+    for (let i = 0; i < num; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
   }
 }

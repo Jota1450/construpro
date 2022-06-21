@@ -42,11 +42,7 @@ export class NoteDetailPage implements OnInit {
           }
         }
       );
-      await this.localStorage.getUserData().then(
-        (response) => {
-          this.user = response;
-        }
-      );
+      this.user = await this.localStorage.getUserData();
       await this.getComments(id);
     } catch (error) {
       console.log(error);
