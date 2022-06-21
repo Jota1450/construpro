@@ -52,6 +52,10 @@
         </app-signature>
       </ng-template>
 
+      <ng-container *ngFor="let img of note.imageUrls">
+        <img [src]="img" alt="" srcset="" style="max-height: 300px;">
+      </ng-container>
+
     </div>
     <div class="comment-label-div">
       <ion-label class="comment-label">Comentarios:</ion-label>
