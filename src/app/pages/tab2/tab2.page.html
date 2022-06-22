@@ -15,7 +15,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-
+<ng-container *ngIf="notes">
   <div class="row" *ngFor="let note of notes">
     <div class="col card">
       <div class="procard">
@@ -24,7 +24,7 @@
     </div>
   </div>
 
-  <div div *ngIf="notes.length === 0" class="no-notes">
+  <div div *ngIf="notes.length == 0" class="no-notes">
     Presiona el simbolo de añadir para crear nuevas anotaciones.
   </div>
 
@@ -34,5 +34,5 @@
     </ion-fab-button>
   </div>
 
-
+</ng-container>
 </ion-content>

@@ -69,6 +69,7 @@ export class HomePage implements OnInit {
     await this.projectsService.getAllProjects().subscribe(
       projects => this.projects = projects
     );
+
   }
 
 }
