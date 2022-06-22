@@ -11,6 +11,7 @@ import * as moment from 'moment';
 import Swal from 'sweetalert2';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { finalize } from 'rxjs/operators';
+import { ImagePicker, ImagePickerOptions } from '@awesome-cordova-plugins/image-picker/ngx';
 
 @Component({
   selector: 'app-note-create',
@@ -22,6 +23,8 @@ export class NoteCreatePage implements OnInit {
   formNote: FormGroup;
   users: User[];
   roles: Rol[];
+  images: any[] = [];
+  imageUrls: any[] = [];
 
   project: Project;
 
@@ -45,6 +48,7 @@ export class NoteCreatePage implements OnInit {
     private notesService: NotesService,
     private usersService: UsersService,
     private fireStorage: AngularFireStorage,
+    private imagePicker: ImagePicker,
   ) { }
 
   async ngOnInit() {
@@ -53,6 +57,16 @@ export class NoteCreatePage implements OnInit {
   }
 
   initForm() {
+    this.imagePicker.hasReadPermission().then(
+      (value) => {
+        console.log('value', value);
+        if (value == true) {
+          this.imagePicker.hasReadPermission();
+        }
+      }
+    ).catch(
+
+    );
     this.formNote = this.formBuilder.group(
       {
         body: new FormControl('', [
@@ -61,6 +75,31 @@ export class NoteCreatePage implements OnInit {
         user: new FormControl('', [
           Validators.required
         ]),
+      }
+    );
+  }
+
+  pickImages() {
+    const options: ImagePickerOptions = {
+      maximumImagesCount: 10,
+      outputType: 1
+    };
+
+    this.imagePicker.getPictures(options).then(
+      (resp) => {
+        resp.forEach(
+          element => {
+            const base64OfImage = 'data:image/png;base64,' + element;
+            this.images.push(base64OfImage);
+          });
+        console.log('imagenes', this.images);
+      }, (error) => {
+        console.log('error', JSON.stringify(error));
+      }
+    ).catch(
+      (error) => {
+        //this.imagePicker.hasReadPermission();
+        console.log('error', JSON.stringify(error));
       }
     );
   }
@@ -80,14 +119,23 @@ export class NoteCreatePage implements OnInit {
       if (id) {
         const date = new Date();
         console.log('date', date);
+
+
         const note: Note = {
           date,
           dateIsoString: `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
           body: this.formNote.get('body').value,
           projectId: id,
           inspectorId: this.formNote.get('user').value,
-          createdAt: date.toISOString()
+          createdAt: date.toISOString(),
+          isSigned: false
         };
+
+        if (this.images.length > 0) {
+          await this.uploadImages();
+          note.imageUrls = this.imageUrls;
+        }
+
         await this.notesService.saveNote(note).then(
           (resp) => {
             console.log('response', resp);
@@ -133,7 +181,6 @@ export class NoteCreatePage implements OnInit {
     this.users = this.project.party.filter(
       (user: User) => user.rol === 'xNmfGl6yMzlbOTuBl8jm'
     );
-    //console.log('goku', this.roles);
   }
 
   mapUsers(users: User[]) {
@@ -143,45 +190,73 @@ export class NoteCreatePage implements OnInit {
     return users.map(user => ({ text: user.names, value: user.id }));
   }
 
-  log($event){
-    console.log('event', $event.target.files);
+  uploadImages() {
+    return new Promise((resolve, reject) => {
+      Promise.all(
+        // Go over ALL captured images
+        // UPDATE 1
+
+        this.images.map((image, imageIndex) => {
+          // Create a timestamp as filename
+          // UPDATE 1
+          // Create a reference to 'images/todays-date.jpg'
+          //const imageRef = storageRef.child(`images/${filename}.jpg`);
+          const imgRef = this.fireStorage.ref(`images/note_evidence_${this.generateRandomString(5)}_${new Date().toISOString()}`);
+
+          const imageBase64 = image.split(';base64,');
+
+          const raw = window.atob(imageBase64[1]);
+          const rawL = raw.length;
+          const array = new Uint8Array(rawL);
+          for (let i = 0; i < rawL; i++) {
+            array[i] = raw.charCodeAt(i);
+          }
+          const blob = new Blob([array], { type: imageBase64[0].split(':')[1] });
+          // Upload that particular image and return the upload Promise
+          const task = imgRef.put(blob);
+
+          return new Promise((innerResolve, innerReject) => {
+            task.snapshotChanges().pipe(
+              finalize(() => imgRef.getDownloadURL().subscribe(
+                (response) => {
+                  if (response) {
+                    //this.urlAwait = response;
+                    this.imageUrls.push(response);
+                    console.log('url_image', response);
+                    innerResolve(response);
+                    return;
+                  }
+                },
+                error => {
+                  if (error != null) {
+                    innerReject(error);
+                  }
+                }
+              ))
+            ).subscribe();
+          });
+
+        }),
+      ).then(
+        () => {
+          console.log('All images uploaded!');
+          resolve('All images uploaded!');
+        },
+        err => {
+          console.error('Some images failed to upload...', err);
+          reject(err);
+        },
+      );
+    });
   }
 
-  uploadIMG($event) {
-    const file = $event.target.files[0];
-    console.log('file', file, typeof(file));
-    const imgRef = this.fireStorage.ref(`images/note_evidence_${file.name}_${new Date().toISOString()}`);
-    /*
-    const u = this.signaturePad.toDataURL();
-    const partes = u.split(';base64,');
-
-    console.log(partes);
-    const meta = imgRef.getMetadata();
-    console.log('imgRef', meta);
-
-    const raw = window.atob(partes[1]);
-    const rawL = raw.length;
-    const array = new Uint8Array(rawL);
-    for (let i = 0; i < rawL; i++) {
-      array[i] = raw.charCodeAt(i);
+  generateRandomString(num) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = ' ';
+    const charactersLength = characters.length;
+    for (let i = 0; i < num; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
-
-    const signatureBase64 = partes[1];
-    const blob = new Blob([array], { type: 'image/png' });*/
-
-    const task = imgRef.put(file);
-
-    task.snapshotChanges().pipe(
-      finalize(() => imgRef.getDownloadURL().subscribe(
-        (response) => {
-          if (response) {
-            //this.urlAwait = response;
-            console.log('url_image', response);
-            return;
-          }
-        }
-      ))
-    ).subscribe();
-    console.log('task', task);
+    return result;
   }
 }

@@ -16,7 +16,7 @@ import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/compat/f
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { AngularFireStorageModule, BUCKET } from '@angular/fire/compat/storage';
 import { environment } from 'src/environments/environment';
-
+import { ImagePicker } from '@awesome-cordova-plugins/image-picker/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,7 +32,11 @@ import { environment } from 'src/environments/environment';
     AngularFireDatabaseModule,
     AngularFireStorageModule,
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, { provide: BUCKET, useValue: 'construpro-a0a36.appspot.com' }],
+  providers: [
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    { provide: BUCKET, useValue: 'construpro-a0a36.appspot.com' },
+    ImagePicker
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

@@ -11,7 +11,7 @@ export const environment = {
     storageBucket: 'construpro-a0a36.appspot.com',
     messagingSenderId: '586806150290',
     appId: '1:586806150290:web:eddfadd707d830c2e2d24b'
-  }
+  },
 };
 
 /*
