@@ -1,6 +1,11 @@
-.menubutton {
-    color: #980000;
-  }
+.backbutton {
+  color: #980000;
+}
+ion-icon {
+  color: #980000;
+  font-size: 26px;
+  padding-right: 15px;
+}
   
   .toolbartitle {
     color: #980000;
@@ -23,6 +28,13 @@
   }
   .procard{
     min-width: 95%
+  }
+  .no-notes{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    text-align: center;
   }
   
   .floatingbutton {

@@ -28,7 +28,13 @@
   bottom: 20px;
   right: 15px;
 }
-
+.no-projects{
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  text-align: center;
+}
 .addbutton {
   --background: #980000;;
   --transition: background-color 15ms linear;
