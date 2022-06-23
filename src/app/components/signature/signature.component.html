@@ -1,12 +1,13 @@
 <div>
   <div class="firma-digital">
-    firma digital:
+    <p class="fs-6">Ingresa tu firma digital:</p>
     <div class="firma-digital--body">
-      <canvas #signature width="450" style="touch-action: none;"></canvas>
+      <canvas #signature  style="touch-action: none; width: 100%;"></canvas>
     </div>
   </div>
 </div>
 
-<button (click)="deshacer()">borrar</button>
-<!---button (click)="guardarPNG()">descargar</!---button!--->
-<button (click)="uploadIMG()">cargar</button>
+<div class="d-flex gap-3 justify-content-center mt-3">
+  <button class="btn btn-danger" (click)="deshacer()">Borrar</button>
+  <button class="btn btn-outline-danger"  (click)="uploadIMG()">Cargar firmar</button>
+</div>

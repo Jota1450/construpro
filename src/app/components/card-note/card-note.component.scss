@@ -38,4 +38,8 @@ line-height: 21px !important;
     color: #171717;
     padding: 0 8px;
     width: auto;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-height: 50px;
+    white-space: pre-line;
 }

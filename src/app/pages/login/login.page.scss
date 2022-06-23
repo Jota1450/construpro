@@ -43,13 +43,19 @@
     padding-right: 10%;
 }
 .forgotpassword{
-    font-style: normal;
-    font-weight: 500;
     font-size: 14px;
-    line-height: 21px;
+    font-weight: bold;
+    padding-left: 10%;
+    padding-right: 10%;
+    justify-content: end;
     align-items: center;
-    text-align: right;
+    display: flex;
+    gap: 4px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    color: #980000;
 }
+
 .buttons{
     display: flex;
     justify-content: space-around;

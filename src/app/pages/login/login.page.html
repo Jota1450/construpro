@@ -6,13 +6,19 @@
   </div>
 
   <div class="row">
-    <div class="col img-cont">
+    <div class="col img-cont my-4">
       <img src="https://i.imgur.com/SFkhAUz.png" class="img-top" alt="...">
     </div>
   </div>
 
 <div class="format">
   <div>
+
+  <div class="row">
+    <div class="col email">
+      <p>Digita tu correo y contraseña para ingresar</p>
+    </div>
+  </div>
 
   <div class="row">
     <div class="col email">
@@ -24,18 +30,19 @@
     <div class="col password">
       <pro-input [title]="'Contraseña'" [type]="'password'" (outputValue)="password = $event" ></pro-input>
     </div>
-    <div class="row ">
-      <div class="col forgotpassword">
-        Olvidé mi contraseña.
-      </div>
-    </div>
   </div>
 
+  <div class="row ">
+    <div class="col forgotpassword">
+      <ion-icon slot="start" style="font-size: 18px;" name="help-circle-outline"></ion-icon>
+      Olvidé mi contraseña
+    </div>
+  </div>
 
   <div class="row">
     <div class="col buttons">
       <div style="display: flex;">
-        <pro-button-outline [text]="'Registrarse'" [routerLink]="['/register']" style="margin: 5px;"></pro-button-outline>
+        <pro-button-outline [text]="'Registrarme'" [routerLink]="['/register']" style="margin: 5px;"></pro-button-outline>
         <pro-button (click)="logIn()" [text]="'Iniciar Sesión'" style="margin: 5px;"></pro-button>
       </div>
     </div>
