@@ -36,9 +36,16 @@ export class HomePage implements OnInit {
 
   async saveProjectData(project: Project){
     this.localStorage.deleteProjectData();
-    await this.localStorage.setProjectData(project);
+    this.localStorage.setProjectData(project).then(
+      (resp) => {
+        this.router.navigate(['/menu/tabs']);
+      }
+    ).catch(
+      (error) => {
+        console.log(error);
+      }
+    );
     //this.findCurrentRol(project);
-    this.router.navigate(['/menu/tabs']);
   }
 
   formatDateString(date: string){

@@ -21,7 +21,7 @@ export class LocalStorageService {
   }
 
   deleteProjectData(){
-    this.storage.remove('project');
+    return this.storage.remove('project');
   }
 
   setProjectData(project: Project) {
