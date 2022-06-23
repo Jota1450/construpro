@@ -4,6 +4,8 @@ import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 import { AuthService } from 'src/app/services/auth.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { User } from 'src/app/models/user';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -25,15 +27,31 @@ export class LoginPage implements OnInit {
       toast.addEventListener('mouseleave', Swal.resumeTimer);
     },
   });
+  loadingScreen = this.loadingController.create({
+    cssClass: 'my-custom-class',
+    message: 'Cargando...',
+  });
 
   constructor(
     private authService: AuthService,
     private usersService: UsersService,
     private router: Router,
-    private localStorage: LocalStorageService
+    private localStorage: LocalStorageService,
+    public loadingController: LoadingController
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    await (await this.loadingScreen).present();
+
+    //console.log(await this.localStorage.getUserData());
+    const user: User = await this.localStorage.getUserData();
+    console.log('a',user);
+    await (await this.loadingScreen).dismiss();
+    if (user) {
+      if (this.authService.getUid != null) {
+        this.router.navigate(['/menu/home']);
+      };
+    }
   }
 
   async logIn() {
@@ -44,12 +62,6 @@ export class LoginPage implements OnInit {
           this.usersService.getUser(res.user.uid).subscribe(
             result => {
               this.localStorage.setUserData(result);
-            }
-          );
-
-          await this.localStorage.getUserData().then(
-            response => {
-              //console.log('goku', (response));
             }
           );
 

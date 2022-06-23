@@ -18,28 +18,52 @@ export class UsersService {
     public authService: AuthService
   ) { }
 
-  async createUser(user: User) {
-    try {
-      // creamos el usuario en Firebase Athentication
-      const resultUser = await this.authService.registerUser(user.email, user.password);
-
-      // obtenemos el uid resultante de la creacion del registro
-      // !!!! -- Pendiente Crear validacion de error
-      // !!!! -- No guardar contraseña
-      // !!!! -- Agregar mensajes de payload
-      //
-      user.id = resultUser.uid;
-      user.password = null;
-
-      // guardamos el usuario en Firestore Database
-      const result = await this.firestore.collection('Users').doc(user.id).set(user);
-      return result;
-
-    } catch (error) {
-      return error;
+  async isLoggedIn(): Promise<boolean | User>{
+    const isLoggedIn = this.authService.isLoggedIn;
+    if(isLoggedIn){
+      const user: User = await new Promise(async (resolve, reject) => {
+        this.getUser(await this.authService.getUid()).subscribe(
+          (response) => {
+            resolve(response);
+          }
+        );
+      });
+      return user;
+    } else {
+      return false;
     }
   }
 
+  async createUser(user: User): Promise<User>  {
+    return new Promise(async (resolve, reject) => {
+      try {
+
+        // creamos el usuario en Firebase Athentication
+        const resultUser = await this.authService.registerUser(user.email, user.password);
+
+        // obtenemos el uid resultante de la creacion del registro
+        // !!!! -- Pendiente Crear validacion de error
+        // !!!! -- No guardar contraseña
+        // !!!! -- Agregar mensajes de payload
+        //
+        user.id = resultUser.uid;
+        user.password = null;
+
+        // guardamos el usuario en Firestore Database
+        await this.firestore.collection('Users').doc(user.id).set(user);
+
+        const user2: User = await new Promise(async (innerResolve, innerReject) => {
+          this.getUser(user.id).subscribe(
+            (respUser) => resolve(respUser)
+          );
+        });
+        resolve(user2);
+
+      } catch (error) {
+        reject(null);
+      }
+    });
+  }
 
   getRol(id: string): Observable<Rol> {
     try {

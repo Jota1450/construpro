@@ -2,6 +2,9 @@ import { User } from '../../models/user';
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from '../../services/users.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-register',
@@ -14,19 +17,20 @@ export class RegisterPage implements OnInit {
     { value: 'C.C.', text: 'C.C.' },
     { value: 'T.I.', text: 'T.I.' }
   ];
-  /*
-  names: string;
-  lastNames: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  documentType: string;
-  documentNumber: string;*/
+
+  loadingScreen = this.loadingController.create({
+    cssClass: 'my-custom-class',
+    message: 'Cargando...',
+  });
+
   formRegister: FormGroup;
 
   constructor(
     private usersService: UsersService,
     private formBuilder: FormBuilder,
+    private router: Router,
+    private localStorage: LocalStorageService,
+    public loadingController: LoadingController
   ) { }
 
   ngOnInit() {
@@ -66,6 +70,7 @@ export class RegisterPage implements OnInit {
   }
 
   async saveUser() {
+    await (await this.loadingScreen).present();
     if (this.formRegister.valid && this.passAreValid()) {
       const user: User = {
         names: this.formRegister.get('names').value,
@@ -77,8 +82,13 @@ export class RegisterPage implements OnInit {
         createdAt: new Date().toISOString(),
       };
       await this.usersService.createUser(user).then(
-        (resp) => {
+        async (resp) => {
           console.log('response', resp);
+          if (resp) {
+            this.localStorage.setUserData(resp);
+            await (await this.loadingScreen).dismiss();
+            this.router.navigate(['/menu/home']);
+          }
         }
       );
     } else {

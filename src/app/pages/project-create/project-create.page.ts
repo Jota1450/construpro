@@ -6,6 +6,9 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { Rol } from 'src/app/models/rol';
 import { Project } from 'src/app/models/project';
 import Swal from 'sweetalert2';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { LoadingController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-project-create',
@@ -30,10 +33,18 @@ export class ProjectCreatePage implements OnInit {
     },
   });
 
+  loadingScreen = this.loadingController.create({
+    cssClass: 'my-custom-class',
+    message: 'Cargando...',
+  });
+
   constructor(
     private formBuilder: FormBuilder,
     private usersService: UsersService,
-    private projectsService: ProjectsService
+    private projectsService: ProjectsService,
+    private localStorage: LocalStorageService,
+    public loadingController: LoadingController,
+    private router: Router,
   ) { }
 
   async ngOnInit() {
@@ -154,9 +165,9 @@ export class ProjectCreatePage implements OnInit {
     return users.map(user => ({ text: user.names, value: user }));
   }
 
-  mapParty() {
+  async mapParty() {
     const party: User[] = [];
-    this.party.value.forEach(element => {
+    this.party.value.forEach((element) => {
       const user: User = {
         id: element.id.id,
         names: element.id.names,
@@ -170,11 +181,14 @@ export class ProjectCreatePage implements OnInit {
       };
       party.push(user);
     });
+    const creator: User = await this.localStorage.getUserData();
+    creator.rol = 'creator';
+    party.push(creator);
     return party;
   }
 
   async saveProject() {
-    console.log('Vegeta', this.party);
+    await (await this.loadingScreen).present();
     if (this.formProject.valid) {
       const project: Project = {
         name: this.formProject.get('name').value,
@@ -184,19 +198,26 @@ export class ProjectCreatePage implements OnInit {
         address: this.formProject.get('address').value,
         initialDate: new Date(this.formProject.get('initialDate').value).toISOString(),
         finalDate: new Date(this.formProject.get('finalDate').value).toISOString(),
-        party: this.mapParty(),
+        party: await this.mapParty(),
         createdAt: new Date().toISOString(),
       };
       console.log('project', project);
       await this.projectsService.saveProject(project).then(
-        (resp) => {
+        async (resp) => {
           console.log('response', resp);
           if (resp) {
+            await (await this.loadingScreen).dismiss();
             this.alert.fire({
               icon: 'success',
               title: 'Bien!!!',
-              text: 'Anotación registrada correctamente',
-            });
+              text: 'Proyecto registrado correctamente',
+            }).then(
+              (result) => {
+                if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
+                  this.router.navigate(['/menu/home']);
+                }
+              }
+            );
           }
         }
       ).catch(
