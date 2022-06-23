@@ -50,8 +50,8 @@
       </div>
 
 
-      <div class="card" style="padding: 10px;">
-        <div class="card" style="padding: 10px;" formArrayName="party"
+      <div class="card" >
+        <div class="childcard" formArrayName="party"
           *ngFor="let user of party.controls; let i = index">
           <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" (click)="removePartyUser(i)">
             x
@@ -69,14 +69,18 @@
           </div>
         </div>
 
-        <button class="adduserrole" (click)="addPartyUser()">Agregar
+        <button class="adduserrole" (click)="addPartyUser()">
+          Agregar Usuario
           <span>
             <ion-icon name="add"></ion-icon>
           </span>
         </button>
 
       </div>
-      <pro-button [text]="'Crear'" [type]="'submit'" (click)="saveProject()"></pro-button>
+      <div class="createbutton">
+        <pro-button [text]="'Crear'" [type]="'submit'" (click)="saveProject()"></pro-button>
+      </div>
+      
     </form>
   </div>
 

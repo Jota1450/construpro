@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button class="backbutton"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="toolbartitle">Proyecto</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<ng-container *ngIf="project">
+  <div class="row">
+    <div class="col">
+      <pro-input [title]="'Nombre del proyecto'" [type]="'text'" [value]="project.name" >
+      </pro-input>
+    </div>
+  </div>
+
+  <div class="row">
+
+    <div class="col">
+      <pro-input [title]="'N.I.T.'" [type]="'text'" [value]="project.NIT" >
+      </pro-input>
+    </div>
+
+    <div class="col">
+      <pro-input [title]="'No. Contrato'" [type]="'text'" [value]="project.contractNumber" >
+      </pro-input>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <pro-input [title]="'Dirección de la obra'" [type]="'text'" [value]="project.address">
+      </pro-input>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <pro-input [title]="'Fecha inicio'" [type]="'text'" [value]="formatDateString(project.initialDate)" >
+      </pro-input>
+    </div>
+
+    <div class="col">
+      <pro-input [title]="'Fecha fin'" [type]="'text'" [value]="formatDateString(project.finalDate)" >
+      </pro-input>
+    </div>
+
+  </div>
+
+</ng-container>
+
+</ion-content>

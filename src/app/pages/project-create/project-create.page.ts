@@ -195,7 +195,7 @@ export class ProjectCreatePage implements OnInit {
             this.alert.fire({
               icon: 'success',
               title: 'Bien!!!',
-              text: 'Anotación registrada correctamente',
+              text: 'Proyecto creado correctamente',
             });
           }
         }

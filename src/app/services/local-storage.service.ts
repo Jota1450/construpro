@@ -26,7 +26,7 @@ export class LocalStorageService {
 
   setProjectData(project: Project) {
     // Store the value under "my-key"
-    this.storage.set('project', project);
+    return this.storage.set('project', project);
   }
 
   setCurrentRol(rol: Rol) {

@@ -44,4 +44,24 @@ export class ProjectsService {
     }
 
   }
+
+  getAllProjectsByUser(): Observable<Project[]> {
+    try {
+      // Obtenemos todos los proyectos.
+      const rolesCollection: AngularFirestoreCollection<Project> = this.firestore.collection('Projects', ref => ref);
+
+      return rolesCollection.snapshotChanges().pipe(
+        map(changes => changes.map(
+          action => {
+            const data = action.payload.doc.data() as Project;
+            data.id = action.payload.doc.id;
+            return data;
+          }
+        ))
+      );
+    } catch (error) {
+      return error;
+    }
+
+  }
 }
