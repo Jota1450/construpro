@@ -12,6 +12,8 @@ import Swal from 'sweetalert2';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { finalize } from 'rxjs/operators';
 import { ImagePicker, ImagePickerOptions } from '@awesome-cordova-plugins/image-picker/ngx';
+import { LoadingController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-note-create',
@@ -42,6 +44,11 @@ export class NoteCreatePage implements OnInit {
     },
   });
 
+  loadingScreen = this.loadingController.create({
+    cssClass: 'my-custom-class',
+    message: 'Cargando...',
+  });
+
   constructor(
     private formBuilder: FormBuilder,
     private localStorageService: LocalStorageService,
@@ -49,6 +56,8 @@ export class NoteCreatePage implements OnInit {
     private usersService: UsersService,
     private fireStorage: AngularFireStorage,
     private imagePicker: ImagePicker,
+    public loadingController: LoadingController,
+    private router: Router,
   ) { }
 
   async ngOnInit() {
@@ -114,7 +123,9 @@ export class NoteCreatePage implements OnInit {
   }
 
   async saveNote() {
+
     if (this.formNote.valid) {
+      await (await this.loadingScreen).present();
       const id: string = (await this.localStorageService.getProjectData()).id;
       if (id) {
         const date = new Date();
@@ -144,7 +155,14 @@ export class NoteCreatePage implements OnInit {
                 icon: 'success',
                 title: 'Bien!!!',
                 text: 'Anotación registrada correctamente',
-              });
+              }).then(
+                async (result) => {
+                  if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
+                    await (await this.loadingScreen).dismiss();
+                    this.router.navigate(['/tabs/tab2']);
+                  }
+                }
+              );
             }
           }
         ).catch(
@@ -153,7 +171,7 @@ export class NoteCreatePage implements OnInit {
               this.alert.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: 'Something went wrong!',
+                text: 'Algo salio mal.!',
               });
             }
           }

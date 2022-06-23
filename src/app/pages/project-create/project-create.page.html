@@ -58,8 +58,15 @@
           </span>
           <div class="row" [formGroupName]="i">
             <div class="col">
-              <pro-select [title]="'Usuario'" [options]="mapUsers(users)" (outputValue)="setUser(i.toString() ,'id', $event)">
-              </pro-select>
+              <ng-container *ngIf="i === 0; else elseTemplate">
+                <pro-select [title]="'Usuario'" [options]="mapUsers([creator])" [disabled]="true" [selected]="0" (outputValue)="setUser(i.toString() ,'id', $event)">
+                </pro-select>
+              </ng-container>
+              <ng-template #elseTemplate>
+                <pro-select [title]="'Usuario'" [options]="mapUsers(users)" (outputValue)="setUser(i.toString() ,'id', $event)">
+                </pro-select>
+              </ng-template>
+
             </div>
 
             <div class="col">

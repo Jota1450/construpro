@@ -35,6 +35,7 @@ export class HomePage implements OnInit {
   }
 
   async saveProjectData(project: Project){
+    this.localStorage.deleteProjectData();
     await this.localStorage.setProjectData(project);
     //this.findCurrentRol(project);
     this.router.navigate(['/menu/tabs']);

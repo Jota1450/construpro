@@ -20,6 +20,7 @@ export class ProjectCreatePage implements OnInit {
   formProject: FormGroup;
   users: User[];
   roles: Rol[];
+  creator: User;
 
   alert = Swal.mixin({
     toast: true,
@@ -51,6 +52,8 @@ export class ProjectCreatePage implements OnInit {
     this.getAllRoles();
     this.getAllUsers();
     this.initForm();
+    this.creator = await this.localStorage.getUserData();
+    this.addPartyUser();
   }
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
@@ -135,19 +138,21 @@ export class ProjectCreatePage implements OnInit {
 
   async getAllRoles() {
     // En este metodo obtenemos los roles
-
-    await this.usersService.getAllRoles().subscribe(
-      roles => this.roles = roles
-    );
+    this.roles = await new Promise((resolve, reject) => {
+      this.usersService.getAllRoles().subscribe(
+        roles => resolve(roles)
+      );
+    });
     //console.log('goku', this.roles);
   }
 
   async getAllUsers() {
     // En este metodo obtenemos los roles
-
-    this.usersService.getAllUsers().subscribe(
-      users => this.users = users
-    );
+    this.users = await new Promise((resolve, reject) => {
+      this.usersService.getAllUsers().subscribe(
+        users => resolve(users)
+      );
+    });
     //console.log('goku', this.roles);
   }
 
@@ -188,8 +193,8 @@ export class ProjectCreatePage implements OnInit {
   }
 
   async saveProject() {
-    await (await this.loadingScreen).present();
     if (this.formProject.valid) {
+      await (await this.loadingScreen).present();
       const project: Project = {
         name: this.formProject.get('name').value,
         contractNumber: this.formProject.get('contractNumber').value,
@@ -231,8 +236,13 @@ export class ProjectCreatePage implements OnInit {
       );
     } else {
       console.log('formControl', this.formProject);
+      this.alert.fire({
+        icon: 'error',
+        title: 'Formulario Invalido',
+        text: 'Por favor revisa los campos',
+      });
     }
     // creamos objeto para user para guardar
-    //this.formRegister.get
+    // this.formRegister.get
   }
 }
