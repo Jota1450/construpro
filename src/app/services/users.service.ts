@@ -87,27 +87,6 @@ export class UsersService {
     }
   }
 
-  getAllRoles(): Observable<Rol[]> {
-    try {
-      const rolesCollection: AngularFirestoreCollection<Rol> = this.firestore.collection('Roles', ref => ref);
-
-      return rolesCollection.snapshotChanges().pipe(
-        map(changes => changes.map(
-          action => {
-            const data = action.payload.doc.data() as Rol;
-            data.id = action.payload.doc.id;
-            return data;
-          }
-        ))
-      );
-
-    } catch (error) {
-      return error;
-    }
-
-    //return roles;
-  }
-
   getUser(id: string): Observable<User> {
     try {
       const userDoc: AngularFirestoreDocument<User> = this.firestore.doc<User>(`Users/${id}`);
@@ -130,11 +109,29 @@ export class UsersService {
     }
   }
 
-  getAllUsers(): Observable<User[]> {
+  getAllRoles(): Observable<Rol[]> {
     try {
-      const rolesCollection: AngularFirestoreCollection<User> = this.firestore.collection('Users', ref => ref);
+      const rolesCollection: AngularFirestoreCollection<Rol> = this.firestore.collection('Roles', ref => ref);
 
       return rolesCollection.snapshotChanges().pipe(
+        map(changes => changes.map(
+          action => {
+            const data = action.payload.doc.data() as Rol;
+            data.id = action.payload.doc.id;
+            return data;
+          }
+        ))
+      );
+    } catch (error) {
+      return error;
+    }
+  }
+
+  getAllUsers(): Observable<User[]> {
+    try {
+      const usersCollection: AngularFirestoreCollection<User> = this.firestore.collection('Users', ref => ref);
+
+      return usersCollection.snapshotChanges().pipe(
         map(changes => changes.map(
           action => {
             const data = action.payload.doc.data() as User;
@@ -146,6 +143,5 @@ export class UsersService {
     } catch (error) {
       return error;
     }
-
   }
 }

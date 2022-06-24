@@ -61,6 +61,10 @@ export class RegisterPage implements OnInit {
         documentType: new FormControl('', [
           Validators.required
         ]),
+        professionalCard: new FormControl('', [
+          Validators.required,
+          Validators.pattern('^(0|[1-9][0-9]*)$'),
+        ]),
         documentNumber: new FormControl('', [
           Validators.required,
           Validators.pattern('^(0|[1-9][0-9]*)$'),
@@ -80,6 +84,7 @@ export class RegisterPage implements OnInit {
         documentType: this.formRegister.get('documentType').value,
         documentNumber: this.formRegister.get('documentNumber').value,
         createdAt: new Date().toISOString(),
+        professionalCard: this.formRegister.get('professionalCard').value,
       };
       await this.usersService.createUser(user).then(
         async (resp) => {
