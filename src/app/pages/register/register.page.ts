@@ -78,14 +78,14 @@ export class RegisterPage implements OnInit {
     await (await this.loadingScreen).present();
     if (this.formRegister.valid && this.passAreValid()) {
       const user: User = {
-        names: this.formRegister.get('names').value,
-        lastNames: this.formRegister.get('lastNames').value,
-        email: this.formRegister.get('email').value,
-        password: this.formRegister.get('password').value,
-        documentType: this.formRegister.get('documentType').value,
-        documentNumber: this.formRegister.get('documentNumber').value,
-        createdAt: new Date().toISOString(),
-        professionalCard: this.formRegister.get('professionalCard').value,
+        names: this.formRegister.get('names').value.trim(),
+        lastNames: this.formRegister.get('lastNames').value.trim(),
+        email: this.formRegister.get('email').value.trim(),
+        password: this.formRegister.get('password').value.trim(),
+        documentType: this.formRegister.get('documentType').value.trim(),
+        documentNumber: this.formRegister.get('documentNumber').value.trim(),
+        createdAt: new Date().toISOString().trim(),
+        professionalCard: this.formRegister.get('professionalCard').value.trim(),
       };
       await this.usersService.createUser(user).then(
         async (resp) => {
