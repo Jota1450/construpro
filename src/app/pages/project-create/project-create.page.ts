@@ -6,6 +6,9 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { Rol } from 'src/app/models/rol';
 import { Project } from 'src/app/models/project';
 import Swal from 'sweetalert2';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { LoadingController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-project-create',
@@ -17,6 +20,7 @@ export class ProjectCreatePage implements OnInit {
   formProject: FormGroup;
   users: User[];
   roles: Rol[];
+  creator: User;
 
   alert = Swal.mixin({
     toast: true,
@@ -30,16 +34,29 @@ export class ProjectCreatePage implements OnInit {
     },
   });
 
+  loadingScreen = this.loadingController.create({
+    cssClass: 'my-custom-class',
+    message: 'Cargando...',
+  });
+
   constructor(
     private formBuilder: FormBuilder,
     private usersService: UsersService,
-    private projectsService: ProjectsService
+    private projectsService: ProjectsService,
+    private localStorage: LocalStorageService,
+    public loadingController: LoadingController,
+    private router: Router,
   ) { }
 
   async ngOnInit() {
-    this.getAllRoles();
-    this.getAllUsers();
+    await (await this.loadingScreen).present();
+    this.roles = await this.getAllRoles();
+    this.users = await this.getAllUsers();
     this.initForm();
+    this.creator = await this.localStorage.getUserData();
+    this.addPartyUser();
+    this.setUser('0', 'user', this.creator);
+    await (await this.loadingScreen).dismiss();
   }
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
@@ -57,7 +74,7 @@ export class ProjectCreatePage implements OnInit {
     // usuario.
 
     const userFormGroup = this.formBuilder.group({
-      id: new FormControl('', [
+      user: new FormControl('', [
         Validators.required
       ]),
       rol: new FormControl('', [
@@ -72,7 +89,7 @@ export class ProjectCreatePage implements OnInit {
     //this.party.get('0').get('rol').setValue('Milo te da energia la meta la pones tu.');
     //console.log('party_1_rol', this.party.get('0').get('rol'));
 
-    console.log('goku', this.formProject.controls);
+    console.log('formProject', this.formProject.controls);
   }
 
 
@@ -122,22 +139,22 @@ export class ProjectCreatePage implements OnInit {
     this.party.get(index).get(name).setValue(value);
   }
 
-  async getAllRoles() {
+  async getAllRoles(): Promise<Rol[]> {
     // En este metodo obtenemos los roles
-
-    await this.usersService.getAllRoles().subscribe(
-      roles => this.roles = roles
-    );
-    //console.log('goku', this.roles);
+    return await new Promise((resolve, reject) => {
+      this.usersService.getAllRoles().subscribe(
+        roles => resolve(roles)
+      );
+    });
   }
 
-  async getAllUsers() {
+  async getAllUsers(): Promise<User[]> {
     // En este metodo obtenemos los roles
-
-    this.usersService.getAllUsers().subscribe(
-      users => this.users = users
-    );
-    //console.log('goku', this.roles);
+    return await new Promise((resolve, reject) => {
+      this.usersService.getAllUsers().subscribe(
+        users => resolve(users)
+      );
+    });
   }
 
   mapRoles(roles: Rol[]) {
@@ -154,64 +171,90 @@ export class ProjectCreatePage implements OnInit {
     return users.map(user => ({ text: user.names, value: user }));
   }
 
-  mapParty() {
+  async mapParty() {
     const party: User[] = [];
-    this.party.value.forEach(element => {
+    this.party.value.forEach((element) => {
       const user: User = {
-        id: element.id.id,
-        names: element.id.names,
-        lastNames: element.id.lastNames,
-        email: element.id.email,
-        password: element.id.password,
-        documentType: element.id.documentType,
-        documentNumber: element.id.documentNumber,
+        id: element.user.id,
+        names: element.user.names,
+        lastNames: element.user.lastNames,
+        email: element.user.email,
+        password: element.user.password,
+        documentType: element.user.documentType,
+        documentNumber: element.user.documentNumber,
         rol: element.rol,
-        createdAt: element.id.createdAt
+        createdAt: element.user.createdAt,
+        professionalCard: element.user.professionalCard
       };
       party.push(user);
     });
+    //const creator: User = await this.localStorage.getUserData();
+    //creator.rol = 'creator';
+    //party.push(creator);
     return party;
   }
 
   async saveProject() {
-    console.log('Vegeta', this.party);
-    if (this.formProject.valid) {
-      const project: Project = {
-        name: this.formProject.get('name').value,
-        contractNumber: this.formProject.get('contractNumber').value,
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        NIT: this.formProject.get('NIT').value,
-        address: this.formProject.get('address').value,
-        initialDate: new Date(this.formProject.get('initialDate').value).toISOString(),
-        finalDate: new Date(this.formProject.get('finalDate').value).toISOString(),
-        party: this.mapParty(),
-        createdAt: new Date().toISOString(),
-      };
-      console.log('project', project);
-      await this.projectsService.saveProject(project).then(
-        (resp) => {
-          console.log('response', resp);
-          if (resp) {
+    try {
+      if (this.formProject.valid) {
+        await (await this.loadingScreen).present();
+        const project: Project = {
+          name: this.formProject.get('name').value,
+          contractNumber: this.formProject.get('contractNumber').value,
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          NIT: this.formProject.get('NIT').value,
+          address: this.formProject.get('address').value,
+          initialDate: new Date(this.formProject.get('initialDate').value).toISOString(),
+          finalDate: new Date(this.formProject.get('finalDate').value).toISOString(),
+          party: await this.mapParty(),
+          createdAt: new Date().toISOString(),
+        };
+        console.log('project', project);
+        await this.projectsService.saveProject(project).then(
+          async (resp) => {
+            console.log('response', resp);
+            if (resp) {
+              await (await this.loadingScreen).dismiss();
+              this.alert.fire({
+                icon: 'success',
+                title: 'Bien!!!',
+                text: 'Proyecto registrado correctamente',
+              }).then(
+                (result) => {
+                  if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
+                    this.router.navigate(['/menu/home']);
+                  }
+                }
+              );
+            }
+          }
+        ).catch(
+          (error) => {
             this.alert.fire({
-              icon: 'success',
-              title: 'Bien!!!',
-              text: 'Proyecto creado correctamente',
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Something went wrong!',
             });
           }
-        }
-      ).catch(
-        (error) => {
-          this.alert.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Something went wrong!',
-          });
-        }
-      );
-    } else {
-      console.log('formControl', this.formProject);
+        );
+      } else {
+        console.log('formControl', this.formProject);
+        this.alert.fire({
+          icon: 'error',
+          title: 'Formulario Invalido',
+          text: 'Por favor revisa los campos',
+        });
+      }
+      // creamos objeto para user para guardar
+      // this.formRegister.get
+    } catch (error) {
+      await (await this.loadingScreen).dismiss();
+      this.alert.fire({
+        icon: 'error',
+        title: 'Formulario Invalido',
+        text: error.toString(),
+      });
     }
-    // creamos objeto para user para guardar
-    //this.formRegister.get
+
   }
 }

@@ -2,16 +2,15 @@
   <ion-menu side="start" menuId="first" contentId="main">
     <ion-header>
       <ion-toolbar class="color">
-        <ion-title></ion-title>
+        <ion-title>Menu</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
       <ion-list>
 
         <ion-buttons slot="start">
-          <ion-menu-button menu="menuId"></ion-menu-button>
+          <ion-menu-toggle menu="menuId"></ion-menu-toggle>
         </ion-buttons>
-
         <ion-item (click)="signOut()" >
           <ion-icon name="log-out"></ion-icon>
           <ion-label class="menutext">Cerrar Sesión</ion-label>

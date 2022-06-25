@@ -1,6 +1,7 @@
 <label for="basic-url" class="form-label"> {{title}} </label>
 <div class="input-group mb-1">
-  <select [(ngModel)]="value" (ngModelChange)="emitChange()" class="form-select select" id="inputGroupSelect01">
-    <option *ngFor="let option of options" [ngValue]="option.value"> {{option.text}} </option>
+  <select [(ngModel)]="value" [disabled]="disabled" (ngModelChange)="emitChange()" class="form-select select" id="inputGroupSelect01">
+    <option *ngFor="let option of options; let i = index" [ngValue]="option.value"
+    [selected]="selected > -1 && selected === i"> {{option.text}} </option>
   </select>
 </div>

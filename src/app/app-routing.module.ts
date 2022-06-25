@@ -37,7 +37,8 @@ const routes: Routes = [
   {
     path: 'comment-create/:id',
     loadChildren: () => import('./pages/comment-create/comment-create.module').then( m => m.CommentCreatePageModule)
-  },  {
+  },
+  {
     path: 'menu',
     loadChildren: () => import('./pages/menu/menu.module').then( m => m.MenuPageModule)
   },

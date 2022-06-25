@@ -6,6 +6,7 @@ export interface User {
   password: string;
   documentType: string;
   documentNumber: string;
+  professionalCard: string;
   rol?: string;
   createdAt: string;
 }

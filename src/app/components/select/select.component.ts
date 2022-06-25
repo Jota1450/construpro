@@ -12,6 +12,7 @@ export class ProSelect implements OnInit {
   @Input() title = 'Title';
   @Input() required = true;
   @Input() disabled = false;
+  @Input() selected = -1;
   @Output() outputValue= new EventEmitter();
 
   constructor() { }
