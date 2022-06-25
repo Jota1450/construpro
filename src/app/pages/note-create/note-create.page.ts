@@ -27,6 +27,7 @@ export class NoteCreatePage implements OnInit {
   roles: Rol[];
   images: any[] = [];
   imageUrls: any[] = [];
+  user: User;
 
   project: Project;
 
@@ -61,6 +62,7 @@ export class NoteCreatePage implements OnInit {
   ) { }
 
   async ngOnInit() {
+    this.user = await this.localStorageService.getUserData();
     this.initForm();
     await this.getAllUsers();
   }
@@ -139,7 +141,8 @@ export class NoteCreatePage implements OnInit {
           projectId: id,
           inspectorId: this.formNote.get('user').value,
           createdAt: date.toISOString(),
-          isSigned: false
+          isSigned: false,
+          creatorUser: this.user
         };
 
         if (this.images.length > 0) {

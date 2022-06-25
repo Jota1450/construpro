@@ -5,6 +5,7 @@ export interface Note {
   body: string;
   projectId: string;
   inspectorId: string;
+  creatorUser: User;
 
   dateIsoString: string;
   signatureBase64?: string;

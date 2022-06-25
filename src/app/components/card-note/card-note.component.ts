@@ -10,6 +10,8 @@ export class ProCardNote implements OnInit {
   @Input() date= '';
   @Input() time= '';
   @Input() note= '';
+  @Input() names= '';
+  @Input() lastNames= '';
   
   constructor() { }
 
