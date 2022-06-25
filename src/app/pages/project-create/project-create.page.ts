@@ -171,6 +171,14 @@ export class ProjectCreatePage implements OnInit {
     return users.map(user => ({ text: user.names, value: user }));
   }
 
+  getPartyIds(party: User[]){
+    const ids: string[] = [];
+    party.forEach(element => {
+      ids.push(element.id);
+    });
+    return ids;
+  }
+
   async mapParty() {
     const party: User[] = [];
     this.party.value.forEach((element) => {
@@ -198,6 +206,7 @@ export class ProjectCreatePage implements OnInit {
     try {
       if (this.formProject.valid) {
         await (await this.loadingScreen).present();
+        const party = await this.mapParty();
         const project: Project = {
           name: this.formProject.get('name').value,
           contractNumber: this.formProject.get('contractNumber').value,
@@ -206,15 +215,16 @@ export class ProjectCreatePage implements OnInit {
           address: this.formProject.get('address').value,
           initialDate: new Date(this.formProject.get('initialDate').value).toISOString(),
           finalDate: new Date(this.formProject.get('finalDate').value).toISOString(),
-          party: await this.mapParty(),
+          party,
+          partyIds: this.getPartyIds(party),
           createdAt: new Date().toISOString(),
         };
         console.log('project', project);
         await this.projectsService.saveProject(project).then(
           async (resp) => {
             console.log('response', resp);
-            if (resp) {
-              await (await this.loadingScreen).dismiss();
+            await (await this.loadingScreen).dismiss();
+            if (resp !== 'error') {
               this.alert.fire({
                 icon: 'success',
                 title: 'Bien!!!',
@@ -224,6 +234,15 @@ export class ProjectCreatePage implements OnInit {
                   if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
                     this.router.navigate(['/menu/home']);
                   }
+                }
+              );
+            } else {
+              this.alert.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+              }).then(
+                (result) => {
                 }
               );
             }

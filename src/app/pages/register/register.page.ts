@@ -15,7 +15,8 @@ export class RegisterPage implements OnInit {
 
   options = [
     { value: 'C.C.', text: 'C.C.' },
-    { value: 'T.I.', text: 'T.I.' }
+    //{ value: 'T.I.', text: 'T.I.' }
+    { value: 'Passport.', text: 'Passport' }
   ];
 
   loadingScreen = this.loadingController.create({
@@ -97,6 +98,7 @@ export class RegisterPage implements OnInit {
         }
       );
     } else {
+      await (await this.loadingScreen).dismiss();
       console.log('formControl', this.formRegister);
     }
     // creamos objeto para user para guardar

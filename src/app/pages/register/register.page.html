@@ -31,7 +31,7 @@
 
       <div class="row">
         <div class="col">
-          <pro-select [title]="'Tipo de documento'" [options]="options" (outputValue)="setValue('documentType', $event)">
+          <pro-select [title]="'Tipo de documento'" [options]="options" [selected]="0" (outputValue)="setValue('documentType', $event)">
           </pro-select>
         </div>
       </div>
@@ -40,6 +40,13 @@
       <div class="row">
         <div class="col">
           <pro-input [title]="'Numero de documento'" [type]="'text'" (outputValue)="setValue('documentNumber', $event)">
+          </pro-input>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <pro-input [title]="'Tarjeta Profecional'" [type]="'number'" (outputValue)="setValue('professionalCard', $event)">
           </pro-input>
         </div>
       </div>

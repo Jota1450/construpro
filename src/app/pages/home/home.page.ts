@@ -2,7 +2,7 @@ import { UsersService } from './../../services/users.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { ProjectsService } from './../../services/projects.service';
 import { Project } from './../../models/project';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ComponentsModule } from '../../components/components.module';
 import { User } from 'src/app/models/user';
 import { Router } from '@angular/router';
@@ -13,7 +13,7 @@ import * as moment from 'moment';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage implements OnInit {
+export class HomePage implements OnInit, OnDestroy {
 
   projects: Project[] = [];
   user: User;
@@ -29,15 +29,20 @@ export class HomePage implements OnInit {
     await this.localStorage.deleteProjectData();
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
+    this.user = await this.localStorage.getUserData();
     this.getAllProjects();
-    await this.getCurrentUser();
+    //await this.getCurrentUser();
     console.log(this.user);
+  }
+
+  ngOnDestroy(): void {
+    throw new Error('Method not implemented.');
   }
 
   async saveProjectData(project: Project){
     this.localStorage.deleteProjectData();
     this.localStorage.setProjectData(project).then(
-      (resp) => {
+      () => {
         this.router.navigate(['/menu/tabs']);
       }
     ).catch(
@@ -74,7 +79,10 @@ export class HomePage implements OnInit {
 
   async getAllProjects() {
     // En este metodo todos los proyectos.
-    await this.projectsService.getAllProjects().subscribe(
+    //this.projects = await this.projectsService.getProjectsByUser(this.user.id );
+    //this.projectsService.getProjectsByUser(this.user.id).subscribe(
+    this.projectsService.getProjectsByUser(this.user.id).subscribe(
+      //projects => console.log(projects)
       projects => this.projects = projects
     );
 

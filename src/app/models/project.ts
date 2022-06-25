@@ -10,5 +10,6 @@ export interface Project {
   initialDate: string;
   finalDate: string;
   party: User[];
+  partyIds: string[];
   createdAt: string;
 }
