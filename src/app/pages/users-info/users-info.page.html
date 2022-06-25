@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button class="backbutton"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="toolbartitle">Usuarios</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div class="card" >
+    <div class="childcard" formArrayName="party"
+      *ngFor="let user of party.controls; let i = index">
+      <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" (click)="removePartyUser(i)">
+        x
+      </span>
+      <div class="row">
+        <div class="col">
+          <pro-select [title]="'Usuario'" [options]="mapUsers(users)" (outputValue)="setUser(i.toString() ,'id', $event)">
+          </pro-select>
+        </div>
+
+        <div class="col">
+          <pro-select [title]="'Rol'" [options]="mapRoles(roles)" (outputValue)="setUser(i.toString(),'rol', $event)">
+          </pro-select>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
