@@ -15,12 +15,18 @@ export class ProSelect implements OnInit {
   @Input() selected = -1;
   @Output() outputValue= new EventEmitter();
 
-  constructor() { }
+  constructor() {
+    if(this.selected > -1) {
+      this.value = this.options[this.selected].value;
+    }
+    console.log(this.value);
+   }
 
   ngOnInit() {}
 
-  emitChange(){
-    console.log(this.value);
+  emitChange($event = 'aaa'){
+    console.log('value',this.value);
+    console.log($event);
     this.outputValue.emit(this.value);
   }
 

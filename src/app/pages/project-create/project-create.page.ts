@@ -7,7 +7,7 @@ import { Rol } from 'src/app/models/rol';
 import { Project } from 'src/app/models/project';
 import Swal from 'sweetalert2';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 @Component({
@@ -22,16 +22,15 @@ export class ProjectCreatePage implements OnInit {
   roles: Rol[];
   creator: User;
 
+  isCurrentView: boolean;
+  displayWarning: boolean;
+
   alert = Swal.mixin({
     toast: true,
     position: 'center',
     showConfirmButton: true,
-    timer: 3000,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-      toast.addEventListener('mouseenter', Swal.stopTimer);
-      toast.addEventListener('mouseleave', Swal.resumeTimer);
-    },
+    //timer: 3000,
+    //timerProgressBar: true,
   });
 
   loadingScreen = this.loadingController.create({
@@ -46,17 +45,37 @@ export class ProjectCreatePage implements OnInit {
     private localStorage: LocalStorageService,
     public loadingController: LoadingController,
     private router: Router,
-  ) { }
+    private platform: Platform,
+  ) {
+    this.initForm();
+   }
 
   async ngOnInit() {
     await (await this.loadingScreen).present();
     this.roles = await this.getAllRoles();
     this.users = await this.getAllUsers();
-    this.initForm();
     this.creator = await this.localStorage.getUserData();
     this.addPartyUser();
-    this.setUser('0', 'user', this.creator);
+    //this.setUser('0', 'user', this.creator);
+
+    this.platform.backButton.subscribeWithPriority(9999, (processNextHandler) => {
+      if (this.isCurrentView) {
+        this.displayWarning = true;
+        // Or other stuff that you want to do to warn the user.
+      } else {
+        processNextHandler();
+      }
+    });
     await (await this.loadingScreen).dismiss();
+    console.log('roles', this.roles);
+  }
+
+  ionViewDidEnter() {
+    this.isCurrentView = true;
+  }
+
+  ionViewWillLeave() {
+    this.isCurrentView = false;
   }
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
@@ -136,6 +155,7 @@ export class ProjectCreatePage implements OnInit {
   setUser(index: string, name: string, value: any) {
     // Insertamos los datos del usuario ya sea rol o id en el FormGroup,
     // de acuerdo a su posicion en la coleccion y el identificador del valor.
+    console.log('$event',value);
     this.party.get(index).get(name).setValue(value);
   }
 
@@ -171,7 +191,7 @@ export class ProjectCreatePage implements OnInit {
     return users.map(user => ({ text: user.names, value: user }));
   }
 
-  getPartyIds(party: User[]){
+  getPartyIds(party: User[]) {
     const ids: string[] = [];
     party.forEach(element => {
       ids.push(element.id);
@@ -205,7 +225,11 @@ export class ProjectCreatePage implements OnInit {
   async saveProject() {
     try {
       if (this.formProject.valid) {
-        await (await this.loadingScreen).present();
+        this.loadingScreen = this.loadingController.create({
+          cssClass: 'my-custom-class',
+          message: 'Cargando...',
+        });
+        (await this.loadingScreen).present();
         const party = await this.mapParty();
         const project: Project = {
           name: this.formProject.get('name').value,
@@ -223,15 +247,18 @@ export class ProjectCreatePage implements OnInit {
         await this.projectsService.saveProject(project).then(
           async (resp) => {
             console.log('response', resp);
-            await (await this.loadingScreen).dismiss();
+
             if (resp !== 'error') {
               this.alert.fire({
                 icon: 'success',
                 title: 'Bien!!!',
                 text: 'Proyecto registrado correctamente',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
               }).then(
-                (result) => {
+                async (result) => {
                   if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
+                    (await this.loadingScreen).dismiss();
                     this.router.navigate(['/menu/home']);
                   }
                 }

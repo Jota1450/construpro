@@ -59,18 +59,19 @@ export class NoteCreatePage implements OnInit {
     private imagePicker: ImagePicker,
     public loadingController: LoadingController,
     private router: Router,
-  ) { }
+  ) {
+    this.initForm();
+   }
 
   async ngOnInit() {
     this.user = await this.localStorageService.getUserData();
-    this.initForm();
     await this.getAllUsers();
   }
 
-  initForm() {
+  async initForm() {
     this.imagePicker.hasReadPermission().then(
       (value) => {
-        console.log('value', value);
+        //console.log('value bool', value, value === true, value == true);
         if (value == true) {
           this.imagePicker.hasReadPermission();
         }

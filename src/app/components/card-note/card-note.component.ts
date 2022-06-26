@@ -12,7 +12,7 @@ export class ProCardNote implements OnInit {
   @Input() note= '';
   @Input() names= '';
   @Input() lastNames= '';
-  
+
   constructor() { }
 
   ngOnInit() {}

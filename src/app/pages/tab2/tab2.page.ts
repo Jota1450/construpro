@@ -18,26 +18,29 @@ export class Tab2Page{
   constructor(
     private notesService: NotesService,
     private localStorageService: LocalStorageService,
-  ) {this.onInit();}
+  ) {
+    this.onInit();
+  }
 
   async onInit(){
-    await this.getNotes();
-    await this.localStorageService.getProjectData().then(
-      (project) => this.project = project
-    );
+    this.notes = await this.getNotes();
+    this.project = await this.localStorageService.getProjectData();
+    console.log('notes', this.notes);
   }
 
   formatDate(date){
     return moment(date.toDate().toString()).format('dddd, D MMMM YYYY');
   }
 
-  async getNotes() {
+  async getNotes(): Promise<Note[]> {
     // En este metodo todos los proyectos.
     const id: string = (await this.localStorageService.getProjectData()).id;
     if (id) {
-      await this.notesService.getNotesById(id).subscribe(
-        notes => this.notes = notes
-      );
+      return new Promise((resolver, rechazar) => {
+        this.notesService.getNotesById(id).subscribe(
+          notes => resolver(notes)
+        );
+      });
     }
   }
 }
