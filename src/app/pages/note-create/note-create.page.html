@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button style="color: #980000 !important;"></ion-back-button>
     </ion-buttons>
-    <ion-title class="toolbartitle">Proyectos</ion-title>
+    <ion-title class="toolbartitle">Crear Anotación</ion-title>
 
   </ion-toolbar>
 </ion-header>
@@ -23,16 +23,7 @@
       placeholder="Detalles de la anotación">
       </ion-textarea>
 
-
-
-      <div class="row" *ngIf="users">
-        <div class="col">
-          <pro-select [title]="'Interventor Asignado'" [options]="mapUsers(users)" (outputValue)="setValue('user', $event)">
-          </pro-select>
-        </div>
-      </div>
-
-      <div class="row">
+      <div class="row btn-img">
         <div class="col">
           <pro-button [text]="'Cargar Imágenes'" (click)="pickImages()"></pro-button>
 
@@ -56,12 +47,21 @@
         </div>
       </div>
 
+
+      <div class="row" *ngIf="users">
+        <div class="col">
+          <pro-select [title]="'Interventor Asignado'" [options]="mapUsers(users)" (outputValue)="setValue('user', $event)">
+          </pro-select>
+        </div>
+      </div>
+
+     
+
       <div class="row">
         <div class="col btn">
           <pro-button [text]="'Crear'" [type]="'submit'" (click)="saveNote()"></pro-button>
         </div>
       </div>
-
 
     </div>
 
