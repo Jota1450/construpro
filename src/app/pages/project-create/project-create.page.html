@@ -94,16 +94,16 @@
               </div>
             </div>
           </div>
-
-          <button class="adduserrole" (click)="addPartyUser()">Agregar
-            <span>
-              <ion-icon name="add"></ion-icon>
-            </span>
-          </button>
-
+          <div class="addusercenter">
+            <ion-icon class="adduserrole" (click)="addPartyUser()" name="add-circle"></ion-icon>
+          </div>
+            
         </div>
 
-        <pro-button [text]="'Crear'" [type]="'submit'" (click)="saveProject()"></pro-button>
+        <div class="submit">
+          <pro-button [text]="'Crear'" [type]="'submit'" (click)="saveProject()"></pro-button>
+        </div>
+        
       </form>
     </div>
 

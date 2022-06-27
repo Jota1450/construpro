@@ -22,13 +22,12 @@
     justify-content: center;
 }
 .adduserrole{
-    margin: 20px;
-    padding: 20px;
+    color: #980000;
+    font-size: 60px;
+}
+.addusercenter{
     display: flex;
     justify-content: center;
-    background-color: #980000;
-    color: #FFFFFF;
-    max-width: 300px;
 }
 .createbutton{
     padding: 5px;
@@ -40,4 +39,9 @@
   font-family: 'Poppins', sans-serif;
   border-radius: 10px !important;
   border: 1px solid #171717 !important;
+}
+.submit{
+    display: flex;
+    justify-content: center;
+    padding: 10px;
 }
