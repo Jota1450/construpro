@@ -72,6 +72,6 @@ export class Tab2Page implements OnDestroy {
   }
 
   retroceder(){
-     this.navController.navigateBack(['/home']);
+     this.navController.navigateBack(['/menu/home']);
   }
 }
