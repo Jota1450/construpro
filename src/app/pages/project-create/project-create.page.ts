@@ -56,7 +56,7 @@ export class ProjectCreatePage implements OnInit {
     this.users = await this.getAllUsers();
     this.creator = await this.localStorage.getUserData();
     this.addPartyUser();
-    //this.setUser('0', 'user', this.creator);
+    this.setUser('0', 'user', this.creator);
 
     this.platform.backButton.subscribeWithPriority(9999, (processNextHandler) => {
       if (this.isCurrentView) {

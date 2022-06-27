@@ -1,6 +1,6 @@
 import { CommentsService } from './../../services/comments.service';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Note } from 'src/app/models/note';
 import { User } from 'src/app/models/user';
 import { Comment } from 'src/app/models/comment';
@@ -9,6 +9,7 @@ import { NotesService } from 'src/app/services/notes.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import * as moment from 'moment';
+import { LoadingController } from '@ionic/angular';
 
 
 @Component({
@@ -35,12 +36,19 @@ export class CommentCreatePage implements OnInit {
     },
   });
 
+  loadingScreen = this.loadingController.create({
+    cssClass: 'my-custom-class',
+    message: 'Cargando...',
+  });
+
   constructor(
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private notesService: NotesService,
     private localStorage: LocalStorageService,
     private commentsService: CommentsService,
+    public loadingController: LoadingController,
+    private router: Router,
   ) {
     this.initForm();
   }
@@ -79,6 +87,7 @@ export class CommentCreatePage implements OnInit {
     if (this.formComment.valid) {
       const id: string = (await this.localStorage.getProjectData()).id;
       if (this.note && this.user) {
+        await (await this.loadingScreen).present();
         const comment: Comment = {
           body: this.formComment.get('body').value,
           createdAt: new Date().toISOString(),
@@ -94,14 +103,29 @@ export class CommentCreatePage implements OnInit {
                     icon: 'success',
                     title: 'Bien!!!',
                     text: 'Comentario registrado correctamente',
-                  });
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                  }).then(
+                    async (result) => {
+                      if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
+                        (await this.loadingScreen).dismiss();
+                        this.router.navigate(['/note-detail/' + this.note.id]);
+                      }
+                    }
+                  );
                 }
               } catch (error) {
                 this.alert.fire({
                   icon: 'error',
                   title: 'Oops...',
                   text: 'Something went wrong!',
-                });
+                }).then(
+                  async (result) => {
+                    if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
+                      (await this.loadingScreen).dismiss();
+                    }
+                  }
+                );
               }
             }
           ).catch(
@@ -116,7 +140,7 @@ export class CommentCreatePage implements OnInit {
             }
           );
         }
-      }
+      } else { }
     } else {
       console.log('formControl', this.formComment);
     }
