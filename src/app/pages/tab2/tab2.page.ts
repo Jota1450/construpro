@@ -1,19 +1,22 @@
 import { Project } from 'src/app/models/project';
 import { NotesService } from './../../services/notes.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { Note } from 'src/app/models/note';
 import * as moment from 'moment';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss']
 })
-export class Tab2Page{
+export class Tab2Page {
+
 
   notes: Note[];
   project: Project;
+  private subscriptions = new Subscription();
 
   constructor(
     private notesService: NotesService,
@@ -23,9 +26,17 @@ export class Tab2Page{
   }
 
   async onInit(){
-    this.notes = await this.getNotes();
     this.project = await this.localStorageService.getProjectData();
     console.log('notes', this.notes);
+  }
+
+  async ionViewWillEnter() {
+    this.notes = await this.getNotes();
+  }
+
+  ionViewDidLeave() {
+    console.log('sali');
+    this.subscriptions.unsubscribe();
   }
 
   formatDate(date){
@@ -37,8 +48,10 @@ export class Tab2Page{
     const id: string = (await this.localStorageService.getProjectData()).id;
     if (id) {
       return new Promise((resolver, rechazar) => {
-        this.notesService.getNotesById(id).subscribe(
-          notes => resolver(notes)
+        this.subscriptions.add(
+          this.notesService.getNotesById(id).subscribe(
+            notes => resolver(notes)
+          )
         );
       });
     }

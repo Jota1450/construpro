@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage implements OnInit, OnDestroy {
+export class HomePage {
 
   projects: Project[] = null;
   user: User;
@@ -28,7 +28,8 @@ export class HomePage implements OnInit, OnDestroy {
     private usersService: UsersService
   ) { }
 
-  async ngOnInit() {
+
+  async ionViewWillEnter() {
     await this.localStorage.deleteProjectData();
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
@@ -38,7 +39,7 @@ export class HomePage implements OnInit, OnDestroy {
     console.log(this.user);
   }
 
-  ngOnDestroy() {
+  ionViewDidLeave() {
     this.subscriptions.unsubscribe();
   }
 
