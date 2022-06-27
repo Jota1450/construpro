@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button class="backbutton" [routerLink]="['/menu/home/']">
+      <ion-button class="backbutton" (click)="retroceder()">
         <ion-icon name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -49,7 +49,7 @@
     </ion-fab-button>
   </div>
 
-  <ion-modal #modal trigger="open-modal" [initialBreakpoint]="0.3" [breakpoints]="[0, 0.3]">
+  <ion-modal #modal trigger="open-modal" [initialBreakpoint]="0.4" [breakpoints]="[0, 0.4]">
     <ng-template>
       <ion-content>
         <div class="row modaltitle-div">
@@ -67,7 +67,7 @@
         </div>
         <div class="buttons">
 
-          
+
         <div class="row">
           <ng-container *ngIf="toggleFilter; else toggleTemplate">
             <div>
@@ -78,7 +78,7 @@
               <pro-button-outline [text]="'Filtrar'" ></pro-button-outline>
             </div>
           </ng-container>
-          
+
           <ng-template #toggleTemplate>
             <div>
               <ion-label>Filtrar estados</ion-label>
@@ -88,7 +88,7 @@
               <pro-button-outline [text]="'Filtrar'" ></pro-button-outline>
             </div>
           </ng-template>
-          
+
         </div>
 
         <div class="row">

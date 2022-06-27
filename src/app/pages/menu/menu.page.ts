@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
-import { MenuController } from '@ionic/angular';
+import { MenuController, NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-menu',
@@ -13,7 +13,10 @@ export class MenuPage implements OnInit {
   nombre: string;
   apellido: string;
 
-  constructor(private authService: AuthService, private router: Router,
+  constructor(
+    private authService: AuthService,
+    //private router: Router,
+    private navController: NavController,
     private localStorage: LocalStorageService,
     private menu: MenuController,
     ) {
@@ -27,7 +30,8 @@ export class MenuPage implements OnInit {
     this.authService.signOut();
     this.localStorage.clear();
     this.menu.close();
-    this.router.navigate(['login']);
+    //this.router.navigate(['/login']);
+    this.navController.navigateBack(['/login']);
   }
 
 }

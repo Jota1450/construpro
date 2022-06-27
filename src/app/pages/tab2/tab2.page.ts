@@ -5,15 +5,16 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { Note } from 'src/app/models/note';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss']
 })
-export class Tab2Page {
+export class Tab2Page implements OnDestroy {
 
-  toggleFilter: boolean = false;
+  toggleFilter = false;
   notes: Note[];
   project: Project;
   private subscriptions = new Subscription();
@@ -21,6 +22,7 @@ export class Tab2Page {
   constructor(
     private notesService: NotesService,
     private localStorageService: LocalStorageService,
+    private navController: NavController
   ) {
     this.onInit();
   }
@@ -35,7 +37,10 @@ export class Tab2Page {
   }
 
   ionViewDidLeave() {
-    console.log('sali');
+    this.subscriptions.unsubscribe();
+  }
+
+  ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
 
@@ -50,10 +55,17 @@ export class Tab2Page {
       return new Promise((resolver, rechazar) => {
         this.subscriptions.add(
           this.notesService.getNotesById(id).subscribe(
-            notes => resolver(notes)
+            notes => {
+              this.notes = notes;
+              resolver(notes);
+            }
           )
         );
       });
     }
+  }
+
+  retroceder(){
+     this.navController.navigateBack(['/home']);
   }
 }

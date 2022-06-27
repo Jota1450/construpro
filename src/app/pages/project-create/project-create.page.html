@@ -2,7 +2,7 @@
   <ng-container *ngIf="users && roles">
     <header class="header">
       <div class="imgcontainer">
-        <ion-button class="buttonback" [routerLink]="['/menu/home']">
+        <ion-button class="buttonback" (click)="retroceder()">
           <ion-icon slot="start" name="arrow-back"></ion-icon>
         </ion-button>
         <img class="img-fluid" style="max-height: 30%;"
@@ -50,8 +50,6 @@
           </div>
         </div>
 
-
-
         <div class="card" style="padding: 10px;">
           <div class="card" style="padding: 10px;" formArrayName="party"
             *ngFor="let user of party.controls; let i = index">
@@ -66,7 +64,7 @@
                 <label for="basic-url" class="form-label"> Usuario </label>
                 <div class="input-group mb-1">
                   <ng-container *ngIf="i === 0; else elseTemplate">
-                    <select class="form-select select" formControlName="user" disabled>
+                    <select class="form-select select" formControlName="user" [attr.disabled]="true">
                       <option [ngValue]="creator" [selected]="'true'">
                         {{ creator.names }}
                       </option>
@@ -97,13 +95,13 @@
           <div class="addusercenter">
             <ion-icon class="adduserrole" (click)="addPartyUser()" name="add-circle"></ion-icon>
           </div>
-            
+
         </div>
 
         <div class="submit">
           <pro-button [text]="'Crear'" [type]="'submit'" (click)="saveProject()"></pro-button>
         </div>
-        
+
       </form>
     </div>
 

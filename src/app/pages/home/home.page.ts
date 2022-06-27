@@ -8,45 +8,81 @@ import { User } from 'src/app/models/user';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnDestroy {
 
   projects: Project[] = null;
   user: User;
-  isLoading = true;
   private subscriptions = new Subscription();
 
   constructor(
     private projectsService: ProjectsService,
     private localStorage: LocalStorageService,
     private router: Router,
+    private navController: NavController,
     private usersService: UsersService
   ) { }
-
+  ngOnDestroy(): void {
+    console.log('sali3');
+    this.subscriptions.unsubscribe();
+  }
 
   async ionViewWillEnter() {
+    console.log('aa', this.subscriptions.closed);
+    if (this.subscriptions.closed) {
+      this.subscriptions.unsubscribe();
+      //this.subscriptions.remove(0);
+    }
+
     await this.localStorage.deleteProjectData();
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
     this.user = await this.localStorage.getUserData();
     await this.getAllProjects();
+    /*this.subscriptions.add(
+      this.projectsService.getProjectsByUser(this.user.id).subscribe(
+        (projects) => {
+          this.projects = projects;
+        }
+      )
+    );*/
+    this.subscriptions.unsubscribe();
+
     //await this.getCurrentUser();
     console.log(this.user);
   }
 
   ionViewDidLeave() {
+    console.log('ionViewDidLeave');
+
     this.subscriptions.unsubscribe();
+  }
+
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad ');
+  }
+  ionViewDidEnter() {
+    console.log('ionViewDidEnter ');
+  }
+  ionViewWillLeave() {
+    console.log('ionViewWillLeave');
+  }
+
+  ionViewWillUnload() {
+    console.log('ionViewWillUnload    ');
   }
 
   async saveProjectData(project: Project) {
     this.localStorage.deleteProjectData();
     this.localStorage.setProjectData(project).then(
       () => {
+        //this.navController.navigateRoot(['/menu/tabs']);
         this.router.navigate(['/menu/tabs']);
       }
     ).catch(
@@ -85,15 +121,19 @@ export class HomePage {
     // En este metodo todos los proyectos.
     //this.projects = await this.projectsService.getProjectsByUser(this.user.id );
     //this.projectsService.getProjectsByUser(this.user.id).subscribe(
-    this.projects = await new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       this.subscriptions.add(
         this.projectsService.getProjectsByUser(this.user.id).subscribe(
           projects => {
+            this.projects = projects;
             resolve(projects);
-            this.isLoading = true;
           }
         )
       );
     });
+  }
+
+  goTo(route: string) {
+    this.navController.navigateBack([route]);
   }
 }

@@ -33,7 +33,7 @@
   </ng-template>
 
   <div class="floatingbutton">
-    <ion-fab-button [routerLink]="['/project-create']" class="addbutton">
+    <ion-fab-button (click)="goTo('/project-create')" class="addbutton">
       <ion-icon class="addicon" name="add"></ion-icon>
     </ion-fab-button>
   </div>

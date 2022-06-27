@@ -7,8 +7,7 @@ import { Rol } from 'src/app/models/rol';
 import { Project } from 'src/app/models/project';
 import Swal from 'sweetalert2';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
-import { LoadingController, Platform } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { LoadingController, NavController, Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-project-create',
@@ -44,7 +43,8 @@ export class ProjectCreatePage implements OnInit {
     private projectsService: ProjectsService,
     private localStorage: LocalStorageService,
     public loadingController: LoadingController,
-    private router: Router,
+    //private router: Router,
+    private navController: NavController,
     private platform: Platform,
   ) {
     this.initForm();
@@ -68,14 +68,6 @@ export class ProjectCreatePage implements OnInit {
     });
     await (await this.loadingScreen).dismiss();
     console.log('roles', this.roles);
-  }
-
-  ionViewDidEnter() {
-    this.isCurrentView = true;
-  }
-
-  ionViewWillLeave() {
-    this.isCurrentView = false;
   }
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
@@ -259,7 +251,7 @@ export class ProjectCreatePage implements OnInit {
                 async (result) => {
                   if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
                     (await this.loadingScreen).dismiss();
-                    this.router.navigate(['/menu/home']);
+                    this.retroceder();
                   }
                 }
               );
@@ -301,6 +293,9 @@ export class ProjectCreatePage implements OnInit {
         text: error.toString(),
       });
     }
-
   }
+
+  retroceder(){
+    this.navController.navigateBack(['/menu/home']);
+ }
 }
