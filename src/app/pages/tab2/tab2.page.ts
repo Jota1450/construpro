@@ -65,6 +65,12 @@ export class Tab2Page implements OnDestroy {
     }
   }
 
+  filtrar(){
+    if (this.toggleFilter) {
+
+    }
+  }
+
   retroceder(){
      this.navController.navigateBack(['/home']);
   }

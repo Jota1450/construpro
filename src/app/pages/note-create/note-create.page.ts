@@ -12,8 +12,7 @@ import Swal from 'sweetalert2';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { finalize } from 'rxjs/operators';
 import { ImagePicker, ImagePickerOptions } from '@awesome-cordova-plugins/image-picker/ngx';
-import { LoadingController } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { LoadingController, NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-note-create',
@@ -58,7 +57,7 @@ export class NoteCreatePage implements OnInit {
     private fireStorage: AngularFireStorage,
     private imagePicker: ImagePicker,
     public loadingController: LoadingController,
-    private router: Router,
+    private navController: NavController
   ) {
     this.initForm();
    }
@@ -163,7 +162,7 @@ export class NoteCreatePage implements OnInit {
                 async (result) => {
                   if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
                     await (await this.loadingScreen).dismiss();
-                    this.router.navigate(['/tabs/tab2']);
+                    this.navController.navigateBack(['/tabs/tab2']);
                   }
                 }
               );

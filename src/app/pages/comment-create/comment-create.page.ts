@@ -9,7 +9,7 @@ import { NotesService } from 'src/app/services/notes.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import * as moment from 'moment';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, NavController } from '@ionic/angular';
 
 
 @Component({
@@ -48,7 +48,7 @@ export class CommentCreatePage implements OnInit {
     private localStorage: LocalStorageService,
     private commentsService: CommentsService,
     public loadingController: LoadingController,
-    private router: Router,
+    private navController: NavController
   ) {
     this.initForm();
   }
@@ -109,7 +109,7 @@ export class CommentCreatePage implements OnInit {
                     async (result) => {
                       if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
                         (await this.loadingScreen).dismiss();
-                        this.router.navigate(['/note-detail/' + this.note.id]);
+                        this.navController.navigateBack(['/note-detail/' + this.note.id]);
                       }
                     }
                   );
