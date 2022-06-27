@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs';
 })
 export class Tab2Page {
 
-
+  toggleFilter: boolean = false;
   notes: Note[];
   project: Project;
   private subscriptions = new Subscription();

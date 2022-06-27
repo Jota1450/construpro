@@ -11,6 +11,11 @@
     <ng-template #elseTemplate3>
       <ion-title class="toolbartitle">Project Name</ion-title>
     </ng-template>
+    <ion-buttons slot="end">
+      <ion-button class="backbutton" id="open-modal">
+        <ion-icon name="filter"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -44,6 +49,56 @@
     </ion-fab-button>
   </div>
 
+  <ion-modal #modal trigger="open-modal" [initialBreakpoint]="0.3" [breakpoints]="[0, 0.3]">
+    <ng-template>
+      <ion-content>
+        <div class="row modaltitle-div">
+          <div class="col-8">
+            <ion-label class="modal-title">Filtrar por</ion-label>
+          </div>
+          <div class="col-4 toggle">
+            <ion-label>
+              Tipo de Filtro
+            </ion-label>
+            <ion-toggle [(ngModel)]="toggleFilter">
 
+            </ion-toggle>
+          </div>
+        </div>
+        <div class="buttons">
+
+          
+        <div class="row">
+          <ng-container *ngIf="toggleFilter; else toggleTemplate">
+            <div>
+              <ion-label>Filtrar anotantes</ion-label>
+              <pro-select [title]="''" ></pro-select>
+            </div>
+            <div class="col filter">
+              <pro-button-outline [text]="'Filtrar'" ></pro-button-outline>
+            </div>
+          </ng-container>
+          
+          <ng-template #toggleTemplate>
+            <div>
+              <ion-label>Filtrar estados</ion-label>
+              <pro-select [title]="''" ></pro-select>
+            </div>
+            <div class="col filter">
+              <pro-button-outline [text]="'Filtrar'" ></pro-button-outline>
+            </div>
+          </ng-template>
+          
+        </div>
+
+        <div class="row">
+          <div class="col reestablecer">
+            <pro-button [text]="'Reestablecer'"></pro-button>
+          </div>
+        </div>
+      </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 
 </ion-content>

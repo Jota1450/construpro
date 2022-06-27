@@ -61,3 +61,42 @@
   width: 60%;
   height: 60%;
 }
+
+.modaltitle-div{
+  padding: 12px 5px;
+}
+ion-toggle {
+  --background: #c7c7c7;
+  --background-checked: #980000;
+
+  --handle-background: #fff;
+  --handle-background-checked: #fff;
+}
+.toggle{
+  display: flex;
+  align-items: center;
+}
+.buttons{
+  margin-left: 5%;
+  margin-right: 5%;
+}
+.modal-title{
+  font-style: normal;
+  font-weight: 700;
+  font-size: 22px;
+}
+
+.filter{
+  margin: auto;
+  padding: 0px 0px 5px 0px;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
+.reestablecer{
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  padding-top: 15px;
+  width: 300px;
+}
