@@ -45,7 +45,7 @@ export class LoginPage implements OnInit {
 
     //console.log(await this.localStorage.getUserData());
     const user: User = await this.localStorage.getUserData();
-    console.log('a',user);
+    console.log('a', user);
     await (await this.loadingScreen).dismiss();
     if (user) {
       if (this.authService.getUid != null) {
@@ -55,31 +55,56 @@ export class LoginPage implements OnInit {
   }
 
   async logIn() {
-    this.localStorage.clear();
-    await this.authService.signIn(this.email, this.password).then(
-      async (res) => {
-        if (res) {
-          this.usersService.getUser(res.user.uid).subscribe(
-            result => {
-              this.localStorage.setUserData(result);
+    if (this.email && this.password && this.email !== '' && this.password !== '') {
+      this.loadingScreen = this.loadingController.create({
+        cssClass: 'my-custom-class',
+        message: 'Cargando...',
+      });
+      await (await this.loadingScreen).present();
+      this.localStorage.clear();
+      await this.authService.signIn(this.email, this.password).then(
+        async (res) => {
+          if (res) {
+            await new Promise((resolve, reject) => {
+              this.usersService.getUser(res.user.uid).subscribe(
+                result => {
+                  this.localStorage.setUserData(result);
+                  resolve(result);
+                }
+              );
+            });
+
+            if (this.authService.getUid != null) {
+              this.router.navigate(['/menu/home']);
+            };
+            await (await this.loadingScreen).dismiss();
+
+          }
+        }
+      ).catch(
+        (error) => {
+          //console.log(error);
+          this.alert.fire({
+            title: error.message,
+            text: 'Do you want to continue',
+            icon: 'error',
+            confirmButtonText: 'Cool'
+          }).then(
+            async (result) => {
+              if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
+                (await this.loadingScreen).dismiss();
+              }
             }
           );
-
-          if (this.authService.getUid != null) {
-            this.router.navigate(['/menu/home']);
-          };
         }
-      }
-    ).catch(
-      (error) => {
-        //console.log(error);
-        this.alert.fire({
-          title: error.message,
-          text: 'Do you want to continue',
-          icon: 'error',
-          confirmButtonText: 'Cool'
-        });
-      }
-    );
+      );
+    } else {
+      this.alert.fire({
+        title: 'error',
+        text: 'Do you want to continue',
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      });
+    }
   }
 }

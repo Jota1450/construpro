@@ -7,6 +7,7 @@ import { ComponentsModule } from '../../components/components.module';
 import { User } from 'src/app/models/user';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -15,8 +16,10 @@ import * as moment from 'moment';
 })
 export class HomePage implements OnInit, OnDestroy {
 
-  projects: Project[] = [];
+  projects: Project[] = null;
   user: User;
+  isLoading = true;
+  private subscriptions = new Subscription();
 
   constructor(
     private projectsService: ProjectsService,
@@ -30,16 +33,16 @@ export class HomePage implements OnInit, OnDestroy {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
     this.user = await this.localStorage.getUserData();
-    this.getAllProjects();
+    await this.getAllProjects();
     //await this.getCurrentUser();
     console.log(this.user);
   }
 
-  ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 
-  async saveProjectData(project: Project){
+  async saveProjectData(project: Project) {
     this.localStorage.deleteProjectData();
     this.localStorage.setProjectData(project).then(
       () => {
@@ -53,12 +56,12 @@ export class HomePage implements OnInit, OnDestroy {
     //this.findCurrentRol(project);
   }
 
-  formatDateString(date: string){
+  formatDateString(date: string) {
     return moment(date).format('dddd, D MMMM YYYY');
   }
 
-  findCurrentRol(project: Project){
-    console.log('party',project.party);
+  findCurrentRol(project: Project) {
+    console.log('party', project.party);
     const rolId = project?.party?.find(element => element.id === this.user.id).id;
     this.usersService.getRol(rolId).subscribe(
       (rol) => {
@@ -81,11 +84,15 @@ export class HomePage implements OnInit, OnDestroy {
     // En este metodo todos los proyectos.
     //this.projects = await this.projectsService.getProjectsByUser(this.user.id );
     //this.projectsService.getProjectsByUser(this.user.id).subscribe(
-    this.projectsService.getProjectsByUser(this.user.id).subscribe(
-      //projects => console.log(projects)
-      projects => this.projects = projects
-    );
-
+    this.projects = await new Promise((resolve, reject) => {
+      this.subscriptions.add(
+        this.projectsService.getProjectsByUser(this.user.id).subscribe(
+          projects => {
+            resolve(projects);
+            this.isLoading = true;
+          }
+        )
+      );
+    });
   }
-
 }
