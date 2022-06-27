@@ -5,36 +5,45 @@
         <ion-icon name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ng-container *ngIf="project; else elseTemplate">
+    <ng-container *ngIf="project; else elseTemplate3">
       <ion-title class="toolbartitle">{{ project.name }}</ion-title>
     </ng-container>
-    <ng-template #elseTemplate>
+    <ng-template #elseTemplate3>
       <ion-title class="toolbartitle">Project Name</ion-title>
     </ng-template>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ng-container *ngIf="notes">
-    <div class="row" *ngFor="let note of notes">
-      <div class="col card">
-        <div class="procard">
-          <pro-card-note [routerLink]="['/note-detail/'+note.id]" [time]="'5:00'" [date]="formatDate(note.date)"
-            [note]="note.body" [names]="note.creatorUser.names" [lastNames]="note.creatorUser.lastNames">
-          </pro-card-note>
+  <ng-container *ngIf="notes; else elseTemplate">
+    <ng-container *ngIf="notes.length > 0; else elseTemplate2">
+      <div class="row" *ngFor="let note of notes">
+        <div class="col card">
+          <div class="procard">
+            <pro-card-note [routerLink]="['/note-detail/'+note.id]" [time]="'5:00'" [date]="formatDate(note.date)"
+              [note]="note.body" [names]="note.creatorUser.names" [lastNames]="note.creatorUser.lastNames">
+            </pro-card-note>
+          </div>
         </div>
       </div>
-    </div>
-
-    <div div *ngIf="notes.length === 0" class="no-notes">
-      Presiona el simbolo de añadir para crear nuevas anotaciones.
-    </div>
-
-    <div class="floatingbutton">
-      <ion-fab-button [routerLink]="['/note-create']" class="addbutton">
-        <ion-icon class="addicon" name="add"></ion-icon>
-      </ion-fab-button>
-    </div>
-
+    </ng-container>
+    <ng-template #elseTemplate2>
+      <div div class="no-notes">
+        Presiona el simbolo de añadir para crear nuevas anotaciones.
+      </div>
+    </ng-template>
   </ng-container>
+  <ng-template #elseTemplate>
+    <div div class="no-projects">
+      <ion-spinner></ion-spinner>
+    </div>
+  </ng-template>
+  <div class="floatingbutton">
+    <ion-fab-button [routerLink]="['/note-create']" class="addbutton">
+      <ion-icon class="addicon" name="add"></ion-icon>
+    </ion-fab-button>
+  </div>
+
+
+
 </ion-content>
