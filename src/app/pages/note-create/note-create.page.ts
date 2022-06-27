@@ -280,4 +280,11 @@ export class NoteCreatePage implements OnInit {
     }
     return result;
   }
+
+  carousselPrev(){
+    
+  }
+  carousselNext(){
+
+  }
 }
