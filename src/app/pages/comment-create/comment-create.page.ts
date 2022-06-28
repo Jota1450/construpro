@@ -21,7 +21,7 @@ export class CommentCreatePage implements OnInit {
 
   note: Note;
   user: User;
-
+  formSended = false;
   formComment: FormGroup;
 
   alert = Swal.mixin({
@@ -84,6 +84,7 @@ export class CommentCreatePage implements OnInit {
   }
 
   async saveComment() {
+    this.formSended = true;
     if (this.formComment.valid) {
       const id: string = (await this.localStorage.getProjectData()).id;
       if (this.note && this.user) {

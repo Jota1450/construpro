@@ -28,6 +28,8 @@ export class NoteCreatePage implements OnInit {
   imageUrls: any[] = [];
   user: User;
 
+  formSended = false;
+
   project: Project;
 
   today = new Date();
@@ -125,7 +127,7 @@ export class NoteCreatePage implements OnInit {
   }
 
   async saveNote() {
-
+    this.formSended = true;
     if (this.formNote.valid) {
       await (await this.loadingScreen).present();
       const id: string = (await this.localStorageService.getProjectData()).id;
