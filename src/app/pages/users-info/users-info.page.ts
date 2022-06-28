@@ -159,7 +159,7 @@ export class UsersInfoPage implements OnInit {
           this.alert.fire({
             icon: 'success',
             title: 'Bien!!!',
-            text: 'Proyecto registrado correctamente',
+            text: 'Proyecto actualizado correctamente',
             allowOutsideClick: false,
             allowEscapeKey: false,
           }).then(
