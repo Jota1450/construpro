@@ -17,7 +17,9 @@ import Swal from 'sweetalert2';
 })
 export class UsersInfoPage implements OnInit {
 
+  currentUser: User;
   users: User[];
+  allUsers: User[];
   roles: Rol[];
   project: Project;
   formProject: FormGroup;
@@ -51,6 +53,8 @@ export class UsersInfoPage implements OnInit {
 
   async ngOnInit() {
     await (await this.loadingScreen).present();
+    this.allUsers = await this.getAllUsers();
+    this.currentUser = await this.localStorage.getUserData();
     this.roles = await this.getAllRoles();
     this.project = await this.localStorage.getProjectData();
     this.users = this.project.party;
@@ -64,6 +68,14 @@ export class UsersInfoPage implements OnInit {
         party: this.formBuilder.array([]),
       }
     );
+  }
+
+  isLegacy(index): boolean{
+    if (index < this.users.length) {
+      return this.currentUser.id !== this.users[index].id;
+    } else {
+      return true;
+    }
   }
 
   ionViewDidLeave() {
@@ -129,6 +141,15 @@ export class UsersInfoPage implements OnInit {
         this.usersService.getAllRoles().subscribe(
           roles => resolve(roles)
         )
+      );
+    });
+  }
+
+  async getAllUsers(): Promise<User[]> {
+    // En este metodo obtenemos los roles
+    return await new Promise((resolve, reject) => {
+      this.usersService.getAllUsers().subscribe(
+        users => resolve(users)
       );
     });
   }
