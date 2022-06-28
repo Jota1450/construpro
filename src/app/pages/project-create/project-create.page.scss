@@ -1,54 +1,64 @@
+.imgcontainer {
+  text-align: center;
+}
 
-.imgcontainer{
-    text-align: center;
+.img {
+  object-fit: fill;
 }
-.img{
-    object-fit: fill;
-}
+
 .backbutton {
-    color: #980000;
-    font-size: 24px;
-    padding-right: 15px;
-  }
-.error{
-    padding-left: 15px;
-    padding-bottom: 5px;
-    color: red;
-  }
-.form{
-    margin: 5%;
+  color: #980000;
+  font-size: 24px;
+  padding-right: 15px;
 }
-.formTitle{
-    font-size: 22px;
-    border-bottom-style: solid;
-    border-bottom-width: 1px;
-    border-color: #980000;
-    margin-bottom: 8px;
+
+.error {
+  padding-left: 15px;
+  padding-bottom: 5px;
+  color: red;
 }
-.usersTitle{
-    font-size: 20px;
-    padding: 10px;
+
+.form {
+  margin: 5%;
 }
-.buttoncreate{
-    align-content: center;
+
+.formTitle {
+  font-size: 22px;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-color: #980000;
+  margin-bottom: 8px;
 }
-.childcard{
-    padding: 10px;
-    display: flex;
-    justify-content: center;
+
+.usersTitle {
+  font-size: 20px;
+  padding: 10px;
 }
-.adduserrole{
-    color: #980000;
-    font-size: 60px;
+
+.buttoncreate {
+  align-content: center;
 }
-.addusercenter{
-    display: flex;
-    justify-content: center;
+
+.childcard {
+  padding: 10px;
+  display: flex;
+  justify-content: center;
 }
-.createbutton{
-    padding: 5px;
-    display: flex;
-    justify-content: center;
+
+.adduserrole {
+  color: #980000;
+  font-size: 60px;
+}
+
+.addusercenter {
+  display: flex;
+  justify-content: center;
+}
+
+.createbutton {
+  padding: 5px;
+  display: flex;
+  justify-content: center;
 }
 
 .select {
@@ -56,8 +66,9 @@
   border-radius: 10px !important;
   border: 1px solid #171717 !important;
 }
-.submit{
-    display: flex;
-    justify-content: center;
-    padding: 10px;
+
+.submit {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
 }
