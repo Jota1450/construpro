@@ -93,6 +93,51 @@ export class NotesService {
     }
   }
 
+  getNotesByCreator(projectId: string, creatorId: string): Observable<Note[]> {
+    try {
+      // Obtenemos todos los proyectos.
+      // eslint-disable-next-line max-len
+      const rolesCollection: AngularFirestoreCollection<Note> = this.firestore.collection('Notes',
+        ref => ref.where('projectId', '==', projectId).where('creatorUser.id', '==', creatorId).orderBy('date', 'desc')
+      );
+
+      //rolesCollection.ref.orderBy('date', 'desc');
+      return rolesCollection.snapshotChanges().pipe(
+        map(changes => changes.map(
+          action => {
+            const data = action.payload.doc.data() as Note;
+            data.id = action.payload.doc.id;
+            return data;
+          }
+        ))
+      );
+    } catch (error) {
+      return error;
+    }
+  }
+
+  getNotesByState(projectId: string, state: boolean): Observable<Note[]> {
+    try {
+      // Obtenemos todos los proyectos.
+      const rolesCollection: AngularFirestoreCollection<Note> = this.firestore.collection('Notes',
+        ref => ref.where('projectId', '==', projectId).where('isSigned', '==', state).orderBy('date', 'desc')
+      );
+
+      //rolesCollection.ref.orderBy('date', 'desc');
+      return rolesCollection.snapshotChanges().pipe(
+        map(changes => changes.map(
+          action => {
+            const data = action.payload.doc.data() as Note;
+            data.id = action.payload.doc.id;
+            return data;
+          }
+        ))
+      );
+    } catch (error) {
+      return error;
+    }
+  }
+
   getNotesById(projectId: string): Observable<Note[]> {
     try {
       // Obtenemos todos los proyectos.

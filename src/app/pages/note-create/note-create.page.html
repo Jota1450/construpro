@@ -17,36 +17,40 @@
         <ion-label class="date">{{ formatDate() }}</ion-label>
       </div>
       <ion-label>Anotación</ion-label>
-      <ion-textarea autoGrow="true"
-      class="textArea"
-      formControlName="body"
-      placeholder="Detalles de la anotación">
+      <ion-textarea autoGrow="true" class="textArea" formControlName="body" placeholder="Detalles de la anotación">
       </ion-textarea>
 
       <div class="row btn-img">
         <div class="col">
           <pro-button [text]="'Cargar Imágenes'" (click)="pickImages()"></pro-button>
 
-            <ion-slides mode="ios" pager="ios" scrollbar="ios">
-              <ion-slide *ngFor="let image of images">
-                <ion-icon class="bin" slot="end" name="add"></ion-icon>
-                <img [src]="image" alt="">
-                
-              </ion-slide>
-            </ion-slides>
-            
+          <ion-slides mode="ios" pager="ios" scrollbar="ios">
+            <ion-slide *ngFor="let image of images">
+              <ion-icon class="bin" slot="end" name="add"></ion-icon>
+              <img [src]="image" alt="">
+            </ion-slide>
+          </ion-slides>
+
         </div>
       </div>
-
 
       <div class="row" *ngIf="users">
         <div class="col">
-          <pro-select [title]="'Interventor Asignado'" [options]="mapUsers(users)" (outputValue)="setValue('user', $event)">
-          </pro-select>
+          <!---pro-select [title]="'Interventor Asignado'" [options]="mapUsers(users)"
+            (outputValue)="setValue('user', $event)">
+          </!---pro-select--->
+          <label for="basic-url" class="form-label"> Interventor Asignado </label>
+          <div class="input-group mb-1">
+            <select class="form-select select" formControlName="user">
+              <option *ngFor="let option of mapUsers(users); let i = index" [ngValue]="option.value">
+                {{ option.text }}
+              </option>
+            </select>
+          </div>
         </div>
       </div>
 
-     
+
 
       <div class="row">
         <div class="col btn">
