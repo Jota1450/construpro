@@ -28,19 +28,15 @@
         <div class="col">
           <pro-button [text]="'Cargar Imágenes'" (click)="pickImages()"></pro-button>
 
-          <div *ngIf="images.length > 0; else noImagesTemplate ">
-            <swiper [pagination]="true" [scrollbar]="true" [zoom]="true">
+          <div *ngIf="images.length > 0; else noImagesTemplate">
+            <swiper [zoom]="false">
               <ng-template swiperSlide *ngFor="let image of images; let i = index">
-                <ion-slide>
-                  <div>
-                    <img [src]="image" alt="">
-                  </div>
-                  <ion-fab vertical="top" horizontal="end" slot="fixed">
-                    <ion-fab-button class="addbutton" (click)="removeImg(i)">
-                      <ion-icon name="trash" style="color: white;"></ion-icon>
-                    </ion-fab-button>
-                  </ion-fab>
-                </ion-slide>
+                <img [src]="image" alt="">
+                <ion-fab vertical="top" horizontal="end" slot="fixed">
+                  <ion-fab-button class="addbutton" (click)="removeImg(i)">
+                    <ion-icon name="trash" style="color: white;"></ion-icon>
+                  </ion-fab-button>
+                </ion-fab>
               </ng-template>
             </swiper>
           </div>

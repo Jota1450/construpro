@@ -26,7 +26,7 @@
 @import "~@ionic/angular/css/flex-utils.css";
 
 @import '~@ionic/angular/css/ionic-swiper';
-// global.scss
+
 @import '~swiper/scss';
 @import '~swiper/scss/autoplay';
 @import '~swiper/scss/keyboard';
@@ -34,6 +34,8 @@
 @import '~swiper/scss/scrollbar';
 @import '~swiper/scss/zoom';
 @import '~@ionic/angular/css/ionic-swiper';
+
+
 
 .monthview-container {
   height: unset !important;

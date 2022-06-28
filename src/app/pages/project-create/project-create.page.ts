@@ -49,7 +49,7 @@ export class ProjectCreatePage implements OnInit {
     private platform: Platform,
   ) {
     this.initForm();
-   }
+  }
 
   async ngOnInit() {
     await (await this.loadingScreen).present();
@@ -147,7 +147,7 @@ export class ProjectCreatePage implements OnInit {
   setUser(index: string, name: string, value: any) {
     // Insertamos los datos del usuario ya sea rol o id en el FormGroup,
     // de acuerdo a su posicion en la coleccion y el identificador del valor.
-    console.log('$event',value);
+    console.log('$event', value);
     this.party.get(index).get(name).setValue(value);
   }
 
@@ -307,7 +307,7 @@ export class ProjectCreatePage implements OnInit {
     }
   }
 
-  retroceder(){
+  retroceder() {
     this.navController.navigateBack(['/menu/home']);
- }
+  }
 }

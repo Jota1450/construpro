@@ -24,7 +24,11 @@ export class NoteCreatePage implements OnInit {
   formNote: FormGroup;
   users: User[];
   roles: Rol[];
-  images: any[] = [];
+  images: any[] = [
+    'https://larazon.co/wp-content/uploads/2021/11/WhatsApp-Image-2021-11-25-at-11.42.49-AM.jpeg',
+    'https://i.pinimg.com/originals/26/26/0d/26260d6850d544d5d488bfe64f84ef38.jpg',
+    'https://upload.wikimedia.org/wikipedia/commons/8/81/Bufo_bufo_03.jpg'
+  ];
   imageUrls: any[] = [];
   user: User;
 
@@ -138,7 +142,6 @@ export class NoteCreatePage implements OnInit {
       if (id) {
         const date = new Date();
         console.log('date', date);
-
 
         const note: Note = {
           date,
