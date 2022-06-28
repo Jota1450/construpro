@@ -53,6 +53,10 @@ export class CommentCreatePage implements OnInit {
     this.initForm();
   }
 
+  now(){
+    return moment(new Date().toISOString()).format('LL');
+  }
+
   async ngOnInit() {
     try {
       const id = this.activatedRoute.snapshot.paramMap.get('id');
