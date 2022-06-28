@@ -30,15 +30,15 @@
 
           <div class="col">
             <pro-input [title]="'N.I.T.'" (click)="formProject.get('NIT').markAsTouched()"
-             [type]="'text'" (outputValue)="setValue('NIT', $event)"></pro-input>
+             [type]="'number'" (outputValue)="setValue('NIT', $event)"></pro-input>
              <div class="error" *ngIf="formProject.get('NIT').hasError('required') && formProject.get('NIT').touched">
               NIT requerido.
             </div>
           </div>
 
           <div class="col">
-            <pro-input [title]="'No. Contrato'"(click)="formProject.get('contractNumber').markAsTouched()" 
-            [type]="'text'" (outputValue)="setValue('contractNumber', $event)">
+            <pro-input [title]="'No. Contrato'"(click)="formProject.get('contractNumber').markAsTouched()"
+            [type]="'number'" (outputValue)="setValue('contractNumber', $event)">
             </pro-input>
             <div class="error" *ngIf="formProject.get('contractNumber').hasError('required') && formProject.get('contractNumber').touched">
               # de contrato requerido.
@@ -49,7 +49,7 @@
 
         <div class="row">
           <div class="col">
-            <pro-input [title]="'Dirección de la obra'" (click)="formProject.get('address').markAsTouched()" 
+            <pro-input [title]="'Dirección de la obra'" (click)="formProject.get('address').markAsTouched()"
             [type]="'text'" (outputValue)="setValue('address', $event)">
             </pro-input>
           </div>
@@ -60,7 +60,7 @@
 
         <div class="row">
           <div class="col">
-            <pro-input [title]="'Fecha inicio'" (click)="formProject.get('initialDate').markAsTouched()" 
+            <pro-input [title]="'Fecha inicio'" (click)="formProject.get('initialDate').markAsTouched()"
             [type]="'date'" (outputValue)="setValue('initialDate', $event)">
             </pro-input>
             <div class="error" *ngIf="formProject.get('initialDate').hasError('required') && formProject.get('initialDate').touched">
@@ -69,7 +69,7 @@
           </div>
 
           <div class="col">
-            <pro-input [title]="'Fecha fin'" (click)="formProject.get('finalDate').markAsTouched()" 
+            <pro-input [title]="'Fecha fin'" (click)="formProject.get('finalDate').markAsTouched()"
             [type]="'date'" (outputValue)="setValue('finalDate', $event)"></pro-input>
           </div>
           <div class="error" *ngIf="formProject.get('finalDate').hasError('required') && formProject.get('finalDate').touched">

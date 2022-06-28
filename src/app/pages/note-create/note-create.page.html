@@ -44,19 +44,24 @@
         </div>
       </div>
 
-
       <div class="row" *ngIf="users">
         <div class="col">
-          <pro-select [title]="'Interventor Asignado'" (click)="formNote.get('user').markAsTouched()"
-           [options]="mapUsers(users)" (outputValue)="setValue('user', $event)">
-          </pro-select>
+          <!---pro-select [title]="'Interventor Asignado'" [options]="mapUsers(users)"
+            (outputValue)="setValue('user', $event)">
+          </!---pro-select--->
+          <label for="basic-url" class="form-label"> Interventor Asignado </label>
+          <div class="input-group mb-1">
+            <select class="form-select select" formControlName="user">
+              <option *ngFor="let option of mapUsers(users); let i = index" [ngValue]="option.value">
+                {{ option.text }}
+              </option>
+            </select>
+          </div>
         </div>
         <div class="error" *ngIf="formNote.get('user').hasError('required') && formNote.get('user').touched">
           Interventor requerido.
         </div>
       </div>
-
-     
 
       <div class="row">
         <div class="col btn">

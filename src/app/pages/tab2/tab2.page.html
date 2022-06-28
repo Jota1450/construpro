@@ -25,7 +25,8 @@
       <div class="row" *ngFor="let note of notes">
         <div class="col card">
           <div class="procard">
-            <pro-card-note [routerLink]="['/note-detail/'+note.id]" [time]="'5:00'" [date]="formatDate(note.date)"
+            <pro-card-note [routerLink]="['/note-detail/'+note.id]" [time]="formatTime(note.date)"
+            [date]="formatDate(note.date)"
               [note]="note.body" [names]="note.creatorUser.names" [lastNames]="note.creatorUser.lastNames">
             </pro-card-note>
           </div>
@@ -68,35 +69,48 @@
         <div class="buttons">
 
 
-        <div class="row">
-          <ng-container *ngIf="toggleFilter; else toggleTemplate">
-            <div>
-              <ion-label>Filtrar anotantes</ion-label>
-              <pro-select [title]="''" ></pro-select>
-            </div>
-            <div class="col filter">
-              <pro-button-outline [text]="'Filtrar Anotantes'" ></pro-button-outline>
-            </div>
-          </ng-container>
+          <div class="row">
+            <ng-container *ngIf="toggleFilter; else toggleTemplate">
+              <ng-container *ngIf="project">
+                <div>
+                  <ion-label>Filtrar anotantes</ion-label>
+                  <!--pro-select [title]="''" [options]="mapUsers(project.party)"
+                    (outputValue)="filterCreatorValue = $event"></!--pro-select>
+                    <div class="input-group mb-1"-->
+                      <select class="form-select select" [(ngModel)]="filterCreatorValue">
+                        <option *ngFor="let option of mapUsers(project.party); let i = index" [ngValue]="option.value" [selected]="i === 0">
+                          {{ option.text }}
+                        </option>
+                      </select>
+                </div>
+                <div class="col filter">
+                  <pro-button-outline [text]="'Aplicar'" (click)="getNotesByCreator()"></pro-button-outline>
+                </div>
+              </ng-container>
+            </ng-container>
 
-          <ng-template #toggleTemplate>
-            <div>
-              <ion-label>Filtrar estados</ion-label>
-              <pro-select [title]="''" ></pro-select>
-            </div>
-            <div class="col filter">
-              <pro-button-outline [text]="'Filtrar estados'" ></pro-button-outline>
-            </div>
-          </ng-template>
+            <ng-template #toggleTemplate>
+              <div>
+                <ion-label>Filtrar estados</ion-label>
+                <select class="form-select select" [(ngModel)]="filterStateValue">
+                  <option *ngFor="let option of filterStateOptions; let i = index" [ngValue]="option.value" [selected]="i === 0">
+                    {{ option.text }}
+                  </option>
+                </select>
+              </div>
+              <div class="col filter">
+                <pro-button-outline [text]="'Aplicar'" (click)="getNotesByState()"></pro-button-outline>
+              </div>
+            </ng-template>
 
-        </div>
+          </div>
 
-        <div class="row">
-          <div class="col reestablecer">
-            <pro-button [text]="'Reestablecer'"></pro-button>
+          <div class="row">
+            <div class="col reestablecer">
+              <pro-button [text]="'Reestablecer'" (click)="getNotes()"></pro-button>
+            </div>
           </div>
         </div>
-      </div>
       </ion-content>
     </ng-template>
   </ion-modal>

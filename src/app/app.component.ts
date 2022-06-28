@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/Storage-angular';
-import * as moment from "moment";
+import * as moment from 'moment';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html'
@@ -8,7 +8,7 @@ import * as moment from "moment";
 export class AppComponent implements OnInit{
 
   constructor(private storage: Storage) {
-    moment.locale('es_mx')
+    moment.locale('es_mx');
   }
 
   async ngOnInit() {

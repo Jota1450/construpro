@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 import { AuthService } from 'src/app/services/auth.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { User } from 'src/app/models/user';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -35,7 +35,7 @@ export class LoginPage implements OnInit {
   constructor(
     private authService: AuthService,
     private usersService: UsersService,
-    private router: Router,
+    private navController: NavController,
     private localStorage: LocalStorageService,
     public loadingController: LoadingController
   ) { }
@@ -49,7 +49,7 @@ export class LoginPage implements OnInit {
     await (await this.loadingScreen).dismiss();
     if (user) {
       if (this.authService.getUid != null) {
-        this.router.navigate(['/menu/home']);
+        this.navController.navigateForward(['/menu/home']);
       };
     }
   }
@@ -75,7 +75,8 @@ export class LoginPage implements OnInit {
             });
 
             if (this.authService.getUid != null) {
-              this.router.navigate(['/menu/home']);
+              this.navController.navigateForward(['/menu/home']);
+
             };
             await (await this.loadingScreen).dismiss();
 
