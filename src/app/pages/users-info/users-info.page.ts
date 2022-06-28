@@ -1,12 +1,14 @@
 import { Project } from './../../models/project';
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { LoadingController, NavController } from '@ionic/angular';
 import { Rol } from 'src/app/models/rol';
 import { User } from 'src/app/models/user';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { ProjectsService } from 'src/app/services/projects.service';
 import { UsersService } from 'src/app/services/users.service';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-users-info',
@@ -20,21 +22,40 @@ export class UsersInfoPage implements OnInit {
   project: Project;
   formProject: FormGroup;
 
+  alert = Swal.mixin({
+    toast: true,
+    position: 'center',
+    showConfirmButton: true,
+    //timer: 3000,
+    //timerProgressBar: true,
+  });
+
+  loadingScreen = this.loadingController.create({
+    cssClass: 'my-custom-class',
+    message: 'Cargando...',
+  });
+
+  private subscriptions = new Subscription();
+
+
   constructor(
     private formBuilder: FormBuilder,
     private navController: NavController,
     private usersService: UsersService,
     private projectsService: ProjectsService,
     private localStorage: LocalStorageService,
+    public loadingController: LoadingController,
   ) {
     this.initForm();
   }
 
   async ngOnInit() {
+    await (await this.loadingScreen).present();
     this.roles = await this.getAllRoles();
     this.project = await this.localStorage.getProjectData();
     this.users = this.project.party;
     this.setInitialUsers();
+    await (await this.loadingScreen).dismiss();
   }
 
   initForm() {
@@ -43,6 +64,10 @@ export class UsersInfoPage implements OnInit {
         party: this.formBuilder.array([]),
       }
     );
+  }
+
+  ionViewDidLeave() {
+    this.subscriptions.unsubscribe();
   }
 
   setInitialUsers(){
@@ -100,8 +125,10 @@ export class UsersInfoPage implements OnInit {
   async getAllRoles(): Promise<Rol[]> {
     // En este metodo obtenemos los roles
     return await new Promise((resolve, reject) => {
-      this.usersService.getAllRoles().subscribe(
-        roles => resolve(roles)
+      this.subscriptions.add(
+        this.usersService.getAllRoles().subscribe(
+          roles => resolve(roles)
+        )
       );
     });
   }
@@ -114,14 +141,37 @@ export class UsersInfoPage implements OnInit {
     return ids;
   }
 
-  updateProject(){
+  async updateProject(){
     console.log(this.formProject);
     if (this.formProject.valid) {
+      this.loadingScreen = this.loadingController.create({
+        cssClass: 'my-custom-class',
+        message: 'Cargando...',
+      });
+      (await this.loadingScreen).present();
       const projectToUpdate: Project = this.project;
       const party = this.mapParty();
       projectToUpdate.party = party;
       projectToUpdate.partyIds = this.getPartyIds(party);
-      this.projectsService.updateProject(this.project.id, projectToUpdate);
+      this.projectsService.updateProject(this.project.id, projectToUpdate).then(
+        async () => {
+          await this.localStorage.setProjectData(projectToUpdate);
+          this.alert.fire({
+            icon: 'success',
+            title: 'Bien!!!',
+            text: 'Proyecto registrado correctamente',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+          }).then(
+            async (result) => {
+              if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
+                (await this.loadingScreen).dismiss();
+                this.retroceder();
+              }
+            }
+          );
+        }
+      );
     }
   }
 

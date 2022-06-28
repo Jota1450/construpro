@@ -59,23 +59,7 @@ export class HomePage implements OnDestroy {
   }
 
   ionViewDidLeave() {
-    console.log('ionViewDidLeave');
-
     this.subscriptions.unsubscribe();
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ');
-  }
-  ionViewDidEnter() {
-    console.log('ionViewDidEnter ');
-  }
-  ionViewWillLeave() {
-    console.log('ionViewWillLeave');
-  }
-
-  ionViewWillUnload() {
-    console.log('ionViewWillUnload    ');
   }
 
   async saveProjectData(project: Project) {
