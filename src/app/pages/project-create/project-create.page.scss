@@ -6,20 +6,24 @@
   object-fit: fill;
 }
 
-.backbutton {
-  color: #980000;
-  font-size: 24px;
-  padding-right: 15px;
+.buttonback {
+  position: absolute;
+  --background: #FFFFFF;
+  --color: #980000;
+}
+
+.form {
+  margin: 5%;
+}
+
+.buttoncreate {
+  align-content: center;
 }
 
 .error {
   padding-left: 15px;
   padding-bottom: 5px;
   color: red;
-}
-
-.form {
-  margin: 5%;
 }
 
 .formTitle {
@@ -33,10 +37,6 @@
 .usersTitle {
   font-size: 20px;
   padding: 10px;
-}
-
-.buttoncreate {
-  align-content: center;
 }
 
 .childcard {

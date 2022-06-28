@@ -217,8 +217,10 @@ export class ProjectCreatePage implements OnInit {
   async saveProject() {
     try {
       this.formSended = true;
+      const initialDate = new Date(this.formProject.get('initialDate').value);
+      const finalDate = new Date(this.formProject.get('finalDate').value);
 
-      if (this.formProject.valid) {
+      if (this.formProject.valid && initialDate < finalDate) {
         this.loadingScreen = this.loadingController.create({
           cssClass: 'my-custom-class',
           message: 'Cargando...',
@@ -231,8 +233,8 @@ export class ProjectCreatePage implements OnInit {
           // eslint-disable-next-line @typescript-eslint/naming-convention
           NIT: this.formProject.get('NIT').value,
           address: this.formProject.get('address').value,
-          initialDate: new Date(this.formProject.get('initialDate').value).toISOString(),
-          finalDate: new Date(this.formProject.get('finalDate').value).toISOString(),
+          initialDate: initialDate.toISOString(),
+          finalDate: finalDate.toISOString(),
           party,
           partyIds: this.getPartyIds(party),
           createdAt: new Date().toISOString(),
@@ -278,12 +280,20 @@ export class ProjectCreatePage implements OnInit {
           }
         );
       } else {
+        if (initialDate > finalDate) {
+          this.alert.fire({
+            icon: 'error',
+            title: 'Formulario Invalido',
+            text: 'Fecha inicio mayor a la final',
+          });
+        } else {
+          this.alert.fire({
+            icon: 'error',
+            title: 'Formulario Invalido',
+            text: 'Por favor revisa los campos',
+          });
+        }
         console.log('formControl', this.formProject);
-        this.alert.fire({
-          icon: 'error',
-          title: 'Formulario Invalido',
-          text: 'Por favor revisa los campos',
-        });
       }
       // creamos objeto para user para guardar
       // this.formRegister.get

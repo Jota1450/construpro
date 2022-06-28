@@ -26,8 +26,8 @@
         <div class="col card">
           <div class="procard">
             <pro-card-note [routerLink]="['/note-detail/'+note.id]" [time]="formatTime(note.date)"
-            [date]="formatDate(note.date)"
-              [note]="note.body" [names]="note.creatorUser.names" [lastNames]="note.creatorUser.lastNames">
+              [date]="formatDate(note.date)" [note]="note.body" [names]="note.creatorUser.names"
+              [lastNames]="note.creatorUser.lastNames">
             </pro-card-note>
           </div>
         </div>
@@ -77,11 +77,12 @@
                   <!--pro-select [title]="''" [options]="mapUsers(project.party)"
                     (outputValue)="filterCreatorValue = $event"></!--pro-select>
                     <div class="input-group mb-1"-->
-                      <select class="form-select select" [(ngModel)]="filterCreatorValue">
-                        <option *ngFor="let option of mapUsers(project.party); let i = index" [ngValue]="option.value" [selected]="i === 0">
-                          {{ option.text }}
-                        </option>
-                      </select>
+                  <select class="form-select select" [(ngModel)]="filterCreatorValue">
+                    <option *ngFor="let option of mapUsers(project.party); let i = index" [ngValue]="option.value"
+                      [selected]="i === 0">
+                      {{ option.text }}
+                    </option>
+                  </select>
                 </div>
                 <div class="col filter">
                   <pro-button-outline [text]="'Aplicar'" (click)="getNotesByCreator()"></pro-button-outline>
@@ -93,7 +94,8 @@
               <div>
                 <ion-label>Filtrar estados</ion-label>
                 <select class="form-select select" [(ngModel)]="filterStateValue">
-                  <option *ngFor="let option of filterStateOptions; let i = index" [ngValue]="option.value" [selected]="i === 0">
+                  <option *ngFor="let option of filterStateOptions; let i = index" [ngValue]="option.value"
+                    [selected]="i === 0">
                     {{ option.text }}
                   </option>
                 </select>

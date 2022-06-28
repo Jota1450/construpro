@@ -138,4 +138,8 @@ export class Tab3Page {
   formatDate(date) {
     return moment(date.toDate().toString()).format('dddd, D MMMM YYYY');
   }
+
+  formatTime(date){
+    return moment(date.toDate().toString()).format('hh:mm A');
+  }
 }
