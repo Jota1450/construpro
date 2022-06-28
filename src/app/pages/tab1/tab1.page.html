@@ -18,20 +18,14 @@
 
 <ion-content [fullscreen]="true">
 
-  <ion-item [routerLink]="['/project-info']">
+  <ion-item (click)="goTo('/project-info')" >
     <ion-icon name="business"></ion-icon>
-    <ion-label>Gestionar Proyecto</ion-label>
+    <ion-label>Información del Proyecto</ion-label>
   </ion-item>
 
-  <ion-item [routerLink]="['/users-info']">
+  <ion-item (click)="goTo('/users-info')">
     <ion-icon name="people"></ion-icon>
     <ion-label>Gestionar Usuarios</ion-label>
   </ion-item>
-
-  <ion-item [routerLink]="['/menu/home']">
-    <ion-icon name="arrow-back-outline"></ion-icon>
-    <ion-label>Volver a proyectos</ion-label>
-  </ion-item>
-
 
 </ion-content>

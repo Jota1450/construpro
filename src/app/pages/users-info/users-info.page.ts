@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-users-info',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UsersInfoPage implements OnInit {
 
-  constructor() { }
+  constructor(
+    private navController:NavController
+  ) { }
 
   ngOnInit() {
   }
 
+  retroceder() {
+    this.navController.navigateBack(['/tabs/tab1']);
+  }
 }
