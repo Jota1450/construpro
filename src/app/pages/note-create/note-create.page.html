@@ -28,12 +28,18 @@
         <div class="col">
           <pro-button [text]="'Cargar Imágenes'" (click)="pickImages()"></pro-button>
 
-          <ion-slides mode="ios" pager="ios" scrollbar="ios">
-            <ion-slide *ngFor="let image of images">
-              <ion-icon class="bin" slot="end" name="add"></ion-icon>
-              <img [src]="image" alt="">
-            </ion-slide>
-          </ion-slides>
+          <div *ngIf="images.length > 0; else noImagesTemplate "></div>
+            <ion-slides mode="ios" pager="ios" scrollbar="ios">
+              <ion-slide *ngFor="let image of images">
+                <ion-icon class="bin" slot="end" name="add"></ion-icon>
+                <img [src]="image" alt="">
+              </ion-slide>
+            </ion-slides>
+            <ng-template #noImagesTemplate>
+              <div class="no-images" >
+                No se han cargado imagenes.
+              </div>
+            </ng-template>
 
         </div>
       </div>
