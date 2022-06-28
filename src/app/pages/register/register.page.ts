@@ -39,12 +39,12 @@ export class RegisterPage implements OnInit {
       {
         names: new FormControl('', [
           Validators.required,
-          Validators.pattern('[a-zA-Z]*'),
+          Validators.pattern('[a-zA-Z ]*'),
           Validators.min(3)
         ]),
         lastNames: new FormControl('', [
           Validators.required,
-          Validators.pattern('[a-zA-Z]*'),
+          Validators.pattern('[a-zA-Z ]*'),
           Validators.min(3)
         ]),
         email: new FormControl('', [
@@ -106,10 +106,21 @@ export class RegisterPage implements OnInit {
   }
 
   setValue(name: string, value: any){
+    //this.formRegister.get(name).markAsTouched();
     this.formRegister.get(name).setValue(value);
   }
 
   passAreValid(): boolean{
     return this.formRegister.get('password').value === this.formRegister.get('confirmPassword').value;
   }
+
+  validateSelect():boolean{
+    if(this.formRegister.get('documentType').value ==""){
+        return false;
+      }else{
+        return true;
+      }
+  }    
+
+
 }
