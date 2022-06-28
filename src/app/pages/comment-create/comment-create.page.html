@@ -23,6 +23,9 @@
       formControlName="body"
       placeholder="Detalles del comentario">
       </ion-textarea>
+      <div class="error" *ngIf="formComment.get('body').hasError('required') && formComment.get('body').touched || formComment.get('body').invalid && formSended">
+        Contenido del comentario requerido.
+      </div>
 
       <div class="row">
         <div class="col btn">
