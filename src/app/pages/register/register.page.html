@@ -17,57 +17,92 @@
 
       <div class="row">
         <div class="col">
-          <pro-input [title]="'Nombres'" [type]="'text'" (outputValue)="setValue('names', $event)">
-          </pro-input>
+          <pro-input [title]="'Nombres'" (click)="formRegister.get('names').markAsTouched()" 
+          [type]="'text'" (outputValue)="setValue('names', $event)"></pro-input>
+        </div>
+        <div class="error" *ngIf="formRegister.get('names').hasError('required') && formRegister.get('names').touched">
+          Nombre requerido
         </div>
       </div>
 
       <div class="row">
         <div class="col">
-          <pro-input [title]="'Apellidos'" [type]="'text'" (outputValue)="setValue('lastNames', $event)"></pro-input>
+          <pro-input [title]="'Apellidos'" (click)="formRegister.get('lastNames').markAsTouched()" [type]="'text'"
+            (outputValue)="setValue('lastNames', $event)"></pro-input>
+        </div>
+        <div class="error" *ngIf="formRegister.get('lastNames').hasError('required') && formRegister.get('lastNames').touched">
+          Apellido requerido
         </div>
       </div>
 
 
       <div class="row">
         <div class="col">
-          <pro-select [title]="'Tipo de documento'" [options]="options" [selected]="0" (outputValue)="setValue('documentType', $event)">
+          <pro-select id="typeD" [title]="'Tipo de documento'" (click)="formRegister.get('documentType').markAsTouched()" [options]="options" 
+          [selected]="0" (outputValue)=" setValue('documentType', $event)">
           </pro-select>
         </div>
+        <div class="error" *ngIf="formRegister.get('documentType').hasError('required') && formRegister.get('documentType').touched">
+          Tipo de documento requerido 
+        </div>
       </div>
 
 
       <div class="row">
         <div class="col">
-          <pro-input [title]="'Numero de documento'" [type]="'text'" (outputValue)="setValue('documentNumber', $event)">
+          <pro-input [title]="'Numero de documento'" (click)="formRegister.get('documentNumber').markAsTouched()" 
+          [type]="'text'" (outputValue)="setValue('documentNumber', $event)">
           </pro-input>
         </div>
+        <div class="error" *ngIf="formRegister.get('documentNumber').hasError('required') && formRegister.get('documentNumber').touched">
+          Cedula requerida
+        </div>
       </div>
 
       <div class="row">
         <div class="col">
-          <pro-input [title]="'Tarjeta Profesional'" [type]="'number'" (outputValue)="setValue('professionalCard', $event)">
+          <pro-input [title]="'Tarjeta Profesional'" (click)="formRegister.get('professionalCard').markAsTouched()" 
+          [type]="'number'" (outputValue)="setValue('professionalCard', $event)">
           </pro-input>
         </div>
-      </div>
-
-      <div class="row">
-        <div class="col">
-          <pro-input [title]="'Correo'" [type]="'email'" (outputValue)="setValue('email', $event)"></pro-input>
+        <div class="error" *ngIf="formRegister.get('professionalCard').hasError('required') && formRegister.get('professionalCard').touched">
+          Tarjeta profesional requerida
         </div>
       </div>
 
       <div class="row">
         <div class="col">
-          <pro-input [title]="'Contraseña'" [type]="'password'" (outputValue)="setValue('password', $event)"></pro-input>
+          <pro-input [title]="'Correo'" (click)="formRegister.get('email').markAsTouched()" 
+          [type]="'email'" (outputValue)="setValue('email', $event)"></pro-input>
+        </div>
+        <div class="error" *ngIf="formRegister.get('email').hasError('required') && formRegister.get('email').touched">
+          Correo requerido
         </div>
       </div>
 
       <div class="row">
         <div class="col">
-          <pro-input [title]="'Confirmar contraseña'" [type]="'password'" (outputValue)="setValue('confirmPassword', $event)">
+          <pro-input [title]="'Contraseña'" (click)="formRegister.get('password').markAsTouched()" 
+          [type]="'password'" (outputValue)="setValue('password', $event)">
           </pro-input>
         </div>
+        <div class="error" *ngIf="formRegister.get('password').hasError('required') && formRegister.get('password').touched">
+          Contraseña requerida
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <pro-input [title]="'Confirmar contraseña'" (click)="formRegister.get('confirmPassword').markAsTouched()" 
+          [type]="'password'" (outputValue)="setValue('confirmPassword', $event)">
+          </pro-input>
+        </div>
+        <div class="error" *ngIf="formRegister.get('confirmPassword').hasError('required') && formRegister.get('confirmPassword').touched">
+        Valida la Contraseña
+        </div>
+        <div class="error" *ngIf="passAreValid() === false ">
+          Las contraseñas no coinciden
+          </div>
       </div>
 
     </div>
@@ -76,7 +111,7 @@
       <div class="col buttons">
         <div style="display: flex;">
           <pro-button-outline [text]="'Volver'" [routerLink]="['/login']" style="margin: 5px;"></pro-button-outline>
-          <pro-button [text]="'Regisrar'" [type]="'submit'" (click)="saveUser()" style="margin: 5px;"></pro-button>
+          <pro-button [text]="'Registrar'" [type]="'submit'" (click)="saveUser()" style="margin: 5px;"></pro-button>
         </div>
       </div>
     </div>

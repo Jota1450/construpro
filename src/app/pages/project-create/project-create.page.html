@@ -14,39 +14,63 @@
       <form [formGroup]="formProject">
         <div class="row">
           <div class="col">
-            <pro-input [title]="'Nombre del proyecto'" [type]="'text'" (outputValue)="setValue('name', $event)">
+            <pro-input [title]="'Nombre del proyecto'" (click)="formProject.get('name').markAsTouched()"
+             [type]="'text'" (outputValue)="setValue('name', $event)">
             </pro-input>
+          </div>
+          <div class="error" *ngIf="formProject.get('name').hasError('required') && formProject.get('name').touched">
+            Nombre del proyecto requerido.
           </div>
         </div>
 
         <div class="row">
 
           <div class="col">
-            <pro-input [title]="'N.I.T.'" [type]="'text'" (outputValue)="setValue('NIT', $event)"></pro-input>
+            <pro-input [title]="'N.I.T.'" (click)="formProject.get('NIT').markAsTouched()"
+             [type]="'text'" (outputValue)="setValue('NIT', $event)"></pro-input>
+             <div class="error" *ngIf="formProject.get('NIT').hasError('required') && formProject.get('NIT').touched">
+              NIT requerido.
+            </div>
           </div>
 
           <div class="col">
-            <pro-input [title]="'No. Contrato'" [type]="'text'" (outputValue)="setValue('contractNumber', $event)">
+            <pro-input [title]="'No. Contrato'"(click)="formProject.get('contractNumber').markAsTouched()" 
+            [type]="'text'" (outputValue)="setValue('contractNumber', $event)">
             </pro-input>
+            <div class="error" *ngIf="formProject.get('contractNumber').hasError('required') && formProject.get('contractNumber').touched">
+              # de contrato requerido.
+            </div>
           </div>
 
         </div>
 
         <div class="row">
           <div class="col">
-            <pro-input [title]="'Dirección de la obra'" [type]="'text'" (outputValue)="setValue('address', $event)">
+            <pro-input [title]="'Dirección de la obra'" (click)="formProject.get('address').markAsTouched()" 
+            [type]="'text'" (outputValue)="setValue('address', $event)">
             </pro-input>
+          </div>
+          <div class="error" *ngIf="formProject.get('address').hasError('required') && formProject.get('address').touched">
+            Dirección requerida.
           </div>
         </div>
 
         <div class="row">
           <div class="col">
-            <pro-input [title]="'Fecha inicio'" [type]="'date'" (outputValue)="setValue('initialDate', $event)">
+            <pro-input [title]="'Fecha inicio'" (click)="formProject.get('initialDate').markAsTouched()" 
+            [type]="'date'" (outputValue)="setValue('initialDate', $event)">
             </pro-input>
+            <div class="error" *ngIf="formProject.get('initialDate').hasError('required') && formProject.get('initialDate').touched">
+              Fecha inicial requerida.
+            </div>
           </div>
 
           <div class="col">
-            <pro-input [title]="'Fecha fin'" [type]="'date'" (outputValue)="setValue('finalDate', $event)"></pro-input>
+            <pro-input [title]="'Fecha fin'" (click)="formProject.get('finalDate').markAsTouched()" 
+            [type]="'date'" (outputValue)="setValue('finalDate', $event)"></pro-input>
+          </div>
+          <div class="error" *ngIf="formProject.get('finalDate').hasError('required') && formProject.get('finalDate').touched">
+            Fecha final requerida.
           </div>
         </div>
 
@@ -92,6 +116,11 @@
               </div>
             </div>
           </div>
+          <ng-container *ngIf="formProject" >
+            <div class="error" *ngIf="formProject.get('party').value < 2">
+              Fecha final requerida.
+            </div>
+          </ng-container>
           <div class="addusercenter">
             <ion-icon class="adduserrole" (click)="addPartyUser()" name="add-circle"></ion-icon>
           </div>

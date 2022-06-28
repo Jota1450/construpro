@@ -17,11 +17,12 @@
         <ion-label class="date">{{ formatDate() }}</ion-label>
       </div>
       <ion-label>Anotación</ion-label>
-      <ion-textarea autoGrow="true"
-      class="textArea"
-      formControlName="body"
-      placeholder="Detalles de la anotación">
+      <ion-textarea autoGrow="true" class="textArea" formControlName="body"
+      (click)="formNote.get('body').markAsTouched()" placeholder="Detalles de la anotación">
       </ion-textarea>
+      <div class="error" *ngIf="formNote.get('body').hasError('required') && formNote.get('body').touched">
+        Contenido de la anotación requerido.
+      </div>
 
       <div class="row btn-img">
         <div class="col">
@@ -41,8 +42,12 @@
 
       <div class="row" *ngIf="users">
         <div class="col">
-          <pro-select [title]="'Interventor Asignado'" [options]="mapUsers(users)" (outputValue)="setValue('user', $event)">
+          <pro-select [title]="'Interventor Asignado'" (click)="formNote.get('user').markAsTouched()"
+           [options]="mapUsers(users)" (outputValue)="setValue('user', $event)">
           </pro-select>
+        </div>
+        <div class="error" *ngIf="formNote.get('user').hasError('required') && formNote.get('user').touched">
+          Interventor requerido.
         </div>
       </div>
 
