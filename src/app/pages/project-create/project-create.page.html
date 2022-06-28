@@ -12,6 +12,9 @@
 
     <div class="form">
       <form [formGroup]="formProject">
+        <div class="formTitle">
+          Creación de proyectos
+        </div>
         <div class="row">
           <div class="col">
             <pro-input [title]="'Nombre del proyecto'" (click)="formProject.get('name').markAsTouched()"
@@ -75,6 +78,9 @@
         </div>
 
         <div class="card" style="padding: 10px;">
+          <div class="usersTitle">
+            Usuarios asignados
+          </div>
           <div class="card" style="padding: 10px;" formArrayName="party"
             *ngFor="let user of party.controls; let i = index">
             <span *ngIf="i !== 0"
@@ -118,7 +124,7 @@
           </div>
           <ng-container *ngIf="formProject" >
             <div class="error" *ngIf="formProject.get('party').value < 2">
-              Fecha final requerida.
+              Se requieren mas de dos usuarios.
             </div>
           </ng-container>
           <div class="addusercenter">
