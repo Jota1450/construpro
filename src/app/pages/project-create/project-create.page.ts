@@ -16,6 +16,7 @@ import { LoadingController, NavController, Platform } from '@ionic/angular';
 })
 export class ProjectCreatePage implements OnInit {
 
+  formSended = false;
   formProject: FormGroup;
   users: User[];
   roles: Rol[];
@@ -215,6 +216,8 @@ export class ProjectCreatePage implements OnInit {
 
   async saveProject() {
     try {
+      this.formSended = true;
+
       if (this.formProject.valid) {
         this.loadingScreen = this.loadingController.create({
           cssClass: 'my-custom-class',

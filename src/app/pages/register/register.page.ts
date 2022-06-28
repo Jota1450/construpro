@@ -19,6 +19,8 @@ export class RegisterPage implements OnInit {
     { value: 'Passport.', text: 'Passport' }
   ];
 
+  formSended = false;
+
   loadingScreen = this.loadingController.create({
     cssClass: 'my-custom-class',
     message: 'Cargando...',
@@ -75,6 +77,8 @@ export class RegisterPage implements OnInit {
   }
 
   async saveUser() {
+  this.formSended = true;
+
     await (await this.loadingScreen).present();
     if (this.formRegister.valid && this.passAreValid()) {
       const user: User = {
@@ -120,7 +124,7 @@ export class RegisterPage implements OnInit {
       }else{
         return true;
       }
-  }    
+  }
 
 
 }
