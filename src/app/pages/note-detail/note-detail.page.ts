@@ -68,7 +68,11 @@ export class NoteDetailPage implements OnInit {
   }
 
   formatDateString(date: string) {
-    return moment(date).format('MMMM D YYYY, h:mm:ss a');
+    return moment(date).format('MMMM D YYYY');
+  }
+
+  formatTimeString(date: string) {
+    return moment(date).format('hh:mm A');
   }
 
   userCanSign(): boolean {

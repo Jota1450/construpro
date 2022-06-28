@@ -51,6 +51,10 @@ export class Tab2Page implements OnDestroy {
     return moment(date.toDate().toString()).format('dddd, D MMMM YYYY');
   }
 
+  formatTime(date){
+    return moment(date.toDate().toString()).format('hh:mm A');
+  }
+
   async getNotes(): Promise<Note[]> {
     // En este metodo todos los proyectos.
     const id: string = (await this.localStorageService.getProjectData()).id;

@@ -103,7 +103,6 @@ export class ProjectCreatePage implements OnInit {
     console.log('formProject', this.formProject.controls);
   }
 
-
   removePartyUser(index: number) {
     this.party.removeAt(index);
   }
@@ -115,7 +114,7 @@ export class ProjectCreatePage implements OnInit {
           Validators.required
         ]),
         contractNumber: new FormControl('', [
-          Validators.required
+          Validators.required,
         ]),
         // eslint-disable-next-line @typescript-eslint/naming-convention
         NIT: new FormControl('', [
