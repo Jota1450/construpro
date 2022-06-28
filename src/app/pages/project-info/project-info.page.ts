@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 import * as moment from 'moment';
 import { Project } from 'src/app/models/project';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
@@ -13,7 +14,8 @@ export class ProjectInfoPage implements OnInit {
 
   project: Project;
 
-  constructor(private localStorageService: LocalStorageService) { }
+  constructor(private localStorageService: LocalStorageService,
+              private navController:NavController) { }
 
   async ngOnInit() {
     this.project = await this.localStorageService.getProjectData()
@@ -23,5 +25,7 @@ export class ProjectInfoPage implements OnInit {
   formatDateString(date: string){
     return moment(date).format('dddd, D MMMM YYYY');
   }  
-  
+  retroceder() {
+    this.navController.navigateBack(['/tabs/tab1']);
+  }
 }

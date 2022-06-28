@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 import { Project } from 'src/app/models/project';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 
@@ -13,6 +14,7 @@ export class Tab1Page {
 
   constructor(
     private localStorageService: LocalStorageService,
+    private navController: NavController
   ) {
     this.onInit();
   }
@@ -21,5 +23,8 @@ export class Tab1Page {
     await this.localStorageService.getProjectData().then(
       (project) => this.project = project
     );
+  }
+  goTo(route: string) {
+    this.navController.navigateBack([route]);
   }
 }

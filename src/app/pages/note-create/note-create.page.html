@@ -20,10 +20,7 @@
       <ion-textarea autoGrow="true" class="textArea" formControlName="body"
         (click)="formNote.get('body').markAsTouched()" placeholder="Detalles de la anotación">
       </ion-textarea>
-      <div class="error" *ngIf="formNote.get('body').hasError('required') && formNote.get('body').touched">
-        Contenido de la anotación requerido.
-      </div>
-      <div class="error" *ngIf="formNote.get('body').invalid && formSended">
+      <div class="error" *ngIf="formNote.get('body').hasError('required') && formNote.get('body').touched || formNote.get('body').invalid && formSended">
         Contenido de la anotación requerido.
       </div>
 
@@ -69,12 +66,10 @@
             </select>
           </div>
         </div>
-        <div class="error" *ngIf="formNote.get('user').hasError('required') && formNote.get('user').touched">
+        <div class="error" *ngIf="formNote.get('user').hasError('required') && formNote.get('user').touched|| formNote.get('user').invalid && formSended">
           Interventor requerido.
         </div>
-        <div class="error" *ngIf="formNote.get('user').invalid && formSended">
-          Interventor requerido.
-        </div>
+
       </div>
 
       <div class="row">

@@ -60,8 +60,7 @@
   padding-top: 10px;
   z-index: 9999;
 }
-
-.no-images {
+.no-images{
   padding-left: 10px;
   padding-top: 5px;
   font-size: 18px;
@@ -73,7 +72,12 @@
   z-index: 999;
 }
 
-.bin {
-  background-color: #980000;
+.error{
+  padding-left: 15px;
+  padding-bottom: 5px;
+  color: red;
+}
+.bin{
   color: #980000;
+  z-index: 9999;
 }

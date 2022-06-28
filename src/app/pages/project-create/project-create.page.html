@@ -21,7 +21,7 @@
              [type]="'text'" (outputValue)="setValue('name', $event)">
             </pro-input>
           </div>
-          <div class="error" *ngIf="formProject.get('name').hasError('required') && formProject.get('name').touched">
+          <div class="error" *ngIf="formProject.get('name').hasError('required') && formProject.get('name').touched || formProject.get('name').invalid && formSended">
             Nombre del proyecto requerido.
           </div>
         </div>
@@ -31,16 +31,17 @@
           <div class="col">
             <pro-input [title]="'N.I.T.'" (click)="formProject.get('NIT').markAsTouched()"
              [type]="'number'" (outputValue)="setValue('NIT', $event)"></pro-input>
-             <div class="error" *ngIf="formProject.get('NIT').hasError('required') && formProject.get('NIT').touched">
+             <div class="error" *ngIf="formProject.get('NIT').hasError('required') && formProject.get('NIT').touched || formProject.get('NIT').invalid && formSended">
               NIT requerido.
             </div>
+
           </div>
 
           <div class="col">
             <pro-input [title]="'No. Contrato'"(click)="formProject.get('contractNumber').markAsTouched()"
             [type]="'number'" (outputValue)="setValue('contractNumber', $event)">
             </pro-input>
-            <div class="error" *ngIf="formProject.get('contractNumber').hasError('required') && formProject.get('contractNumber').touched">
+            <div class="error" *ngIf="formProject.get('contractNumber').hasError('required') && formProject.get('contractNumber').touched || formProject.get('finalDate').invalid && formSended">
               # de contrato requerido.
             </div>
           </div>
@@ -53,9 +54,10 @@
             [type]="'text'" (outputValue)="setValue('address', $event)">
             </pro-input>
           </div>
-          <div class="error" *ngIf="formProject.get('address').hasError('required') && formProject.get('address').touched">
+          <div class="error" *ngIf="formProject.get('address').hasError('required') && formProject.get('address').touched || formProject.get('finalDate').invalid && formSended">
             Dirección requerida.
           </div>
+
         </div>
 
         <div class="row">
@@ -63,7 +65,7 @@
             <pro-input [title]="'Fecha inicio'" (click)="formProject.get('initialDate').markAsTouched()"
             [type]="'date'" (outputValue)="setValue('initialDate', $event)">
             </pro-input>
-            <div class="error" *ngIf="formProject.get('initialDate').hasError('required') && formProject.get('initialDate').touched">
+            <div class="error" *ngIf="formProject.get('initialDate').hasError('required') && formProject.get('initialDate').touched || formProject.get('initialDate').invalid && formSended">
               Fecha inicial requerida.
             </div>
           </div>
@@ -71,10 +73,12 @@
           <div class="col">
             <pro-input [title]="'Fecha fin'" (click)="formProject.get('finalDate').markAsTouched()"
             [type]="'date'" (outputValue)="setValue('finalDate', $event)"></pro-input>
+
+            <div class="error" *ngIf="formProject.get('finalDate').hasError('required') && formProject.get('finalDate').touched || formProject.get('finalDate').invalid && formSended">
+              Fecha final requerida.
+            </div>
           </div>
-          <div class="error" *ngIf="formProject.get('finalDate').hasError('required') && formProject.get('finalDate').touched">
-            Fecha final requerida.
-          </div>
+
         </div>
 
         <div class="card" style="padding: 10px;">
