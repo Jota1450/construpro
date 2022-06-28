@@ -126,6 +126,10 @@ export class NoteCreatePage implements OnInit {
     return moment(this.today.toISOString()).format('dddd, D MMMM YYYY');
   }
 
+  removeImg(index){
+    this.images.splice(index, 1);
+  }
+
   async saveNote() {
     this.formSended = true;
     if (this.formNote.valid) {

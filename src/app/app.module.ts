@@ -17,6 +17,7 @@ import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { AngularFireStorageModule, BUCKET } from '@angular/fire/compat/storage';
 import { environment } from 'src/environments/environment';
 import { ImagePicker } from '@awesome-cordova-plugins/image-picker/ngx';
+import { SwiperModule } from 'swiper/angular';
 
 @NgModule({
   declarations: [AppComponent],
@@ -31,6 +32,7 @@ import { ImagePicker } from '@awesome-cordova-plugins/image-picker/ngx';
     AngularFirestoreModule,
     AngularFireDatabaseModule,
     AngularFireStorageModule,
+    SwiperModule,
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

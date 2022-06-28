@@ -18,7 +18,7 @@
       </div>
       <ion-label>Anotación</ion-label>
       <ion-textarea autoGrow="true" class="textArea" formControlName="body"
-      (click)="formNote.get('body').markAsTouched()" placeholder="Detalles de la anotación">
+        (click)="formNote.get('body').markAsTouched()" placeholder="Detalles de la anotación">
       </ion-textarea>
       <div class="error" *ngIf="formNote.get('body').hasError('required') && formNote.get('body').touched">
         Contenido de la anotación requerido.
@@ -31,18 +31,27 @@
         <div class="col">
           <pro-button [text]="'Cargar Imágenes'" (click)="pickImages()"></pro-button>
 
-          <div *ngIf="images.length > 0; else noImagesTemplate "></div>
-            <ion-slides mode="ios" pager="ios" scrollbar="ios">
-              <ion-slide *ngFor="let image of images">
-                <ion-icon class="bin" slot="end" name="add"></ion-icon>
-                <img [src]="image" alt="">
-              </ion-slide>
-            </ion-slides>
-            <ng-template #noImagesTemplate>
-              <div class="no-images" >
-                No se han cargado imagenes.
-              </div>
-            </ng-template>
+          <div *ngIf="images.length > 0; else noImagesTemplate ">
+            <swiper [pagination]="true" [scrollbar]="true" [zoom]="true">
+              <ng-template swiperSlide *ngFor="let image of images; let i = index">
+                <ion-slide>
+                  <div>
+                    <img [src]="image" alt="">
+                  </div>
+                  <ion-fab vertical="top" horizontal="end" slot="fixed">
+                    <ion-fab-button class="addbutton" (click)="removeImg(i)">
+                      <ion-icon name="trash" style="color: white;"></ion-icon>
+                    </ion-fab-button>
+                  </ion-fab>
+                </ion-slide>
+              </ng-template>
+            </swiper>
+          </div>
+          <ng-template #noImagesTemplate>
+            <div class="no-images">
+              No se han cargado imagenes.
+            </div>
+          </ng-template>
         </div>
       </div>
 

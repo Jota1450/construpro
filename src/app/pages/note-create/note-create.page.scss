@@ -58,6 +58,7 @@
   justify-content: center;
   display: flex;
   padding-top: 10px;
+  z-index: 9999;
 }
 
 .no-images {
@@ -66,7 +67,13 @@
   font-size: 18px;
 }
 
+.addbutton {
+  --background: #980000;
+  --transition: background-color 15ms linear;
+  z-index: 999;
+}
+
 .bin {
+  background-color: #980000;
   color: #980000;
-  z-index: 9999;
 }
