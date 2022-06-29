@@ -8,6 +8,11 @@ import { Project } from 'src/app/models/project';
 import Swal from 'sweetalert2';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { LoadingController, NavController, Platform } from '@ionic/angular';
+import { ImagePicker, ImagePickerOptions } from '@awesome-cordova-plugins/image-picker/ngx';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { finalize } from 'rxjs/operators';
+
+
 
 @Component({
   selector: 'app-project-create',
@@ -21,6 +26,12 @@ export class ProjectCreatePage implements OnInit {
   users: User[];
   roles: Rol[];
   creator: User;
+  imageUrl: string;
+  images: any[] = [
+    //'https://larazon.co/wp-content/uploads/2021/11/WhatsApp-Image-2021-11-25-at-11.42.49-AM.jpeg',
+    //'https://i.pinimg.com/originals/26/26/0d/26260d6850d544d5d488bfe64f84ef38.jpg',
+    //'https://upload.wikimedia.org/wikipedia/commons/8/81/Bufo_bufo_03.jpg'
+  ];
 
   isCurrentView: boolean;
   displayWarning: boolean;
@@ -47,6 +58,8 @@ export class ProjectCreatePage implements OnInit {
     //private router: Router,
     private navController: NavController,
     private platform: Platform,
+    private imagePicker: ImagePicker,
+    private fireStorage: AngularFireStorage,
   ) {
     this.initForm();
   }
@@ -109,6 +122,15 @@ export class ProjectCreatePage implements OnInit {
   }
 
   initForm() {
+    this.imagePicker.hasReadPermission().then(
+      (value) => {
+        if (value === true) {
+          this.imagePicker.hasReadPermission();
+        }
+      }
+    ).catch(
+
+    );
     this.formProject = this.formBuilder.group(
       {
         name: new FormControl('', [
@@ -135,6 +157,31 @@ export class ProjectCreatePage implements OnInit {
         // ya que la cantidad de usuarios que intervienen en
         // la obra es variable.
         party: this.formBuilder.array([]),
+      }
+    );
+  }
+
+  pickImages() {
+    const options: ImagePickerOptions = {
+      maximumImagesCount: 1,
+      outputType: 1
+    };
+
+    this.imagePicker.getPictures(options).then(
+      (resp) => {
+        resp.forEach(
+          element => {
+            const base64OfImage = 'data:image/png;base64,' + element;
+            this.images.push(base64OfImage);
+          });
+        console.log('imagenes', this.images);
+      }, (error) => {
+        console.log('error', JSON.stringify(error));
+      }
+    ).catch(
+      (error) => {
+        //this.imagePicker.hasReadPermission();
+        console.log('error', JSON.stringify(error));
       }
     );
   }
@@ -214,6 +261,103 @@ export class ProjectCreatePage implements OnInit {
     return party;
   }
 
+/*
+  uploadImages() {
+    return new Promise((resolve, reject) => {
+      Promise.all(
+        // Go over ALL captured images
+        // UPDATE 1
+
+        this.images.map((image, imageIndex) => {
+          // Create a timestamp as filename
+          // UPDATE 1
+          // Create a reference to 'images/todays-date.jpg'
+          //const imageRef = storageRef.child(`images/${filename}.jpg`);
+          const imgRef = this.fireStorage.ref(`images/note_evidence_${this.generateRandomString(5)}_${new Date().toISOString()}`);
+
+          const imageBase64 = image.split(';base64,');
+
+          const raw = window.atob(imageBase64[1]);
+          const rawL = raw.length;
+          const array = new Uint8Array(rawL);
+          for (let i = 0; i < rawL; i++) {
+            array[i] = raw.charCodeAt(i);
+          }
+          const blob = new Blob([array], { type: imageBase64[0].split(':')[1] });
+          // Upload that particular image and return the upload Promise
+          const task = imgRef.put(blob);
+
+          return new Promise((innerResolve, innerReject) => {
+            task.snapshotChanges().pipe(
+              finalize(() => imgRef.getDownloadURL().subscribe(
+                (response) => {
+                  if (response) {
+                    //this.urlAwait = response;
+                    this.imageUrls.push(response);
+                    console.log('url_image', response);
+                    innerResolve(response);
+                    return;
+                  }
+                },
+                error => {
+                  if (error != null) {
+                    innerReject(error);
+                  }
+                }
+              ))
+            ).subscribe();
+          });
+
+        }),
+      ).then(
+        () => {
+          console.log('All images uploaded!');
+          resolve('All images uploaded!');
+        },
+        err => {
+          console.error('Some images failed to upload...', err);
+          reject(err);
+        },
+      );
+    });
+  }
+*/
+  uploadImage() {
+    return new Promise((resolve, reject) => {
+      const imgRef = this.fireStorage.ref(`images/note_evidence_${this.generateRandomString(5)}_${new Date().toISOString()}`);
+
+      const imageBase64 = this.images[0].split(';base64,');
+
+      const raw = window.atob(imageBase64[1]);
+      const rawL = raw.length;
+      const array = new Uint8Array(rawL);
+      for (let i = 0; i < rawL; i++) {
+        array[i] = raw.charCodeAt(i);
+      }
+      const blob = new Blob([array], { type: imageBase64[0].split(':')[1] });
+      // Upload that particular image and return the upload Promise
+      const task = imgRef.put(blob);
+
+      task.snapshotChanges().pipe(
+        finalize(() => imgRef.getDownloadURL().subscribe(
+          (response) => {
+            if (response) {
+              this.imageUrl = response;
+              console.log('url_image', response);
+              resolve(response);
+              return;
+            }
+          },
+          error => {
+            if (error != null) {
+              reject(error);
+            }
+          }
+        ))
+      ).subscribe();
+    });
+  }
+
   async saveProject() {
     try {
       this.formSended = true;
@@ -239,6 +383,12 @@ export class ProjectCreatePage implements OnInit {
           partyIds: this.getPartyIds(party),
           createdAt: new Date().toISOString(),
         };
+
+        if (this.images.length > 0) {
+          await this.uploadImage();
+          project.imageUrl = this.imageUrl;
+        }
+
         console.log('project', project);
         await this.projectsService.saveProject(project).then(
           async (resp) => {
@@ -305,6 +455,16 @@ export class ProjectCreatePage implements OnInit {
         text: error.toString(),
       });
     }
+  }
+
+  generateRandomString(num) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = ' ';
+    const charactersLength = characters.length;
+    for (let i = 0; i < num; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
   }
 
   retroceder() {

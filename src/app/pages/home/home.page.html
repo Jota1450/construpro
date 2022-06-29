@@ -12,9 +12,11 @@
     <ng-container *ngIf="projects.length > 0; else elseTemplate">
       <div class="row" *ngFor="let project of projects">
         <div class="col card" (click)="saveProjectData(project)">
-          <pro-card-project [title]="project.name" [address]="project.address"
+          <pro-card-project class="w-100" [title]="project.name" [address]="project.address"
             [startDate]="formatDateString(project.initialDate)" [endDate]="formatDateString(project.finalDate)"
-            [contractNumber]="project.contractNumber"></pro-card-project>
+            [contractNumber]="project.contractNumber"
+            [img]="(project.imageUrl) ? project.imageUrl : '../../../assets/no-image.png'"
+            ></pro-card-project>
         </div>
       </div>
     </ng-container>

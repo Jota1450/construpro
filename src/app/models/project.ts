@@ -11,5 +11,6 @@ export interface Project {
   finalDate: string;
   party: User[];
   partyIds: string[];
+  imageUrl?: string;
   createdAt: string;
 }

@@ -5,10 +5,18 @@
         <ion-button class="buttonback" (click)="retroceder()">
           <ion-icon name="arrow-back"></ion-icon>
         </ion-button>
-        <img class="img-fluid" style="max-height: 30%;"
-          src="https://images.adsttc.com/media/images/5d34/e507/284d/d109/5600/0240/newsletter/_FI.jpg?1563747560">
+        <ng-container *ngIf="images.length > 0; else elseTemplate">
+          <img class="img-fluid" style="max-height: 30%;"
+          [src]="images[0]">
+        </ng-container>
+        <ng-template #elseTemplate>
+          <img class="img-fluid" style="max-height: 30%;"
+          src="../../../assets/no-image.png">
+        </ng-template>
       </div>
     </header>
+
+    <pro-button [text]="'Subir imagen'" (click)="pickImages()"></pro-button>
 
     <div class="form">
       <form [formGroup]="formProject">

@@ -14,7 +14,8 @@ export class ProCardProject implements OnInit {
   @Input() contractNumber ='';
   @Input() contracts = [];
   @Input() id = '';
-  
+  @Input() img = '';
+
 
   constructor() { }
 
