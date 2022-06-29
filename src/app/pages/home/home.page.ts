@@ -28,8 +28,8 @@ export class HomePage implements OnDestroy {
     private navController: NavController,
     private usersService: UsersService
   ) { }
+
   ngOnDestroy(): void {
-    console.log('sali3');
     this.subscriptions.unsubscribe();
   }
 
@@ -37,24 +37,11 @@ export class HomePage implements OnDestroy {
     console.log('aa', this.subscriptions.closed);
     if (this.subscriptions.closed) {
       this.subscriptions.unsubscribe();
-      //this.subscriptions.remove(0);
     }
-
     await this.localStorage.deleteProjectData();
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
     this.user = await this.localStorage.getUserData();
     await this.getAllProjects();
-    /*this.subscriptions.add(
-      this.projectsService.getProjectsByUser(this.user.id).subscribe(
-        (projects) => {
-          this.projects = projects;
-        }
-      )
-    );*/
     this.subscriptions.unsubscribe();
-
-    //await this.getCurrentUser();
     console.log(this.user);
   }
 

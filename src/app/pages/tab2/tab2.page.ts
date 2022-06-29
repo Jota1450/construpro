@@ -33,6 +33,9 @@ export class Tab2Page implements OnDestroy {
   ) { }
 
   async ionViewWillEnter() {
+    if (this.subscriptions.closed) {
+      this.subscriptions.unsubscribe();
+    }
     this.project = await this.localStorageService.getProjectData();
     console.log('proyecto', this.project.party);
     this.notes = await this.getNotes();

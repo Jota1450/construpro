@@ -67,7 +67,7 @@ export class ProjectInfoPage implements OnInit {
       const newFinalDate = new Date(tz.tz(this.formProject.get('newFinalDate').value, 'America/Bogota').format());
       console.log(newFinalDate.toDateString());
       console.log(moment(newFinalDate.toUTCString()).format('dddd, D MMMM YYYY'));
-      if (newFinalDate > new Date(this.project.finalDate)) {
+      if (newFinalDate > new Date(tz.tz(this.project.finalDate, 'America/Bogota').format())) {
         let dates: string[] = [];
         if (this.project.extensionHistory) {
           dates = this.project.extensionHistory;

@@ -24,7 +24,8 @@ export class ProjectCreatePage implements OnInit {
 
   formSended = false;
   formProject: FormGroup;
-  users: User[];
+  users: User[] = [];
+  mappedUsers: any[];
   roles: Rol[];
   creator: User;
   imageUrl: string;
@@ -66,12 +67,12 @@ export class ProjectCreatePage implements OnInit {
 
   async ngOnInit() {
     await (await this.loadingScreen).present();
+    await this.getAllUsers();
+    this.mappedUsers = this.mapUsers(this.users);
     this.roles = await this.getAllRoles();
-    this.users = await this.getAllUsers();
     this.creator = await this.localStorage.getUserData();
     this.addPartyUser();
-    this.setUser('0', 'user', this.creator);
-
+    console.log(this.users);
     this.platform.backButton.subscribeWithPriority(9999, (processNextHandler) => {
       if (this.isCurrentView) {
         this.displayWarning = true;
@@ -81,7 +82,6 @@ export class ProjectCreatePage implements OnInit {
       }
     });
     await (await this.loadingScreen).dismiss();
-    console.log('roles', this.roles);
   }
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
@@ -109,10 +109,9 @@ export class ProjectCreatePage implements OnInit {
 
     this.party.push(userFormGroup);
 
-    //console.log('party', this.party);
-    //console.log('party_1', this.party.get('0'));
-    //this.party.get('0').get('rol').setValue('Milo te da energia la meta la pones tu.');
-    //console.log('party_1_rol', this.party.get('0').get('rol'));
+    if (this.party.length < 1) {
+      this.setUser('0', 'user', this.creator);
+    }
 
     console.log('formProject', this.formProject.controls);
   }
@@ -128,9 +127,7 @@ export class ProjectCreatePage implements OnInit {
           this.imagePicker.hasReadPermission();
         }
       }
-    ).catch(
-
-    );
+    ).catch();
     this.formProject = this.formBuilder.group(
       {
         name: new FormControl('', [
@@ -211,7 +208,10 @@ export class ProjectCreatePage implements OnInit {
     // En este metodo obtenemos los roles
     return await new Promise((resolve, reject) => {
       this.usersService.getAllUsers().subscribe(
-        users => resolve(users)
+        users => {
+          this.users = users;
+          resolve(users);
+        }
       );
     });
   }
@@ -298,8 +298,8 @@ export class ProjectCreatePage implements OnInit {
   async saveProject() {
     try {
       this.formSended = true;
-      const initialDate =  new Date(tz.tz(this.formProject.get('initialDate').value, 'America/Bogota').format());
-      const finalDate =  new Date(tz.tz(this.formProject.get('finalDate').value, 'America/Bogota').format());
+      const initialDate = new Date(tz.tz(this.formProject.get('initialDate').value, 'America/Bogota').format());
+      const finalDate = new Date(tz.tz(this.formProject.get('finalDate').value, 'America/Bogota').format());
       if (this.formProject.valid && initialDate < finalDate && this.party.length > 1) {
         this.loadingScreen = this.loadingController.create({
           cssClass: 'my-custom-class',
