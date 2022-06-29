@@ -147,7 +147,7 @@
             </div>
           </div>
           <ng-container *ngIf="formProject">
-            <div class="error" *ngIf="formProject.get('party').value < 2">
+            <div class="error" *ngIf="party.length < 2 && formSended">
               Se requieren mas de dos usuarios.
             </div>
           </ng-container>

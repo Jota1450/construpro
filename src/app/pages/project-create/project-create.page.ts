@@ -300,7 +300,7 @@ export class ProjectCreatePage implements OnInit {
       this.formSended = true;
       const initialDate =  new Date(tz.tz(this.formProject.get('initialDate').value, 'America/Bogota').format());
       const finalDate =  new Date(tz.tz(this.formProject.get('finalDate').value, 'America/Bogota').format());
-      if (this.formProject.valid && initialDate < finalDate) {
+      if (this.formProject.valid && initialDate < finalDate && this.party.length > 1) {
         this.loadingScreen = this.loadingController.create({
           cssClass: 'my-custom-class',
           message: 'Cargando...',
