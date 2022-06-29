@@ -6,6 +6,8 @@ import * as tz from 'moment-timezone';
 import { Project } from 'src/app/models/project';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { ProjectsService } from 'src/app/services/projects.service';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-project-info',
@@ -17,6 +19,14 @@ export class ProjectInfoPage implements OnInit {
   project: Project;
   formProject: FormGroup;
   error = false;
+
+  alert = Swal.mixin({
+    toast: true,
+    position: 'center',
+    showConfirmButton: true,
+    timer: 3000,
+    timerProgressBar: true,
+  });
 
   constructor(
     private localStorageService: LocalStorageService,
@@ -52,9 +62,9 @@ export class ProjectInfoPage implements OnInit {
     this.navController.navigateBack(['/tabs/tab1']);
   }
 
-  async updateProject(){
+  async updateProject() {
     if (this.formProject.valid) {
-      const newFinalDate =  new Date(tz.tz(this.formProject.get('newFinalDate').value, 'America/Bogota').format());
+      const newFinalDate = new Date(tz.tz(this.formProject.get('newFinalDate').value, 'America/Bogota').format());
       console.log(newFinalDate.toDateString());
       console.log(moment(newFinalDate.toUTCString()).format('dddd, D MMMM YYYY'));
       if (newFinalDate > new Date(this.project.finalDate)) {
@@ -63,14 +73,39 @@ export class ProjectInfoPage implements OnInit {
           dates = this.project.extensionHistory;
         }
         dates.push(newFinalDate.toISOString());
-        await this.projectsService.updateProjectValue(this.project.id, {finalDate: newFinalDate.toISOString()});
-        await this.projectsService.updateProjectValue(this.project.id, {extensionHistory: dates});
+        const resp = await this.projectsService.updateProjectValue(this.project.id,
+          {
+            finalDate: newFinalDate.toISOString(),
+            extensionHistory: dates
+          }
+        );
+        if (resp !== 'error') {
+          this.alert.fire({
+            icon: 'success',
+            title: 'Bien!!!',
+            text: 'Proyecto actualizado correctamente',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+          }).then(
+            async (result) => {
+              if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
+                this.project.finalDate = newFinalDate.toISOString();
+                this.project.extensionHistory = dates;
+                this.localStorageService.setProjectData(
+                  this.project
+                );
+                this.retroceder();
+              }
+            }
+          );
+        } else {
+          this.error = true;
+          console.log('');
+        }
       } else {
         this.error = true;
-        console.log('');
       }
-    } else {
-      this.error = true;
     }
   }
+
 }
