@@ -1,24 +1,27 @@
 <ion-content>
   <ng-container *ngIf="users && roles">
     <header class="header">
-      <div class="imgcontainer ">
-        <ion-button class="buttonback" (click)="retroceder()">
-          <ion-icon name="arrow-back"></ion-icon>
-        </ion-button>
-        <ng-container *ngIf="images.length > 0; else elseTemplate">
-          <img class="img-fluid custom-img" [src]="images[0]">
-        </ng-container>
-        <ng-template #elseTemplate>
-          <img class="img-fluid" style="max-height: 30%;" src="../../../assets/no-image.png">
-        </ng-template>
-      </div>
-      <div class="fab-container">
-        <ion-fab vertical="center" horizontal="end" edge>
-          <ion-fab-button class="addbutton" (click)="pickImages()">
-            <ion-icon name="duplicate-outline"></ion-icon>
-          </ion-fab-button>
-        </ion-fab>
-      </div>
+      <ion-card-header style="padding: 0;">
+          <div class="imgcontainer ">
+            <ion-button class="buttonback" (click)="retroceder()">
+              <ion-icon name="arrow-back"></ion-icon>
+            </ion-button>
+            <ng-container *ngIf="images.length > 0; else elseTemplate">
+              <img class="img-fluid custom-img" [src]="images[0]">
+            </ng-container>
+            <ng-template #elseTemplate>
+              <img class="img-fluid" style="max-height: 30%;" src="../../../assets/no-image.png">
+            </ng-template>
+
+            <div>
+              <ion-fab vertical="bottom" horizontal="end" edge>
+                <ion-fab-button class="addbutton" (click)="pickImages()">
+                  <ion-icon name="duplicate-outline"></ion-icon>
+                </ion-fab-button>
+              </ion-fab>
+            </div>
+          </div>
+        </ion-card-header>
     </header>
 
     <div class="form">

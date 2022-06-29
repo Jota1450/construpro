@@ -37,6 +37,17 @@ export class ProjectsService {
     }
   }
 
+  async updateProjectValue(id: string, value: any) {
+    try {
+      const result = await this.firestore.collection('Projects').doc(id).update(value);
+      console.log('result', result);
+      return 'success';
+    } catch (error) {
+      console.log(error);
+      return 'error';
+    }
+  }
+
 
   getAllProjects(): Observable<Project[]> {
     try {

@@ -9,8 +9,11 @@ export interface Project {
   address: string;
   initialDate: string;
   finalDate: string;
+  firstFinalDate: string;
   party: User[];
   partyIds: string[];
   imageUrl?: string;
+  extensionHistory?: string[];
+
   createdAt: string;
 }

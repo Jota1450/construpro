@@ -82,13 +82,11 @@
 
 .fab-container {
   display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
   position: absolute;
   left: 0;
   top: 0;
   width: 100%;
-  height: 500px;
+  height: inherit;
   z-index: 1;
   margin-top: 28px;
 }

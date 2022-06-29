@@ -10,52 +10,61 @@
 </ion-header>
 
 <ion-content>
-<ng-container *ngIf="project">
-  <div class="form">
+  <ng-container *ngIf="project">
+    <div class="form">
 
-  
-  <div class="row">
-    <div class="col">
-      <pro-input [title]="'Nombre del proyecto'" [type]="'text'" [value]="project.name" >
-      </pro-input>
+
+      <div class="row">
+        <div class="col">
+          <pro-input [title]="'Nombre del proyecto'" [disabled]="true" [type]="'text'" [value]="project.name">
+          </pro-input>
+        </div>
+      </div>
+
+      <div class="row">
+
+        <div class="col">
+          <pro-input [title]="'N.I.T.'" [type]="'text'" [disabled]="true" [value]="project.NIT">
+          </pro-input>
+        </div>
+
+        <div class="col">
+          <pro-input [title]="'No. Contrato'" [type]="'text'" [disabled]="true" [value]="project.contractNumber">
+          </pro-input>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <pro-input [title]="'Dirección de la obra'" [disabled]="true" [type]="'text'" [value]="project.address">
+          </pro-input>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <pro-input [title]="'Fecha inicio'" [type]="'text'" [disabled]="true"
+            [value]="formatDateString(project.initialDate)">
+          </pro-input>
+        </div>
+
+        <form [formGroup]="formProject">
+          <div class="col">
+            <pro-input [title]="'Fecha fin'" [type]="'date'" [value]="formatDateStringCalendar(project.finalDate)"
+              (outputValue)="formProject.get('newFinalDate').setValue($event)">
+            </pro-input>
+            <div class="error" *ngIf="error">
+              Fecha Invalida o anterior a la existente.
+            </div>
+          </div>
+        </form>
+        <div class="submit">
+          <pro-button [text]="'Actualizar'" [type]="'submit'" (click)="updateProject()"></pro-button>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <div class="row">
-
-    <div class="col">
-      <pro-input [title]="'N.I.T.'" [type]="'text'" [value]="project.NIT" >
-      </pro-input>
-    </div>
-
-    <div class="col">
-      <pro-input [title]="'No. Contrato'" [type]="'text'" [value]="project.contractNumber" >
-      </pro-input>
-    </div>
-
-  </div>
-
-  <div class="row">
-    <div class="col">
-      <pro-input [title]="'Dirección de la obra'" [type]="'text'" [value]="project.address">
-      </pro-input>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col">
-      <pro-input [title]="'Fecha inicio'" [type]="'text'" [value]="formatDateString(project.initialDate)" >
-      </pro-input>
-    </div>
-
-    <div class="col">
-      <pro-input [title]="'Fecha fin'" [type]="'text'" [value]="formatDateString(project.finalDate)" >
-      </pro-input>
-    </div>
-
-  </div>
-</div>
-
-</ng-container>
+  </ng-container>
 
 </ion-content>

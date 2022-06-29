@@ -11,6 +11,7 @@ import { LoadingController, NavController, Platform } from '@ionic/angular';
 import { ImagePicker, ImagePickerOptions } from '@awesome-cordova-plugins/image-picker/ngx';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { finalize } from 'rxjs/operators';
+import * as tz from 'moment-timezone';
 
 
 
@@ -55,7 +56,6 @@ export class ProjectCreatePage implements OnInit {
     private projectsService: ProjectsService,
     private localStorage: LocalStorageService,
     public loadingController: LoadingController,
-    //private router: Router,
     private navController: NavController,
     private platform: Platform,
     private imagePicker: ImagePicker,
@@ -255,73 +255,10 @@ export class ProjectCreatePage implements OnInit {
       };
       party.push(user);
     });
-    //const creator: User = await this.localStorage.getUserData();
-    //creator.rol = 'creator';
-    //party.push(creator);
     return party;
   }
 
-/*
-  uploadImages() {
-    return new Promise((resolve, reject) => {
-      Promise.all(
-        // Go over ALL captured images
-        // UPDATE 1
 
-        this.images.map((image, imageIndex) => {
-          // Create a timestamp as filename
-          // UPDATE 1
-          // Create a reference to 'images/todays-date.jpg'
-          //const imageRef = storageRef.child(`images/${filename}.jpg`);
-          const imgRef = this.fireStorage.ref(`images/note_evidence_${this.generateRandomString(5)}_${new Date().toISOString()}`);
-
-          const imageBase64 = image.split(';base64,');
-
-          const raw = window.atob(imageBase64[1]);
-          const rawL = raw.length;
-          const array = new Uint8Array(rawL);
-          for (let i = 0; i < rawL; i++) {
-            array[i] = raw.charCodeAt(i);
-          }
-          const blob = new Blob([array], { type: imageBase64[0].split(':')[1] });
-          // Upload that particular image and return the upload Promise
-          const task = imgRef.put(blob);
-
-          return new Promise((innerResolve, innerReject) => {
-            task.snapshotChanges().pipe(
-              finalize(() => imgRef.getDownloadURL().subscribe(
-                (response) => {
-                  if (response) {
-                    //this.urlAwait = response;
-                    this.imageUrls.push(response);
-                    console.log('url_image', response);
-                    innerResolve(response);
-                    return;
-                  }
-                },
-                error => {
-                  if (error != null) {
-                    innerReject(error);
-                  }
-                }
-              ))
-            ).subscribe();
-          });
-
-        }),
-      ).then(
-        () => {
-          console.log('All images uploaded!');
-          resolve('All images uploaded!');
-        },
-        err => {
-          console.error('Some images failed to upload...', err);
-          reject(err);
-        },
-      );
-    });
-  }
-*/
   uploadImage() {
     return new Promise((resolve, reject) => {
       const imgRef = this.fireStorage.ref(`images/note_evidence_${this.generateRandomString(5)}_${new Date().toISOString()}`);
@@ -361,9 +298,8 @@ export class ProjectCreatePage implements OnInit {
   async saveProject() {
     try {
       this.formSended = true;
-      const initialDate = new Date(this.formProject.get('initialDate').value);
-      const finalDate = new Date(this.formProject.get('finalDate').value);
-
+      const initialDate =  new Date(tz.tz(this.formProject.get('initialDate').value, 'America/Bogota').format());
+      const finalDate =  new Date(tz.tz(this.formProject.get('finalDate').value, 'America/Bogota').format());
       if (this.formProject.valid && initialDate < finalDate) {
         this.loadingScreen = this.loadingController.create({
           cssClass: 'my-custom-class',
@@ -379,6 +315,7 @@ export class ProjectCreatePage implements OnInit {
           address: this.formProject.get('address').value,
           initialDate: initialDate.toISOString(),
           finalDate: finalDate.toISOString(),
+          firstFinalDate: finalDate.toISOString(),
           party,
           partyIds: this.getPartyIds(party),
           createdAt: new Date().toISOString(),

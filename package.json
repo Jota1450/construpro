@@ -34,6 +34,7 @@
     "firebase": "^9.6.11",
     "ionic2-calendar": "^0.6.9",
     "moment": "^2.29.3",
+    "moment-timezone": "^0.5.34",
     "ng2-validation": "^4.2.0",
     "rxjs": "~6.6.0",
     "signature_pad": "^4.0.5",

@@ -1,5 +1,5 @@
 <label for="basic-url" class="form-label"> {{title}} </label>
 <div class="input-group mb-1">
-  <input [(ngModel)]="value"  [type]="type" (ngModelChange)="emitChange()" class="form-control input" aria-label="Username"
+  <input [(ngModel)]="value"  [type]="type" [disabled]="disabled" (ngModelChange)="emitChange()" class="form-control input" aria-label="Username"
     aria-describedby="basic-addon1">
 </div>
