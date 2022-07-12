@@ -48,6 +48,17 @@ export class ProjectsService {
     }
   }
 
+  async closeEditableField(id: string) {
+    try {
+      const result = await this.firestore.collection('Projects').doc(id).update({isEditable: false});
+      console.log('result', result);
+      return 'success';
+    } catch (error) {
+      console.log(error);
+      return 'error';
+    }
+  }
+
 
   getAllProjects(): Observable<Project[]> {
     try {

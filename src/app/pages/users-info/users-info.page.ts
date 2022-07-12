@@ -208,6 +208,7 @@ export class UsersInfoPage implements OnInit {
         documentType: element.user.documentType,
         documentNumber: element.user.documentNumber,
         rol: element.rol,
+        canCreateProject: false,
         createdAt: element.user.createdAt,
         professionalCard: element.user.professionalCard
       };

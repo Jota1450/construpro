@@ -16,7 +16,7 @@ export class RegisterPage implements OnInit {
   options = [
     { value: 'C.C.', text: 'C.C.' },
     //{ value: 'T.I.', text: 'T.I.' }
-    { value: 'Passport.', text: 'Passport' }
+    { value: 'Pasaporte', text: 'Pasaporte' }
   ];
 
   formSended = false;
@@ -77,7 +77,7 @@ export class RegisterPage implements OnInit {
   }
 
   async saveUser() {
-  this.formSended = true;
+    this.formSended = true;
 
     await (await this.loadingScreen).present();
     if (this.formRegister.valid && this.passAreValid()) {
@@ -88,6 +88,7 @@ export class RegisterPage implements OnInit {
         password: this.formRegister.get('password').value.trim(),
         documentType: this.formRegister.get('documentType').value.trim(),
         documentNumber: this.formRegister.get('documentNumber').value.trim(),
+        canCreateProject: false,
         createdAt: new Date().toISOString().trim(),
         professionalCard: this.formRegister.get('professionalCard').value.trim(),
       };
@@ -109,21 +110,21 @@ export class RegisterPage implements OnInit {
     //this.formRegister.get
   }
 
-  setValue(name: string, value: any){
+  setValue(name: string, value: any) {
     //this.formRegister.get(name).markAsTouched();
     this.formRegister.get(name).setValue(value);
   }
 
-  passAreValid(): boolean{
+  passAreValid(): boolean {
     return this.formRegister.get('password').value === this.formRegister.get('confirmPassword').value;
   }
 
-  validateSelect():boolean{
-    if(this.formRegister.get('documentType').value ==""){
-        return false;
-      }else{
-        return true;
-      }
+  validateSelect(): boolean {
+    if (this.formRegister.get('documentType').value == "") {
+      return false;
+    } else {
+      return true;
+    }
   }
 
 

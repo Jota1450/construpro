@@ -1,3 +1,4 @@
+import { ProjectsService } from 'src/app/services/projects.service';
 import { Project } from 'src/app/models/project';
 import { NotesService } from './../../services/notes.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
@@ -59,6 +60,7 @@ export class NoteCreatePage implements OnInit {
     private formBuilder: FormBuilder,
     private localStorageService: LocalStorageService,
     private notesService: NotesService,
+    private projectsService: ProjectsService,
     private usersService: UsersService,
     private fireStorage: AngularFireStorage,
     private imagePicker: ImagePicker,
@@ -153,6 +155,10 @@ export class NoteCreatePage implements OnInit {
           isSigned: false,
           creatorUser: this.user
         };
+
+        if (this.project.isEditable) {
+          await this.projectsService.closeEditableField(this.project.id);
+        }
 
         if (this.images.length > 0) {
           await this.uploadImages();

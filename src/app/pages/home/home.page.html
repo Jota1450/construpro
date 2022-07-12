@@ -33,7 +33,7 @@
     </div>
   </ng-template>
 
-  <div class="floatingbutton">
+  <div class="floatingbutton" *ngIf="user && user.canCreateProject">
     <ion-fab-button (click)="goTo('/project-create')" class="addbutton">
       <ion-icon class="addicon" name="add"></ion-icon>
     </ion-fab-button>

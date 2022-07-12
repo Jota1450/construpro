@@ -14,6 +14,7 @@ export interface Project {
   partyIds: string[];
   imageUrl?: string;
   extensionHistory?: string[];
+  isEditable: boolean;
 
   createdAt: string;
 }

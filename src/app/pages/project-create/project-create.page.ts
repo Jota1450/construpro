@@ -72,6 +72,8 @@ export class ProjectCreatePage implements OnInit {
     this.roles = await this.getAllRoles();
     this.creator = await this.localStorage.getUserData();
     this.addPartyUser();
+    this.setUser('0', 'user', this.creator);
+
     console.log(this.users);
     this.platform.backButton.subscribeWithPriority(9999, (processNextHandler) => {
       if (this.isCurrentView) {
@@ -108,11 +110,6 @@ export class ProjectCreatePage implements OnInit {
     });
 
     this.party.push(userFormGroup);
-
-    if (this.party.length < 1) {
-      this.setUser('0', 'user', this.creator);
-    }
-
     console.log('formProject', this.formProject.controls);
   }
 
@@ -250,6 +247,7 @@ export class ProjectCreatePage implements OnInit {
         documentType: element.user.documentType,
         documentNumber: element.user.documentNumber,
         rol: element.rol,
+        canCreateProject: element.user.canCreateProject,
         createdAt: element.user.createdAt,
         professionalCard: element.user.professionalCard
       };
@@ -317,6 +315,7 @@ export class ProjectCreatePage implements OnInit {
           finalDate: finalDate.toISOString(),
           firstFinalDate: finalDate.toISOString(),
           party,
+          isEditable: true,
           partyIds: this.getPartyIds(party),
           createdAt: new Date().toISOString(),
         };

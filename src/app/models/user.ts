@@ -4,6 +4,7 @@ export interface User {
   lastNames: string;
   email: string;
   password: string;
+  canCreateProject: boolean;
   documentType: string;
   documentNumber: string;
   professionalCard: string;
