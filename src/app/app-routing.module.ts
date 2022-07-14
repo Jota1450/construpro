@@ -50,6 +50,15 @@ const routes: Routes = [
     path: 'users-info',
     loadChildren: () => import('./pages/users-info/users-info.module').then( m => m.UsersInfoPageModule)
   },
+  {
+    path: 'reset-password',
+    loadChildren: () => import('./pages/reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
+  },
+  {
+    path: 'reset-password',
+    loadChildren: () => import('./pages/reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
+  },
+
 
 
 

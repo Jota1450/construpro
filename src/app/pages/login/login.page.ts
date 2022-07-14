@@ -108,4 +108,8 @@ export class LoginPage implements OnInit {
       });
     }
   }
+
+  resetPassword() {
+    this.navController.navigateForward(['/reset-password']);
+  }
 }
