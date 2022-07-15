@@ -349,7 +349,7 @@ export class ProjectCreatePage implements OnInit {
               this.alert.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: 'Something went wrong!',
+                text: 'Parece que algo salió mal!',
               }).then(
                 (result) => {
                 }
@@ -361,7 +361,7 @@ export class ProjectCreatePage implements OnInit {
             this.alert.fire({
               icon: 'error',
               title: 'Oops...',
-              text: 'Something went wrong!',
+              text: 'Parece que algo salió mal!',
             });
           }
         );

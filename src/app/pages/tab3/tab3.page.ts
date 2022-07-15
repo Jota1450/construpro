@@ -101,12 +101,6 @@ export class Tab3Page {
     this.isToday = today.getTime() === event.getTime();
   }
 
-  /*
-  loadEvents() {
-    this.eventSource = this.createRandomEvents();
-  }
-  */
-
   onViewTitleChanged(title) {
     this.viewTitle = title;
   }

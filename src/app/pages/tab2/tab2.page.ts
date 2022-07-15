@@ -38,8 +38,13 @@ export class Tab2Page implements OnDestroy {
     }
     this.project = await this.localStorageService.getProjectData();
     console.log('proyecto', this.project.party);
+    console.log('is Editable', this.project.isEditable);
     this.notes = await this.getNotes();
     console.log('closed', this.subscriptions.closed);
+    if (this.project.isEditable && this.notes.length > 0) {
+      this.project.isEditable = false;
+      await this.localStorageService.setProjectData(this.project);
+    }
   }
 
   ionViewDidLeave() {

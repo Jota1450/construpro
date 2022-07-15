@@ -35,7 +35,7 @@ export class CommentsService {
       this.alert.fire({
         icon: 'error',
         title: 'Oops...',
-        text: 'Something went wrong!',
+        text: 'Parece que algo salió mal!',
       });
       return null;
     }
@@ -60,7 +60,7 @@ export class CommentsService {
       this.alert.fire({
         icon: 'error',
         title: 'Oops...',
-        text: 'Something went wrong!',
+        text: 'Parece que algo salió mal!',
       });
       return null;
     }

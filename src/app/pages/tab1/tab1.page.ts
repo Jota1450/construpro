@@ -19,7 +19,7 @@ export class Tab1Page {
     this.onInit();
   }
 
-  async onInit(){
+  async onInit() {
     await this.localStorageService.getProjectData().then(
       (project) => this.project = project
     );

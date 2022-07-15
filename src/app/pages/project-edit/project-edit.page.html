@@ -1,0 +1,72 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button class="backbutton" (click)="retroceder()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="toolbartitle">Proyecto</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ng-container *ngIf="project">
+    <form [formGroup]="formProject">
+      <div class="form">
+
+
+        <div class="row">
+          <div class="col">
+            <pro-input [title]="'Nombre del proyecto'" [type]="'text'" [value]="project.name" (outputValue)="formProject.get('newName').setValue($event)">
+            </pro-input>
+          </div>
+        </div>
+
+        <div class="row">
+
+          <div class="col">
+            <pro-input [title]="'N.I.T.'" [type]="'text'" [value]="project.NIT" (outputValue)="formProject.get('newNIT').setValue($event)">
+            </pro-input>
+          </div>
+
+          <div class="col">
+            <pro-input [title]="'No. Contrato'" [type]="'text'" [value]="project.contractNumber" (outputValue)="formProject.get('newContractNumber').setValue($event)">
+            </pro-input>
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <pro-input [title]="'Dirección de la obra'" [type]="'text'" [value]="project.address" (outputValue)="formProject.get('newAddress').setValue($event)">
+            </pro-input>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <pro-input [title]="'Fecha inicio'" [type]="'date'" [value]="formatDateStringCalendar(project.initialDate)"
+              (outputValue)="formProject.get('newInitialDate').setValue($event)">
+            </pro-input>
+          </div>
+
+          <div class="col">
+
+            <pro-input [title]="'Fecha fin'" [type]="'date'" [value]="formatDateStringCalendar(project.finalDate)"
+              (outputValue)="formProject.get('newFinalDate').setValue($event)">
+            </pro-input>
+
+            <div class="error" *ngIf="error">
+              Fecha Invalida o anterior a la existente.
+            </div>
+          </div>
+          <div class="submit">
+            <pro-button [text]="'Actualizar'" [type]="'submit'" (click)="updateProject()"></pro-button>
+          </div>
+          <!---pro-button [text]="'Test'" (click)="print()"></!---pro-button--->
+        </div>
+      </div>
+    </form>
+  </ng-container>
+
+</ion-content>

@@ -13,7 +13,6 @@
   <ng-container *ngIf="project">
     <div class="form">
 
-
       <div class="row">
         <div class="col">
           <pro-input [title]="'Nombre del proyecto'" [disabled]="true" [type]="'text'" [value]="project.name">
@@ -63,8 +62,7 @@
           <pro-button [text]="'Actualizar'" [type]="'submit'" (click)="updateProject()"></pro-button>
         </div>
       </div>
+
     </div>
-
   </ng-container>
-
 </ion-content>

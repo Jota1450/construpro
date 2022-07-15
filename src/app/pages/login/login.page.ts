@@ -19,13 +19,9 @@ export class LoginPage implements OnInit {
   alert = Swal.mixin({
     toast: true,
     position: 'center',
-    showConfirmButton: false,
+    showConfirmButton: true,
     timer: 3000,
     timerProgressBar: true,
-    didOpen: (toast) => {
-      toast.addEventListener('mouseenter', Swal.stopTimer);
-      toast.addEventListener('mouseleave', Swal.resumeTimer);
-    },
   });
   loadingScreen = this.loadingController.create({
     cssClass: 'my-custom-class',
@@ -86,10 +82,10 @@ export class LoginPage implements OnInit {
         (error) => {
           //console.log(error);
           this.alert.fire({
-            title: error.message,
-            text: 'Do you want to continue',
+            title: 'Parece que algo salió mal',
+            text: 'Por favor revisa que los datos sean correctos.',
             icon: 'error',
-            confirmButtonText: 'Cool'
+            confirmButtonText: 'ok'
           }).then(
             async (result) => {
               if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
@@ -101,10 +97,10 @@ export class LoginPage implements OnInit {
       );
     } else {
       this.alert.fire({
-        title: 'error',
-        text: 'Do you want to continue',
+        title: 'Parece que algo salió mal',
+        text: 'Por favor revisa que los datos sean correctos.',
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'ok'
       });
     }
   }

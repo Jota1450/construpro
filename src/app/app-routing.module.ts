@@ -50,6 +50,11 @@ const routes: Routes = [
     path: 'users-info',
     loadChildren: () => import('./pages/users-info/users-info.module').then( m => m.UsersInfoPageModule)
   },
+  {
+    path: 'project-edit',
+    loadChildren: () => import('./pages/project-edit/project-edit.module').then( m => m.ProjectEditPageModule)
+  },
+
 
 
 

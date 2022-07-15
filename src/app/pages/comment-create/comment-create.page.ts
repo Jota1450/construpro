@@ -123,7 +123,7 @@ export class CommentCreatePage implements OnInit {
                 this.alert.fire({
                   icon: 'error',
                   title: 'Oops...',
-                  text: 'Something went wrong!',
+                  text: 'Parece que algo salió mal!',
                 }).then(
                   async (result) => {
                     if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
@@ -139,7 +139,7 @@ export class CommentCreatePage implements OnInit {
                 this.alert.fire({
                   icon: 'error',
                   title: 'Oops...',
-                  text: 'Something went wrong!',
+                  text: 'Parece que algo salió mal!',
                 });
               }
             }
