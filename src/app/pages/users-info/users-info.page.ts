@@ -23,6 +23,7 @@ export class UsersInfoPage implements OnInit {
   roles: Rol[];
   project: Project;
   formProject: FormGroup;
+  numOriginalUsers: number;
 
   alert = Swal.mixin({
     toast: true,
@@ -60,6 +61,7 @@ export class UsersInfoPage implements OnInit {
     this.users = this.project.party;
     this.setInitialUsers();
     await (await this.loadingScreen).dismiss();
+    this.numOriginalUsers = this.users.length;
   }
 
   initForm() {
@@ -76,6 +78,10 @@ export class UsersInfoPage implements OnInit {
     } else {
       return true;
     }
+  }
+
+  log(){
+    console.table(this.formProject);
   }
 
   ionViewDidLeave() {
@@ -113,6 +119,11 @@ export class UsersInfoPage implements OnInit {
 
   removePartyUser(index: number) {
     this.party.removeAt(index);
+  }
+
+  removePartyUserWithUser(index: number) {
+    this.party.removeAt(index);
+    this.numOriginalUsers--;
   }
 
   setUser(index: string, name: string, value: any) {

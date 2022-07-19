@@ -23,13 +23,13 @@
           <div class="card" style="padding: 10px;" formArrayName="party"
             *ngFor="let user of party.controls; let i = index">
             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-              (click)="removePartyUser(i)" *ngIf="party.length > 2 && ((i < users.length)? currentUser.id !== users[i].id : true)">
+              (click)="(i < numOriginalUsers) ? removePartyUserWithUser(i) : removePartyUser(i)" *ngIf="party.length > 2 && ((i < users.length)? currentUser.id !== users[i].id : true)">
               x
             </span>
 
             <div class="row" [formGroupName]="i">
 
-              <ng-container *ngIf="i < users.length; else elseTemplate">
+              <ng-container *ngIf="i < numOriginalUsers; else elseTemplate">
                 <div class="col">
                   <pro-select [title]="'Usuario'" [options]="mapUsers([project.party[i]])"
                     (outputValue)="setUser(i.toString() ,'id', $event)" [selected]="0" [disabled]="true">
@@ -76,6 +76,8 @@
         </div>
         <div class="submit">
           <pro-button [text]="'Actualizar'" [type]="'submit'" (click)="updateProject()"></pro-button>
+          <pro-button [text]="'Cancelar'" [type]="'submit'" (click)="retroceder()"></pro-button>
+          <pro-button [text]="'Test'" [type]="'submit'" (click)="log()"></pro-button>
         </div>
       </form>
     </div>
