@@ -129,7 +129,7 @@ export class ProjectCreatePage implements OnInit {
       {
         name: new FormControl('', [
           Validators.required,
-          Validators.pattern('^[a-zA-ZáÁéÉíÍóÓüúÚñÑ ]{8,30}$')
+          Validators.pattern('^[a-zA-ZáÁéÉíÍóÓüúÚñÑ ]{4,30}$')
         ]),
         contractNumber: new FormControl('', [
           Validators.required,
