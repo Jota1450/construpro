@@ -204,6 +204,18 @@ export class UsersInfoPage implements OnInit {
           );
         }
       );
+    } else {
+      this.alert.fire({
+        icon: 'error',
+        title: 'Parece que algo salió mal!',
+        text: 'Por favor Revisa el formulario',
+      }).then(
+        async (result) => {
+          if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
+            (await this.loadingScreen).dismiss();
+          }
+        }
+      );
     }
   }
 

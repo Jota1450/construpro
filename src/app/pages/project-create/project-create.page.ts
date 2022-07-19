@@ -128,7 +128,8 @@ export class ProjectCreatePage implements OnInit {
     this.formProject = this.formBuilder.group(
       {
         name: new FormControl('', [
-          Validators.required
+          Validators.required,
+          Validators.pattern('^[a-zA-ZáÁéÉíÍóÓüúÚñÑ ]{8,30}$')
         ]),
         contractNumber: new FormControl('', [
           Validators.required,
