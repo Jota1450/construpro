@@ -5,6 +5,26 @@
     font-size: 20px;
     color: #980000;
 }
+.state-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.dot {
+    height: 12px;
+    width: 12px;
+    background-color: #F29339;
+    border-radius: 50%;
+
+  }
+.state{
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #980000;
+    padding-left: 4px;
+}
 
 .card-anotacion{
     background: #FFFFFF;
@@ -34,6 +54,7 @@ line-height: 21px !important;
     border-right-color: #000;
     border-right-width: 1px;
     border-right-style: solid;
+    min-width: 95px;
 }
 
 
