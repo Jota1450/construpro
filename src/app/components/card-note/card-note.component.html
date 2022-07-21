@@ -1,32 +1,41 @@
 <div class="card-anotacion">
-    <div class="row">
-        <div class="col-9">
-            <span>
-                <label class="anotador">{{ names }} {{ lastNames }}</label>
-            </span>
-        </div>
-        <div class="col-3">
-            <div class="state-div">
-                <div class="dot" id="dot">
-                </div>
-                <span>
-                    <label class="state">Estado</label>
-                </span>
-            </div>
-        </div>
+  <div class="row">
+    <div class="col-9">
+      <span>
+        <label class="anotador">{{ names }} {{ lastNames }}</label>
+      </span>
     </div>
+    <div class="col-3">
+      <div class="state-div">
+        <ng-container *ngIf="finished; else finishedElseTemplate">
+          <div class="success-dot" id="dot">
+          </div>
+          <span>
+            <label class="state">Finalizado</label>
+          </span>
+        </ng-container>
+        <ng-template #finishedElseTemplate>
+          <div class="pending-dot" id="dot">
+          </div>
+          <span>
+            <label class="state">Pendiente</label>
+          </span>
+        </ng-template>
+      </div>
+    </div>
+  </div>
 
-    <div class="date-anotacion">
-        <span>
-            {{date}}
-        </span>
+  <div class="date-anotacion">
+    <span>
+      {{ date }}
+    </span>
+  </div>
+  <div class="content-anotacion">
+    <div class="time-anotacion">
+      {{ time }}
     </div>
-    <div class="content-anotacion">
-        <div class="time-anotacion">
-            {{time}}
-        </div>
-        <div class="text-anotacion h-100">
-            {{note}}
-        </div>
+    <div class="text-anotacion h-100">
+      {{ note }}
     </div>
+  </div>
 </div>

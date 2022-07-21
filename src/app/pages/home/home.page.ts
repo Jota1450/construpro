@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 import { NavController } from '@ionic/angular';
+import { Rol } from 'src/app/models/rol';
 
 @Component({
   selector: 'app-home',
@@ -19,6 +20,7 @@ export class HomePage implements OnDestroy {
 
   projects: Project[] = null;
   user: User;
+  roles: Rol[];
   private subscriptions = new Subscription();
 
   constructor(
@@ -27,7 +29,13 @@ export class HomePage implements OnDestroy {
     private router: Router,
     private navController: NavController,
     private usersService: UsersService
-  ) { }
+  ) {
+    this.initRoles();
+  }
+
+  async initRoles() {
+    this.roles = await this.getAllRoles();
+  }
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
@@ -100,6 +108,19 @@ export class HomePage implements OnDestroy {
             resolve(projects);
           }
         )
+      );
+    });
+  }
+
+  findUserRole(userid: string, party: User[]) {
+    return this.roles.find(rol => rol.id === party.find(user => user.id === userid).rol).espName;
+  }
+
+  async getAllRoles(): Promise<Rol[]> {
+    // En este metodo obtenemos los roles
+    return await new Promise((resolve, reject) => {
+      this.usersService.getAllRoles().subscribe(
+        roles => resolve(roles)
       );
     });
   }

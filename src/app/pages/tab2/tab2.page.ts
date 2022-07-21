@@ -74,7 +74,18 @@ export class Tab2Page implements OnDestroy {
         this.subscriptions.add(
           this.notesService.getNotesById(id).subscribe(
             notes => {
-              this.notes = notes;
+              this.notes = this.notes = notes.sort((a, b) => {
+                const fa = a.isSigned.toString();
+                const fb = b.isSigned.toString();
+
+                if (fa < fb) {
+                  return -1;
+                }
+                if (fa > fb) {
+                  return 1;
+                }
+                return 0;
+              });
               resolver(notes);
             }
           )

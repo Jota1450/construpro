@@ -27,7 +27,7 @@
           <div class="procard">
             <pro-card-note [routerLink]="['/note-detail/'+note.id]" [time]="formatTime(note.date)"
               [date]="formatDate(note.date)" [note]="note.body" [names]="note.creatorUser.names"
-              [lastNames]="note.creatorUser.lastNames">
+              [lastNames]="note.creatorUser.lastNames" [finished]="note.isSigned">
             </pro-card-note>
           </div>
         </div>
@@ -70,7 +70,6 @@
           </div>
         </div>
         <div class="buttons">
-
 
           <div class="row">
             <ng-container *ngIf="toggleFilter; else toggleTemplate">

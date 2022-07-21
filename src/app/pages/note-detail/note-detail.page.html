@@ -65,7 +65,7 @@
           <ion-textarea class="textArea" autoGrow="True" readonly [value]="comment.body"
             style="--padding-start: 0; --padding-top: 0; --padding-bottom: 0">
           </ion-textarea>
-          <ion-icon name="trash-outline" *ngIf="!note.isSigned" (click)="deleteComment(comment.id)">Eliminar</ion-icon>
+          <ion-icon name="trash-outline" *ngIf="!note.isSigned && comment.user.id === user.id" (click)="deleteComment(comment.id)">Eliminar</ion-icon>
           <ion-label class="comment-date gap-1 mb-1" slot="end">
             <ion-icon name="calendar-outline"></ion-icon>{{ formatDateString(comment.createdAt) }}
           </ion-label>
@@ -82,6 +82,6 @@
     <div class="button-space">
 
     </div>
-    
+
   </ng-container>
 </ion-content>

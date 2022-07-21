@@ -16,6 +16,7 @@
             [startDate]="formatDateString(project.initialDate)" [endDate]="formatDateString(project.finalDate)"
             [contractNumber]="project.contractNumber"
             [img]="(project.imageUrl) ? project.imageUrl : '../../../assets/no-image.png'"
+            [rol]="findUserRole(user.id, project.party)"
             ></pro-card-project>
         </div>
       </div>
