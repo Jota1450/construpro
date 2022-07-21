@@ -20,7 +20,7 @@
 .card {
   align-items: center;
   border: none !important;
-  margin: 15px;
+  margin: 15px 15px 0 15px;
 }
 
 .floatingbutton {
@@ -39,7 +39,6 @@
 
 .addbutton {
   --background: #980000;
-  ;
   --transition: background-color 15ms linear;
 }
 

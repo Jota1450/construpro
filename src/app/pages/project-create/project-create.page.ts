@@ -13,8 +13,6 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { finalize } from 'rxjs/operators';
 import * as tz from 'moment-timezone';
 
-
-
 @Component({
   selector: 'app-project-create',
   templateUrl: './project-create.page.html',
@@ -402,6 +400,11 @@ export class ProjectCreatePage implements OnInit {
       result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
     return result;
+  }
+
+  creatorUsers(){
+    const roles = this.roles.filter(rol => (rol.id === 'IZ00zAUWIUTo4ASO4ugR' || rol.id === 'sc2gb0ZG1A19fBILZDCD'));
+    return roles.map(rol => ({ text: rol.espName, value: rol.id }));
   }
 
   retroceder() {

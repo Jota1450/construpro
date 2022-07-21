@@ -2,26 +2,26 @@
   <ng-container *ngIf="users && roles">
     <header class="header">
       <ion-card-header style="padding: 0;">
-          <div class="imgcontainer ">
-            <ion-button class="buttonback" (click)="retroceder()">
-              <ion-icon name="arrow-back"></ion-icon>
-            </ion-button>
-            <ng-container *ngIf="images.length > 0; else elseTemplate">
-              <img class="img-fluid custom-img" [src]="images[0]">
-            </ng-container>
-            <ng-template #elseTemplate>
-              <img class="img-fluid" style="max-height: 30%;" src="../../../assets/no-image.png">
-            </ng-template>
+        <div class="imgcontainer ">
+          <ion-button class="buttonback" (click)="retroceder()">
+            <ion-icon name="arrow-back"></ion-icon>
+          </ion-button>
+          <ng-container *ngIf="images.length > 0; else elseTemplate">
+            <img class="img-fluid custom-img" [src]="images[0]">
+          </ng-container>
+          <ng-template #elseTemplate>
+            <img class="img-fluid" style="max-height: 30%;" src="../../../assets/no-image.png">
+          </ng-template>
 
-            <div>
-              <ion-fab vertical="bottom" horizontal="end" edge>
-                <ion-fab-button class="addbutton" (click)="pickImages()">
-                  <ion-icon name="duplicate-outline"></ion-icon>
-                </ion-fab-button>
-              </ion-fab>
-            </div>
+          <div>
+            <ion-fab vertical="bottom" horizontal="end" edge>
+              <ion-fab-button class="addbutton" (click)="pickImages()">
+                <ion-icon name="duplicate-outline"></ion-icon>
+              </ion-fab-button>
+            </ion-fab>
           </div>
-        </ion-card-header>
+        </div>
+      </ion-card-header>
     </header>
 
     <div class="form">
@@ -137,11 +137,23 @@
               <div class="col">
                 <label for="basic-url" class="form-label"> Rol </label>
                 <div class="input-group mb-1">
-                  <select class="form-select select" formControlName="rol">
-                    <option *ngFor="let option of mapRoles(roles); let i = index" [ngValue]="option.value">
-                      {{ option.text }}
-                    </option>
-                  </select>
+
+                  <ng-container *ngIf="i === 0; else elseTemplate2">
+                    <select class="form-select select" formControlName="rol">
+                      <option *ngFor="let option of creatorUsers(); let i = index" [ngValue]="option.value">
+                        {{ option.text }}
+                      </option>
+                    </select>
+                  </ng-container>
+                  <ng-template #elseTemplate2>
+                    <select class="form-select select" formControlName="rol">
+                      <option *ngFor="let option of mapRoles(roles); let i = index" [ngValue]="option.value">
+                        {{ option.text }}
+                      </option>
+                    </select>
+                  </ng-template>
+
+
                 </div>
               </div>
             </div>
