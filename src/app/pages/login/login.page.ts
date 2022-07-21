@@ -72,7 +72,6 @@ export class LoginPage implements OnInit {
 
             if (this.authService.getUid != null) {
               this.navController.navigateForward(['/menu/home']);
-
             };
             await (await this.loadingScreen).dismiss();
 

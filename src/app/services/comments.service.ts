@@ -41,6 +41,23 @@ export class CommentsService {
     }
   }
 
+  async deleteComment(noteId: string, commentId: string) {
+    try {
+      //const resp = await this.firestore.collection('Notes').doc(commentId).delete();
+      const note = await this.firestore.collection('Notes').doc(noteId);
+      const result = await note.collection('Comments').doc(commentId).delete();
+      console.log('response', result);
+      return result;
+    } catch (error) {
+      this.alert.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Parece que algo salió mal!',
+      });
+      return null;
+    }
+  }
+
   getAllComments(noteId: string): Observable<Comment[]> {
     try {
       // Obtenemos todos los Comentarios.

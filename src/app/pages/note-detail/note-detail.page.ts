@@ -79,5 +79,8 @@ export class NoteDetailPage implements OnInit {
     return this.note.inspectorId === this.user.id;
   }
 
+  deleteComment(commentId: string){
+    this.commentsService.deleteComment(this.note.id, commentId);
+  }
 
 }

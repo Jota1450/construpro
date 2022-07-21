@@ -84,7 +84,7 @@ export class AuthService {
   }
   // Email verification when new user register
   // Recover password
-  passwordRecover(passwordResetEmail) {
+  passwordRecover(passwordResetEmail: string) {
     try {
       return this.fireAuth.sendPasswordResetEmail(passwordResetEmail)
         .then(() => {
