@@ -88,12 +88,12 @@ export class AuthService {
     try {
       return this.fireAuth.sendPasswordResetEmail(passwordResetEmail)
         .then(() => {
-          window.alert(
+          /*window.alert(
             'Password reset email has been sent, please check your inbox.'
-          );
+          );*/
         })
         .catch((error) => {
-          window.alert(error);
+          //window.alert(error);
         });
     } catch (error) {
       return error;

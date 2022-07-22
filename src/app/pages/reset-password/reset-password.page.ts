@@ -44,7 +44,12 @@ export class ResetPasswordPage implements OnInit {
     );
   }
 
+  log(){
+    console.log('goku', this.formEmail);
+  }
+
   resetPassword() {
+    this.formEmail.get('email').setValue(this.email);
     if (this.formEmail.valid) {
       this.authService.passwordRecover(this.email).then(
         (result) => {
