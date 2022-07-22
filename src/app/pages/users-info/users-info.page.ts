@@ -24,6 +24,9 @@ export class UsersInfoPage implements OnInit {
   project: Project;
   formProject: FormGroup;
   numOriginalUsers: number;
+  formHasChange = false;
+
+  selectedUsersId: string[] = [];
 
   alert = Swal.mixin({
     toast: true,
@@ -72,7 +75,7 @@ export class UsersInfoPage implements OnInit {
     );
   }
 
-  isLegacy(index): boolean{
+  isLegacy(index): boolean {
     if (index < this.users.length) {
       return this.currentUser.id !== this.users[index].id;
     } else {
@@ -80,21 +83,22 @@ export class UsersInfoPage implements OnInit {
     }
   }
 
-  log(){
-    console.table(this.formProject);
+  log() {
+    console.log(this.formProject.value.party);
   }
 
   ionViewDidLeave() {
     this.subscriptions.unsubscribe();
   }
 
-  setInitialUsers(){
+  setInitialUsers() {
     console.log('length', this.party.length);
     this.project.party.forEach(
       (user, index) => {
         this.addPartyUser();
         this.setUser(index.toString(), 'user', user);
         this.setUser(index.toString(), 'rol', user.rol);
+        this.selectedUsersId.push(user.id);
       }
     );
   }
@@ -103,9 +107,9 @@ export class UsersInfoPage implements OnInit {
     return this.formProject.get('party') as FormArray;
   }
 
-  addPartyUser() {
+  addPartyUser(user: any = '') {
     const userFormGroup = this.formBuilder.group({
-      user: new FormControl('', [
+      user: new FormControl(user, [
         Validators.required
       ]),
       rol: new FormControl('', [
@@ -118,19 +122,25 @@ export class UsersInfoPage implements OnInit {
   }
 
   removePartyUser(index: number) {
+    const userId = this.party.get(index.toString()).get('user').value.id;
+    this.removeSelectedUsersId(userId);
     this.party.removeAt(index);
+    this.formHasChange = true;
   }
 
   removePartyUserWithUser(index: number) {
+    const userId = this.party.get(index.toString()).get('user').value.id;
+    this.removeSelectedUsersId(userId);
     this.party.removeAt(index);
     this.numOriginalUsers--;
+    this.formHasChange = true;
   }
 
   setUser(index: string, name: string, value: any) {
     this.party.get(index).get(name).setValue(value);
   }
 
-  getRol(id: string){
+  getRol(id: string) {
     const rol: Rol = this.roles.find(
       (rolResp) => rolResp.id === id
     );
@@ -173,49 +183,57 @@ export class UsersInfoPage implements OnInit {
     return ids;
   }
 
-  async updateProject(){
+  async updateProject() {
     console.log(this.formProject);
-    if (this.formProject.valid) {
-      this.loadingScreen = this.loadingController.create({
-        cssClass: 'my-custom-class',
-        message: 'Cargando...',
-      });
-      (await this.loadingScreen).present();
-      const projectToUpdate: Project = this.project;
-      const party = this.mapParty();
-      projectToUpdate.party = party;
-      projectToUpdate.partyIds = this.getPartyIds(party);
-      this.projectsService.updateProject(this.project.id, projectToUpdate).then(
-        async () => {
-          await this.localStorage.setProjectData(projectToUpdate);
-          this.alert.fire({
-            icon: 'success',
-            title: 'Bien!!!',
-            text: 'Proyecto actualizado correctamente',
-            allowOutsideClick: false,
-            allowEscapeKey: false,
-          }).then(
-            async (result) => {
-              if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
-                (await this.loadingScreen).dismiss();
-                this.retroceder();
-              }
-            }
-          );
-        }
-      );
-    } else {
+    if (!this.formHasChange) {
       this.alert.fire({
         icon: 'error',
-        title: 'Parece que algo salió mal!',
-        text: 'Por favor Revisa el formulario',
-      }).then(
-        async (result) => {
-          if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
-            (await this.loadingScreen).dismiss();
+        title: 'No hay Cambios!',
+        text: 'Por favor realiza algún cambio.',
+      });
+    } else {
+      if (this.formProject.valid) {
+        this.loadingScreen = this.loadingController.create({
+          cssClass: 'my-custom-class',
+          message: 'Cargando...',
+        });
+        (await this.loadingScreen).present();
+        const projectToUpdate: Project = this.project;
+        const party = this.mapParty();
+        projectToUpdate.party = party;
+        projectToUpdate.partyIds = this.getPartyIds(party);
+        this.projectsService.updateProject(this.project.id, projectToUpdate).then(
+          async () => {
+            await this.localStorage.setProjectData(projectToUpdate);
+            this.alert.fire({
+              icon: 'success',
+              title: 'Bien!!!',
+              text: 'Proyecto actualizado correctamente',
+              allowOutsideClick: false,
+              allowEscapeKey: false,
+            }).then(
+              async (result) => {
+                if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
+                  (await this.loadingScreen).dismiss();
+                  this.retroceder();
+                }
+              }
+            );
           }
-        }
-      );
+        );
+      } else {
+        this.alert.fire({
+          icon: 'error',
+          title: 'Parece que algo salió mal!',
+          text: 'Por favor Revisa el formulario',
+        }).then(
+          async (result) => {
+            if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
+              (await this.loadingScreen).dismiss();
+            }
+          }
+        );
+      }
     }
   }
 
@@ -242,5 +260,77 @@ export class UsersInfoPage implements OnInit {
 
   retroceder() {
     this.navController.navigateBack(['/tabs/tab1']);
+  }
+
+  // nuevos metodos
+
+  addSelectedUsersId(userId: string) {
+    this.selectedUsersId.push(userId);
+    console.log('selected Index 2', userId);
+  }
+
+  removeSelectedUsersId(userId: string) {
+    const index = this.selectedUsersId.indexOf(userId);
+    this.selectedUsersId.splice(index, 1);
+  }
+
+  getFilterUsers() {
+    const newArray = this.allUsers.filter((user) => !this.selectedUsersId.includes(user.id));
+    return newArray;
+  }
+
+  getUserFromForm(index: number) {
+    const formValue = this.party.get(index.toString());
+    let userName = '';
+    if (formValue) {
+      userName = formValue.get('user').value.names;
+    }
+    return userName;
+  }
+
+  async getValues() {
+    const users = this.mapUsers(this.getFilterUsers());
+    if (users.length > 0) {
+      let options = '';
+      users.forEach(option => {
+        options += `<option value=' ${JSON.stringify(option.value)}'> ${option.text} </option>`;
+      });
+      let formValues;
+      Swal.fire({
+        title: 'Seleccionar Usuario',
+        heightAuto: false,
+        html: `
+          <select id="user-data-input-swal" class="form-select select">
+            ${options}
+          </select>`,
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Agregar',
+        cancelButtonText: 'Cancelar',
+        preConfirm: () => {
+          formValues = document.getElementById('user-data-input-swal') as HTMLInputElement;
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          if (formValues) {
+            const selectedUser: User = JSON.parse(formValues.value) as User;
+            console.log('values', selectedUser);
+            this.addSelectedUsersId(selectedUser.id);
+            this.addPartyUser(selectedUser);
+            this.formHasChange = true;
+          }
+        }
+      });
+    } else {
+      this.alert.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No hay más usuarios para agregar.',
+      }).then(
+        (result) => {
+        }
+      );
+    }
   }
 }

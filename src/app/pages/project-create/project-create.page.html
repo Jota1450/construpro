@@ -125,9 +125,14 @@
                     </select>
                   </ng-container>
                   <ng-template #elseTemplate>
-                    <select class="form-select select" formControlName="user">
-                      <option *ngFor="let option of mapUsers(users); let i = index" [ngValue]="option.value">
+                    <!---select class="form-select select" formControlName="user" (change)="addSelectedUsersId($event)">
+                      <option *ngFor="let option of mapUsers(getFilterUsers()); let i = index" [ngValue]="option.value">
                         {{ option.text }}
+                      </option>
+                    </select-->
+                    <select class="form-select select" formControlName="user" [attr.disabled]="true">
+                      <option [selected]="'true'">
+                        {{ getUserFromForm(i) }}
                       </option>
                     </select>
                   </ng-template>
@@ -164,13 +169,16 @@
             </div>
           </ng-container>
           <div class="addusercenter">
-            <ion-icon class="adduserrole" (click)="addPartyUser()" name="add-circle"></ion-icon>
+            <!--ion-icon class="adduserrole" (click)="addPartyUser()" name="add-circle"></!--ion-icon-->
+            <ion-icon class="adduserrole" (click)="getValues()" name="add-circle"></ion-icon>
+
           </div>
 
         </div>
 
         <div class="submit">
           <pro-button [text]="'Crear'" [type]="'submit'" (click)="saveProject()"></pro-button>
+          <pro-button [text]="'Test'" (click)="logForm()"></pro-button>
         </div>
 
       </form>

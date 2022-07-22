@@ -25,6 +25,7 @@ export class ProjectCreatePage implements OnInit {
   users: User[] = [];
   mappedUsers: any[];
   roles: Rol[];
+  selectedUsersId: string[] = [];
   creator: User;
   imageUrl: string;
   images: any[] = [
@@ -71,6 +72,7 @@ export class ProjectCreatePage implements OnInit {
     this.creator = await this.localStorage.getUserData();
     this.addPartyUser();
     this.setUser('0', 'user', this.creator);
+    this.selectedUsersId.push(this.creator.id);
 
     console.log(this.users);
     this.platform.backButton.subscribeWithPriority(9999, (processNextHandler) => {
@@ -92,14 +94,14 @@ export class ProjectCreatePage implements OnInit {
     return this.formProject.get('party') as FormArray;
   }
 
-  addPartyUser() {
+  addPartyUser(user: any = '') {
     // Con este metodo adicionamos mas input al formulario
     // para esto es necesario añadir elementos que nos permitan capturar
     // los identificadores del usuario, y del rol que desempeñara dicho
     // usuario.
 
     const userFormGroup = this.formBuilder.group({
-      user: new FormControl('', [
+      user: new FormControl(user, [
         Validators.required
       ]),
       rol: new FormControl('', [
@@ -108,10 +110,11 @@ export class ProjectCreatePage implements OnInit {
     });
 
     this.party.push(userFormGroup);
-    console.log('formProject', this.formProject.controls);
   }
 
   removePartyUser(index: number) {
+    const userId = this.party.get(index.toString()).get('user').value.id;
+    this.removeSelectedUsersId(userId);
     this.party.removeAt(index);
   }
 
@@ -254,7 +257,6 @@ export class ProjectCreatePage implements OnInit {
     });
     return party;
   }
-
 
   uploadImage() {
     return new Promise((resolve, reject) => {
@@ -402,9 +404,88 @@ export class ProjectCreatePage implements OnInit {
     return result;
   }
 
-  creatorUsers(){
+  creatorUsers() {
     const roles = this.roles.filter(rol => (rol.id === 'IZ00zAUWIUTo4ASO4ugR' || rol.id === 'sc2gb0ZG1A19fBILZDCD'));
     return roles.map(rol => ({ text: rol.espName, value: rol.id }));
+  }
+
+  addSelectedUsersId(userId: string) {
+    this.selectedUsersId.push(userId);
+    console.log('selected Index 2', userId);
+  }
+
+  removeSelectedUsersId(userId: string) {
+    const index = this.selectedUsersId.indexOf(userId);
+    this.selectedUsersId.splice(index, 1);
+  }
+
+  getFilterUsers() {
+    const newArray = this.users.filter((user) => !this.selectedUsersId.includes(user.id));
+    return newArray;
+  }
+
+  log() {
+    console.log();
+  }
+
+  logForm() {
+    console.log('formProject', this.formProject);
+    console.log('formProject Controls', this.formProject.controls);
+    console.log('party', this.formProject.controls.party.value);
+  }
+
+  async getValues() {
+    const users = this.mapUsers(this.getFilterUsers());
+    if (users.length > 0) {
+      let options = '';
+      users.forEach(option => {
+        options += `<option value=' ${JSON.stringify(option.value)}'> ${option.text} </option>`;
+      });
+      let formValues;
+      Swal.fire({
+        title: 'Seleccionar Usuario',
+        heightAuto: false,
+        html: `
+      <select id="user-data-input-swal" class="form-select select">
+        ${options}
+      </select>`,
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Agregar',
+        cancelButtonText: 'Cancelar',
+        preConfirm: () => {
+          formValues = document.getElementById('user-data-input-swal') as HTMLInputElement;
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          if (formValues) {
+            const selectedUser: User = JSON.parse(formValues.value) as User;
+            console.log('values', selectedUser);
+            this.addSelectedUsersId(selectedUser.id);
+            this.addPartyUser(selectedUser);
+          }
+        }
+      });
+    } else {
+      this.alert.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No hay más usuarios para agregar.',
+      }).then(
+        (result) => {
+        }
+      );
+    }
+  }
+
+  getUserFromForm(index: number) {
+    const formValue = this.party.get(index.toString());
+    let userName = '';
+    if (formValue) {
+      userName = formValue.get('user').value.names;
+    }
+    return userName;
   }
 
   retroceder() {
