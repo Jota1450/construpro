@@ -17,7 +17,7 @@
 
       <div class="row">
         <div class="col">
-          <pro-input [title]="'Nombres'" (click)="formRegister.get('names').markAsTouched()" 
+          <pro-input [title]="'Nombres'" (click)="formRegister.get('names').markAsTouched()"
           [type]="'text'" (outputValue)="setValue('names', $event)"></pro-input>
         </div>
         <div class="error" *ngIf="formRegister.get('names').hasError('required') && formRegister.get('names').touched || formRegister.get('names').invalid && formSended">
@@ -38,31 +38,31 @@
 
       <div class="row">
         <div class="col">
-          <pro-select id="typeD" [title]="'Tipo de documento'" (click)="formRegister.get('documentType').markAsTouched()" [options]="options" 
+          <pro-select id="typeD" [title]="'Tipo de documento'" (click)="formRegister.get('documentType').markAsTouched()" [options]="options"
           [selected]="0" (outputValue)=" setValue('documentType', $event)">
           </pro-select>
         </div>
         <div class="error" *ngIf="formRegister.get('documentType').hasError('required') && formRegister.get('documentType').touched || formRegister.get('documentType').invalid && formSended">
-          Tipo de documento requerido 
+          Tipo de documento requerido
         </div>
       </div>
 
 
       <div class="row">
         <div class="col">
-          <pro-input [title]="'Numero de documento'" (click)="formRegister.get('documentNumber').markAsTouched()" 
-          [type]="'text'" (outputValue)="setValue('documentNumber', $event)">
+          <pro-input [title]="'Numero de documento'" (click)="formRegister.get('documentNumber').markAsTouched()"
+          [type]="getDocumentNumberInputType()" (outputValue)="setValue('documentNumber', $event)">
           </pro-input>
         </div>
         <div class="error" *ngIf="formRegister.get('documentNumber').hasError('required') && formRegister.get('documentNumber').touched || formRegister.get('documentNumber').invalid && formSended">
-          Cedula requerida
+          Numero de documento requerida
         </div>
       </div>
 
       <div class="row">
         <div class="col">
-          <pro-input [title]="'Tarjeta Profesional'" (click)="formRegister.get('professionalCard').markAsTouched()" 
-          [type]="'number'" (outputValue)="setValue('professionalCard', $event)">
+          <pro-input [title]="'Tarjeta Profesional'" (click)="formRegister.get('professionalCard').markAsTouched()"
+          [type]="'test'" (outputValue)="setValue('professionalCard', $event)">
           </pro-input>
         </div>
         <div class="error" *ngIf="formRegister.get('professionalCard').hasError('required') && formRegister.get('professionalCard').touched || formRegister.get('professionalCard').invalid && formSended">
@@ -72,7 +72,7 @@
 
       <div class="row">
         <div class="col">
-          <pro-input [title]="'Correo'" (click)="formRegister.get('email').markAsTouched()" 
+          <pro-input [title]="'Correo'" (click)="formRegister.get('email').markAsTouched()"
           [type]="'email'" (outputValue)="setValue('email', $event)"></pro-input>
         </div>
         <div class="error" *ngIf="formRegister.get('email').hasError('required') && formRegister.get('email').touched || formRegister.get('email').invalid && formSended">
@@ -82,7 +82,7 @@
 
       <div class="row">
         <div class="col">
-          <pro-input [title]="'Contraseña'" (click)="formRegister.get('password').markAsTouched()" 
+          <pro-input [title]="'Contraseña'" (click)="formRegister.get('password').markAsTouched()"
           [type]="'password'" (outputValue)="setValue('password', $event)">
           </pro-input>
         </div>
@@ -93,7 +93,7 @@
 
       <div class="row">
         <div class="col">
-          <pro-input [title]="'Confirmar contraseña'" (click)="formRegister.get('confirmPassword').markAsTouched()" 
+          <pro-input [title]="'Confirmar contraseña'" (click)="formRegister.get('confirmPassword').markAsTouched()"
           [type]="'password'" (outputValue)="setValue('confirmPassword', $event)">
           </pro-input>
         </div>

@@ -39,13 +39,12 @@ export class LoginPage implements OnInit {
   async ngOnInit() {
     await (await this.loadingScreen).present();
 
-    //console.log(await this.localStorage.getUserData());
     const user: User = await this.localStorage.getUserData();
     console.log('a', user);
     await (await this.loadingScreen).dismiss();
     if (user) {
       if (this.authService.getUid != null) {
-        this.navController.navigateForward(['/menu/home']);
+        this.navController.navigateBack(['/menu/home']);
       };
     }
   }
@@ -71,10 +70,9 @@ export class LoginPage implements OnInit {
             });
 
             if (this.authService.getUid != null) {
-              this.navController.navigateForward(['/menu/home']);
+              this.navController.navigateBack(['/menu/home']);
             };
             await (await this.loadingScreen).dismiss();
-
           }
         }
       ).catch(
@@ -105,6 +103,6 @@ export class LoginPage implements OnInit {
   }
 
   resetPassword() {
-    this.navController.navigateForward(['/reset-password']);
+    this.navController.navigateBack(['/reset-password']);
   }
 }

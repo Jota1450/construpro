@@ -4,7 +4,7 @@ import { UsersService } from '../../services/users.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-register',
@@ -31,7 +31,7 @@ export class RegisterPage implements OnInit {
   constructor(
     private usersService: UsersService,
     private formBuilder: FormBuilder,
-    private router: Router,
+    private navController: NavController,
     private localStorage: LocalStorageService,
     public loadingController: LoadingController
   ) { }
@@ -41,12 +41,12 @@ export class RegisterPage implements OnInit {
       {
         names: new FormControl('', [
           Validators.required,
-          Validators.pattern('[a-zA-Z ]*'),
+          Validators.pattern('^[a-zA-ZáÁéÉíÍóÓüúÚñÑ ]{3,20}$'),
           Validators.min(3)
         ]),
         lastNames: new FormControl('', [
           Validators.required,
-          Validators.pattern('[a-zA-Z ]*'),
+          Validators.pattern('^[a-zA-ZáÁéÉíÍóÓüúÚñÑ ]{3,20}$'),
           Validators.min(3)
         ]),
         email: new FormControl('', [
@@ -66,7 +66,7 @@ export class RegisterPage implements OnInit {
         ]),
         professionalCard: new FormControl('', [
           Validators.required,
-          Validators.pattern('^(0|[1-9][0-9]*)$'),
+          Validators.pattern('^(0|[1-9][0-9]*)$' ),
         ]),
         documentNumber: new FormControl('', [
           Validators.required,
@@ -98,7 +98,7 @@ export class RegisterPage implements OnInit {
           if (resp) {
             this.localStorage.setUserData(resp);
             await (await this.loadingScreen).dismiss();
-            this.router.navigate(['/menu/home']);
+            this.navController.navigateBack(['/menu/home']);
           }
         }
       );
@@ -120,12 +120,15 @@ export class RegisterPage implements OnInit {
   }
 
   validateSelect(): boolean {
-    if (this.formRegister.get('documentType').value == "") {
+    if (this.formRegister.get('documentType').value === '') {
       return false;
     } else {
       return true;
     }
   }
 
+  getDocumentNumberInputType(): string{
+    return (this.formRegister.get('documentType').value.trim() === 'C.C.') ? 'number' : 'text' ;
+  }
 
 }
