@@ -7,6 +7,7 @@ import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 import { NavController } from '@ionic/angular';
 import { User } from 'src/app/models/user';
+import { Rol } from 'src/app/models/rol';
 
 @Component({
   selector: 'app-tab2',
@@ -18,6 +19,7 @@ export class Tab2Page implements OnDestroy {
   toggleFilter = false;
   notes: Note[];
   project: Project;
+  rol: Rol;
   filterStateOptions = [
     { text: 'Pendiente', value: false },
     { text: 'Finalizado', value: true }
@@ -37,10 +39,9 @@ export class Tab2Page implements OnDestroy {
       this.subscriptions.unsubscribe();
     }
     this.project = await this.localStorageService.getProjectData();
-    console.log('proyecto', this.project.party);
-    console.log('is Editable', this.project.isEditable);
     this.notes = await this.getNotes();
-    console.log('closed', this.subscriptions.closed);
+    this.rol = await this.localStorageService.getCurrentRol();
+    console.log('Rol', this.rol);
     if (this.project.isEditable && this.notes.length > 0) {
       this.project.isEditable = false;
       await this.localStorageService.setProjectData(this.project);

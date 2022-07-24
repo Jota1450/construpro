@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { MenuController, NavController } from '@ionic/angular';
+import { User } from 'src/app/models/user';
 
 @Component({
   selector: 'app-menu',
@@ -10,8 +11,8 @@ import { MenuController, NavController } from '@ionic/angular';
   styleUrls: ['./menu.page.scss'],
 })
 export class MenuPage implements OnInit {
-  nombre: string;
-  apellido: string;
+
+  user: User;
 
   constructor(
     private authService: AuthService,
@@ -19,18 +20,18 @@ export class MenuPage implements OnInit {
     private navController: NavController,
     private localStorage: LocalStorageService,
     private menu: MenuController,
-    ) {
+  ) {
 
   }
-  ngOnInit() {
 
+  async ngOnInit() {
+    this.user = await this.localStorage.getUserData();
   }
 
   signOut() {
     this.authService.signOut();
     this.localStorage.clear();
     this.menu.close();
-    //this.router.navigate(['/login']);
     this.navController.navigateBack(['/login']);
   }
 

@@ -10,6 +10,7 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 import * as moment from 'moment';
 import { ProjectsService } from 'src/app/services/projects.service';
 import { Project } from 'src/app/models/project';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-note-detail',
@@ -38,7 +39,7 @@ export class NoteDetailPage implements OnInit {
 
   async ngOnInit() {
     try {
-      this.project= await this.localStorage.getProjectData();
+      this.project = await this.localStorage.getProjectData();
       const id = this.activatedRoute.snapshot.paramMap.get('id');
       this.notesService.getNote(id).subscribe(
         (note) => {
@@ -79,8 +80,28 @@ export class NoteDetailPage implements OnInit {
     return this.note.inspectorId === this.user.id;
   }
 
-  deleteComment(commentId: string){
-    this.commentsService.deleteComment(this.note.id, commentId);
+  deleteComment(commentId: string) {
+    Swal.fire({
+      title: '¿Seguro que deseas eliminar este comentario?',
+      showCancelButton: true,
+      showConfirmButton: true,
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar',
+      heightAuto: false,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.commentsService.deleteComment(this.note.id, commentId);
+        Swal.fire({
+          icon: 'success',
+          position: 'center',
+          title: 'Eliminado',
+          text: 'Comentario Eliminado Correctamente!',
+          heightAuto: false,
+          toast: true,
+          showConfirmButton: true,
+        });
+      }
+    });
   }
 
 }

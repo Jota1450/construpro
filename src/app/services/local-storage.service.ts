@@ -21,6 +21,7 @@ export class LocalStorageService {
   }
 
   deleteProjectData(){
+    this.storage.remove('rol');
     return this.storage.remove('project');
   }
 
@@ -31,7 +32,7 @@ export class LocalStorageService {
 
   setCurrentRol(rol: Rol) {
     // Store the value under "my-key"
-    this.storage.set('rol', rol);
+    return this.storage.set('rol', rol);
   }
 
   async getUserData(): Promise<User>{

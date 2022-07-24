@@ -41,8 +41,6 @@ export class ProjectCreatePage implements OnInit {
     toast: true,
     position: 'center',
     showConfirmButton: true,
-    //timer: 3000,
-    //timerProgressBar: true,
   });
 
   loadingScreen = this.loadingController.create({
@@ -130,7 +128,7 @@ export class ProjectCreatePage implements OnInit {
       {
         name: new FormControl('', [
           Validators.required,
-          Validators.pattern('^[a-zA-ZáÁéÉíÍóÓüúÚñÑ ]*{4,50}$')
+          Validators.pattern('^[a-zA-ZáÁéÉíÍóÓüúÚñÑ ]{4,50}$')
         ]),
         contractNumber: new FormControl('', [
           Validators.required,
@@ -318,6 +316,7 @@ export class ProjectCreatePage implements OnInit {
           party,
           isEditable: true,
           partyIds: this.getPartyIds(party),
+          createdBy: this.creator,
           createdAt: new Date().toISOString(),
         };
 

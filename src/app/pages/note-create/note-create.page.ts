@@ -26,9 +26,9 @@ export class NoteCreatePage implements OnInit {
   users: User[];
   roles: Rol[];
   images: any[] = [
-    //'https://larazon.co/wp-content/uploads/2021/11/WhatsApp-Image-2021-11-25-at-11.42.49-AM.jpeg',
-    //'https://i.pinimg.com/originals/26/26/0d/26260d6850d544d5d488bfe64f84ef38.jpg',
-    //'https://upload.wikimedia.org/wikipedia/commons/8/81/Bufo_bufo_03.jpg'
+    'https://larazon.co/wp-content/uploads/2021/11/WhatsApp-Image-2021-11-25-at-11.42.49-AM.jpeg',
+    'https://i.pinimg.com/originals/26/26/0d/26260d6850d544d5d488bfe64f84ef38.jpg',
+    'https://upload.wikimedia.org/wikipedia/commons/8/81/Bufo_bufo_03.jpg'
   ];
   imageUrls: any[] = [];
   user: User;
@@ -68,7 +68,7 @@ export class NoteCreatePage implements OnInit {
     private navController: NavController
   ) {
     this.initForm();
-   }
+  }
 
   async ngOnInit() {
     this.user = await this.localStorageService.getUserData();
@@ -132,7 +132,7 @@ export class NoteCreatePage implements OnInit {
     return moment(this.today.toISOString()).format('dddd, D MMMM YYYY');
   }
 
-  removeImg(index){
+  removeImg(index) {
     this.images.splice(index, 1);
   }
 

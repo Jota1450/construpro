@@ -16,5 +16,6 @@ export interface Project {
   extensionHistory?: string[];
   isEditable: boolean;
 
+  createdBy: User;
   createdAt: string;
 }

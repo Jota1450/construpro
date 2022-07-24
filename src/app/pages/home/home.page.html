@@ -11,12 +11,12 @@
   <ng-container *ngIf="projects; else elseTemplate">
     <ng-container *ngIf="projects.length > 0; else elseTemplate">
       <div class="row" *ngFor="let project of projects">
-        <div class="col card" (click)="saveProjectData(project)">
+        <div class="col card" (click)="saveProjectData(project, user.id, project.party)">
           <pro-card-project class="w-100" [title]="project.name" [address]="project.address"
             [startDate]="formatDateString(project.initialDate)" [endDate]="formatDateString(project.finalDate)"
             [contractNumber]="project.contractNumber"
             [img]="(project.imageUrl) ? project.imageUrl : '../../../assets/no-image.png'"
-            [rol]="findUserRole(user.id, project.party)"
+            [rol]="findUserRole(user.id, project.party).espName"
             ></pro-card-project>
         </div>
       </div>

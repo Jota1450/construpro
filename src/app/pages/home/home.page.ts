@@ -57,12 +57,19 @@ export class HomePage implements OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  async saveProjectData(project: Project) {
+  async saveProjectData(project: Project, userid: string, party: User[]) {
     this.localStorage.deleteProjectData();
     this.localStorage.setProjectData(project).then(
       () => {
         //this.navController.navigateRoot(['/menu/tabs']);
-        this.router.navigate(['/menu/tabs']);
+        const userRol: Rol = this.findUserRole(userid, party);
+        this.localStorage.setCurrentRol(userRol).then(
+          () => this.router.navigate(['/menu/tabs'])
+        ).catch(
+          (err) => {
+            console.log(err);
+          }
+        );
       }
     ).catch(
       (error) => {
@@ -112,8 +119,8 @@ export class HomePage implements OnDestroy {
     });
   }
 
-  findUserRole(userid: string, party: User[]) {
-    return this.roles.find(rol => rol.id === party.find(user => user.id === userid).rol).espName;
+  findUserRole(userid: string, party: User[]): Rol {
+    return this.roles.find(rol => rol.id === party.find(user => user.id === userid).rol);
   }
 
   async getAllRoles(): Promise<Rol[]> {

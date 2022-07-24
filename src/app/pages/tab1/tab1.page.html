@@ -32,12 +32,12 @@
       </ion-item>
     </ng-template>
 
-
-
-    <ion-item (click)="goTo('/users-info')">
-      <ion-icon name="people"></ion-icon>
-      <ion-label>Gestionar Usuarios</ion-label>
-    </ion-item>
+    <ng-container *ngIf="user">
+      <ion-item *ngIf="user.id === project.createdBy.id" (click)="goTo('/users-info')">
+        <ion-icon name="people"></ion-icon>
+        <ion-label>Gestionar Usuarios</ion-label>
+      </ion-item>
+    </ng-container>
 
   </ng-container>
 </ion-content>
