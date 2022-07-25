@@ -17,11 +17,9 @@ export class Tab1Page {
   constructor(
     private localStorageService: LocalStorageService,
     private navController: NavController
-  ) {
-    this.onInit();
-  }
+  ) {}
 
-  async onInit() {
+  async ionViewWillEnter() {
     this.project = await this.localStorageService.getProjectData();
     this.user = await this.localStorageService.getUserData();
   }
