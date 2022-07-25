@@ -48,12 +48,20 @@ export class Tab2Page implements OnDestroy {
     }
   }
 
-  ionViewDidLeave() {
+  async ionViewDidLeave() {
     this.subscriptions.unsubscribe();
+    if (this.project.isEditable && this.notes.length > 0) {
+      this.project.isEditable = false;
+      await this.localStorageService.setProjectData(this.project);
+    }
   }
 
-  ngOnDestroy(): void {
+  async ngOnDestroy(): Promise<void> {
     this.subscriptions.unsubscribe();
+    if (this.project.isEditable && this.notes.length > 0) {
+      this.project.isEditable = false;
+      await this.localStorageService.setProjectData(this.project);
+    }
   }
 
   formatDate(date) {
