@@ -41,12 +41,12 @@ export class RegisterPage implements OnInit {
       {
         names: new FormControl('', [
           Validators.required,
-          Validators.pattern('^[a-zA-ZáÁéÉíÍóÓüúÚñÑ ]{3,20}$'),
+          Validators.pattern('^[a-zA-ZáÁéÉíÍóÓüúÚñÑ ]{3,30}$'),
           Validators.min(3)
         ]),
         lastNames: new FormControl('', [
           Validators.required,
-          Validators.pattern('^[a-zA-ZáÁéÉíÍóÓüúÚñÑ ]{3,20}$'),
+          Validators.pattern('^[a-zA-ZáÁéÉíÍóÓüúÚñÑ ]{3,30}$'),
           Validators.min(3)
         ]),
         email: new FormControl('', [
@@ -64,11 +64,11 @@ export class RegisterPage implements OnInit {
         documentType: new FormControl('', [
           Validators.required
         ]),
-        professionalCard: new FormControl('', [
-          Validators.required,
-          Validators.pattern('^(0|[1-9][0-9]*)$' ),
-        ]),
         documentNumber: new FormControl('', [
+          Validators.required,
+          //Validators.pattern('^(0|[1-9][0-9]*)$'),
+        ]),
+        professionalCard: new FormControl('', [
           Validators.required,
           Validators.pattern('^(0|[1-9][0-9]*)$'),
         ]),
@@ -129,6 +129,13 @@ export class RegisterPage implements OnInit {
 
   getDocumentNumberInputType(): string{
     return (this.formRegister.get('documentType').value.trim() === 'C.C.') ? 'number' : 'text' ;
+  }
+
+  validateField(field: string): boolean{
+    return (
+    this.formRegister.get(field).invalid && this.formRegister.get(field).touched ||
+    this.formRegister.get(field).invalid && this.formSended
+    );
   }
 
 }

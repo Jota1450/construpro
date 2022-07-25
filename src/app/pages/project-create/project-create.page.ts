@@ -28,11 +28,7 @@ export class ProjectCreatePage implements OnInit {
   selectedUsersId: string[] = [];
   creator: User;
   imageUrl: string;
-  images: any[] = [
-    //'https://larazon.co/wp-content/uploads/2021/11/WhatsApp-Image-2021-11-25-at-11.42.49-AM.jpeg',
-    //'https://i.pinimg.com/originals/26/26/0d/26260d6850d544d5d488bfe64f84ef38.jpg',
-    //'https://upload.wikimedia.org/wikipedia/commons/8/81/Bufo_bufo_03.jpg'
-  ];
+  images: any[] = [];
 
   isCurrentView: boolean;
   displayWarning: boolean;
@@ -166,9 +162,11 @@ export class ProjectCreatePage implements OnInit {
         resp.forEach(
           element => {
             const base64OfImage = 'data:image/png;base64,' + element;
+            if (this.images.length > 0) {
+              this.images.pop();
+            }
             this.images.push(base64OfImage);
           });
-        console.log('imagenes', this.images);
       }, (error) => {
         console.log('error', JSON.stringify(error));
       }

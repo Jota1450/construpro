@@ -20,10 +20,18 @@
           <pro-input [title]="'Nombres'" (click)="formRegister.get('names').markAsTouched()" [type]="'text'"
             (outputValue)="setValue('names', $event)"></pro-input>
         </div>
-        <div class="error"
-          *ngIf="formRegister.get('names').hasError('required') && formRegister.get('names').touched || formRegister.get('names').invalid && formSended">
-          Nombre requerido
-        </div>
+        <ng-container *ngIf="validateField('names')">
+          <ng-container *ngIf="formRegister.get('names').hasError('required'); else elseTemplateNames">
+            <div class="error">
+              Nombre requerido
+            </div>
+          </ng-container>
+          <ng-template #elseTemplateNames>
+            <div class="error">
+              Nombre inválido
+            </div>
+          </ng-template>
+        </ng-container>
       </div>
 
       <div class="row">
@@ -31,10 +39,18 @@
           <pro-input [title]="'Apellidos'" (click)="formRegister.get('lastNames').markAsTouched()" [type]="'text'"
             (outputValue)="setValue('lastNames', $event)"></pro-input>
         </div>
-        <div class="error"
-          *ngIf="formRegister.get('lastNames').hasError('required') && formRegister.get('lastNames').touched || formRegister.get('lastNames').invalid && formSended">
-          Apellido requerido
-        </div>
+        <ng-container *ngIf="validateField('lastNames')">
+          <ng-container *ngIf="formRegister.get('lastNames').hasError('required'); else elseTemplateLastNames">
+            <div class="error">
+              Apellido requerido
+            </div>
+          </ng-container>
+          <ng-template #elseTemplateLastNames>
+            <div class="error">
+              Apellido inválido
+            </div>
+          </ng-template>
+        </ng-container>
       </div>
 
 
@@ -58,10 +74,19 @@
             [type]="getDocumentNumberInputType()" (outputValue)="setValue('documentNumber', $event)">
           </pro-input>
         </div>
-        <div class="error"
-          *ngIf="formRegister.get('documentNumber').hasError('required') && formRegister.get('documentNumber').touched || formRegister.get('documentNumber').invalid && formSended">
-          Numero de documento requerida
-        </div>
+        <ng-container *ngIf="validateField('documentNumber')">
+          <ng-container
+            *ngIf="formRegister.get('documentNumber').hasError('required'); else elseTemplateDocumentNumber">
+            <div class="error">
+              Numero de documento requerido
+            </div>
+          </ng-container>
+          <ng-template #elseTemplateDocumentNumber>
+            <div class="error">
+              Numero de documento inválido
+            </div>
+          </ng-template>
+        </ng-container>
       </div>
 
       <div class="row">
@@ -81,10 +106,18 @@
           <pro-input [title]="'Correo'" (click)="formRegister.get('email').markAsTouched()" [type]="'email'"
             (outputValue)="setValue('email', $event)"></pro-input>
         </div>
-        <div class="error"
-          *ngIf="formRegister.get('email').hasError('required') && formRegister.get('email').touched || formRegister.get('email').invalid && formSended">
-          Correo requerido
-        </div>
+        <ng-container *ngIf="validateField('email')">
+          <ng-container *ngIf="formRegister.get('email').hasError('required'); else elseTemplateEmail">
+            <div class="error">
+              Correo requerido
+            </div>
+          </ng-container>
+          <ng-template #elseTemplateEmail>
+            <div class="error">
+              Correo inválido
+            </div>
+          </ng-template>
+        </ng-container>
       </div>
 
       <div class="row">
@@ -93,10 +126,18 @@
             (outputValue)="setValue('password', $event)">
           </pro-input>
         </div>
-        <div class="error"
-          *ngIf="formRegister.get('password').hasError('required') && formRegister.get('password').touched || formRegister.get('password').invalid && formSended">
-          Contraseña requerida
-        </div>
+        <ng-container *ngIf="validateField('password')">
+          <ng-container *ngIf="formRegister.get('password').hasError('required'); else elseTemplatePassword">
+            <div class="error">
+              Contraseña requerida
+            </div>
+          </ng-container>
+          <ng-template #elseTemplatePassword>
+            <div class="error">
+              Contraseña inválida
+            </div>
+          </ng-template>
+        </ng-container>
       </div>
 
       <div class="row">
@@ -105,15 +146,25 @@
             [type]="'password'" (outputValue)="setValue('confirmPassword', $event)">
           </pro-input>
         </div>
-        <div class="error"
-          *ngIf="formRegister.get('confirmPassword').hasError('required') && formRegister.get('confirmPassword').touched || formRegister.get('confirmPassword').invalid && formSended">
-          Valida la Contraseña
-        </div>
-        <div class="error" *ngIf="passAreValid() === false ">
-          Las contraseñas no coinciden
-        </div>
+        <ng-container *ngIf="validateField('confirmPassword'); else elseTemplateConfirmPassword">
+          <ng-container
+            *ngIf="formRegister.get('confirmPassword').hasError('required'); else innerElseTemplateConfirmPassword">
+            <div class="error">
+              Valida la Contraseña
+            </div>
+          </ng-container>
+          <ng-template #innerElseTemplateConfirmPassword>
+            <div class="error">
+              Confirmar contraseña es inválida
+            </div>
+          </ng-template>
+        </ng-container>
+        <ng-template #elseTemplateConfirmPassword>
+          <div class="error" *ngIf="passAreValid() === false">
+            Las contraseñas no coinciden
+          </div>
+        </ng-template>
       </div>
-
     </div>
 
     <div class="row pt-4">
