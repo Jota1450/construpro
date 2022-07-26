@@ -16,8 +16,7 @@
             [startDate]="formatDateString(project.initialDate)" [endDate]="formatDateString(project.finalDate)"
             [contractNumber]="project.contractNumber"
             [img]="(project.imageUrl) ? project.imageUrl : '../../../assets/no-image.png'"
-            [rol]="findUserRole(user.id, project.party).espName"
-            ></pro-card-project>
+            [rol]="findUserRole(user.id, project.party).espName"></pro-card-project>
         </div>
       </div>
     </ng-container>
@@ -40,7 +39,6 @@
     </ion-fab-button>
   </div>
 
-  <button (click)="logUser()">ggggg</button>
   <div class="button-space">
   </div>
 
