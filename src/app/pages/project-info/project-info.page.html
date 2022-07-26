@@ -48,19 +48,32 @@
           </pro-input>
         </div>
 
-        <form [formGroup]="formProject">
-          <div class="col">
-            <pro-input [title]="'Fecha fin'" [type]="'date'" [value]="formatDateStringCalendar(project.finalDate)"
-              (outputValue)="formProject.get('newFinalDate').setValue($event)">
-            </pro-input>
-            <div class="error" *ngIf="error">
-              Fecha Invalida o anterior a la existente.
+        <ng-container *ngIf="rol">
+          <ng-container *ngIf="canEdit(); else elseTemplateDateInput">
+            <form [formGroup]="formProject">
+              <div class="col">
+                <pro-input [title]="'Fecha fin'" [type]="'date'" [value]="formatDateStringCalendar(project.finalDate)"
+                  (outputValue)="formProject.get('newFinalDate').setValue($event)">
+                </pro-input>
+                <div class="error" *ngIf="error">
+                  Fecha Invalida o anterior a la existente.
+                </div>
+              </div>
+            </form>
+          </ng-container>
+          <ng-template #elseTemplateDateInput>
+            <div class="col">
+              <pro-input [title]="'Fecha inicio'" [type]="'text'" [disabled]="true"
+                [value]="formatDateString(project.finalDate)">
+              </pro-input>
             </div>
+          </ng-template>
+        </ng-container>
+        <ng-container *ngIf="rol">
+          <div class="submit" *ngIf="canEdit()">
+            <pro-button [text]="'Actualizar'" [type]="'submit'" (click)="updateProject()"></pro-button>
           </div>
-        </form>
-        <div class="submit">
-          <pro-button [text]="'Actualizar'" [type]="'submit'" (click)="updateProject()"></pro-button>
-        </div>
+        </ng-container>
       </div>
 
     </div>

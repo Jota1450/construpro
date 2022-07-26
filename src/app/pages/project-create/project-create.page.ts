@@ -12,6 +12,8 @@ import { ImagePicker, ImagePickerOptions } from '@awesome-cordova-plugins/image-
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { finalize } from 'rxjs/operators';
 import * as tz from 'moment-timezone';
+import * as moment from 'moment';
+
 
 @Component({
   selector: 'app-project-create',
@@ -295,89 +297,91 @@ export class ProjectCreatePage implements OnInit {
       this.formSended = true;
       const initialDate = new Date(tz.tz(this.formProject.get('initialDate').value, 'America/Bogota').format());
       const finalDate = new Date(tz.tz(this.formProject.get('finalDate').value, 'America/Bogota').format());
-      if (this.formProject.valid && initialDate < finalDate && this.party.length > 1) {
-        this.loadingScreen = this.loadingController.create({
-          cssClass: 'my-custom-class',
-          message: 'Cargando...',
-        });
-        (await this.loadingScreen).present();
-        const party = await this.mapParty();
-        const project: Project = {
-          name: this.formProject.get('name').value,
-          contractNumber: this.formProject.get('contractNumber').value,
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-          NIT: this.formProject.get('NIT').value,
-          address: this.formProject.get('address').value,
-          initialDate: initialDate.toISOString(),
-          finalDate: finalDate.toISOString(),
-          firstFinalDate: finalDate.toISOString(),
-          party,
-          isEditable: true,
-          partyIds: this.getPartyIds(party),
-          createdBy: this.creator,
-          createdAt: new Date().toISOString(),
-        };
+      if (await this.areEnoughRoles()) {
+        if (this.formProject.valid && initialDate < finalDate && this.party.length > 1) {
+          this.loadingScreen = this.loadingController.create({
+            cssClass: 'my-custom-class',
+            message: 'Cargando...',
+          });
+          (await this.loadingScreen).present();
+          const party = await this.mapParty();
+          const project: Project = {
+            name: this.formProject.get('name').value,
+            contractNumber: this.formProject.get('contractNumber').value,
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            NIT: this.formProject.get('NIT').value,
+            address: this.formProject.get('address').value,
+            initialDate: initialDate.toISOString(),
+            finalDate: finalDate.toISOString(),
+            firstFinalDate: finalDate.toISOString(),
+            party,
+            isEditable: true,
+            partyIds: this.getPartyIds(party),
+            createdBy: this.creator,
+            createdAt: new Date().toISOString(),
+          };
 
-        if (this.images.length > 0) {
-          await this.uploadImage();
-          project.imageUrl = this.imageUrl;
-        }
+          if (this.images.length > 0) {
+            await this.uploadImage();
+            project.imageUrl = this.imageUrl;
+          }
 
-        console.log('project', project);
-        await this.projectsService.saveProject(project).then(
-          async (resp) => {
-            console.log('response', resp);
+          console.log('project', project);
+          await this.projectsService.saveProject(project).then(
+            async (resp) => {
+              console.log('response', resp);
 
-            if (resp !== 'error') {
-              this.alert.fire({
-                icon: 'success',
-                title: 'Bien!!!',
-                text: 'Proyecto registrado correctamente',
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-              }).then(
-                async (result) => {
-                  if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
-                    (await this.loadingScreen).dismiss();
-                    this.retroceder();
+              if (resp !== 'error') {
+                this.alert.fire({
+                  icon: 'success',
+                  title: 'Bien!!!',
+                  text: 'Proyecto registrado correctamente',
+                  allowOutsideClick: false,
+                  allowEscapeKey: false,
+                }).then(
+                  async (result) => {
+                    if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
+                      (await this.loadingScreen).dismiss();
+                      this.retroceder();
+                    }
                   }
-                }
-              );
-            } else {
+                );
+              } else {
+                this.alert.fire({
+                  icon: 'error',
+                  title: 'Oops...',
+                  text: 'Parece que algo salió mal!',
+                }).then(
+                  (result) => {
+                  }
+                );
+              }
+            }
+          ).catch(
+            (error) => {
               this.alert.fire({
                 icon: 'error',
                 title: 'Oops...',
                 text: 'Parece que algo salió mal!',
-              }).then(
-                (result) => {
-                }
-              );
+              });
             }
-          }
-        ).catch(
-          (error) => {
+          );
+        } else {
+          if (initialDate > finalDate) {
             this.alert.fire({
               icon: 'error',
-              title: 'Oops...',
-              text: 'Parece que algo salió mal!',
+              title: 'Formulario Invalido',
+              text: 'Fecha inicio mayor a la final',
+            });
+          } else {
+            this.alert.fire({
+              icon: 'error',
+              title: 'Formulario Invalido',
+              text: 'Por favor revisa los campos',
             });
           }
-        );
-      } else {
-        if (initialDate > finalDate) {
-          this.alert.fire({
-            icon: 'error',
-            title: 'Formulario Invalido',
-            text: 'Fecha inicio mayor a la final',
-          });
-        } else {
-          this.alert.fire({
-            icon: 'error',
-            title: 'Formulario Invalido',
-            text: 'Por favor revisa los campos',
-          });
+          console.log('formControl', this.formProject);
         }
-        console.log('formControl', this.formProject);
       }
       // creamos objeto para user para guardar
       // this.formRegister.get
@@ -386,7 +390,7 @@ export class ProjectCreatePage implements OnInit {
       this.alert.fire({
         icon: 'error',
         title: 'Formulario Invalido',
-        text: error.toString(),
+        text: 'Al parecer hay un error inesperado.',
       });
     }
   }
@@ -483,6 +487,50 @@ export class ProjectCreatePage implements OnInit {
       userName = formValue.get('user').value.names;
     }
     return userName;
+  }
+
+  async areEnoughRoles(): Promise<boolean> {
+    // Contratista, Contratante, Interventor
+    //['IZ00zAUWIUTo4ASO4ugR', 'sc2gb0ZG1A19fBILZDCD', 'xNmfGl6yMzlbOTuBl8jm'];
+    const party: any = await this.mapParty();
+    const roles = party.map(user => user = user.rol);
+
+    if (!roles.includes('IZ00zAUWIUTo4ASO4ugR')) {
+      this.alert.fire({
+        icon: 'warning',
+        title: 'Formulario Invalido',
+        text: 'No hay Contratistas',
+      });
+      return false;
+    } else if (!roles.includes('sc2gb0ZG1A19fBILZDCD')) {
+      this.alert.fire({
+        icon: 'warning',
+        title: 'Formulario Invalido',
+        text: 'No hay Contratante',
+      });
+      return false;
+    } else if (!roles.includes('xNmfGl6yMzlbOTuBl8jm')) {
+      this.alert.fire({
+        icon: 'warning',
+        title: 'Formulario Invalido',
+        text: 'No hay Interventor',
+      });
+      return false;
+    } else {
+      return true;
+    }
+
+  }
+
+  initialMin() {
+    const date = new Date();
+    return moment(date).format('YYYY-MM-DD');
+  }
+
+  finalMin() {
+    const initialDate = new Date(tz.tz(this.formProject.get('initialDate').value, 'America/Bogota').format());
+    initialDate.setDate(initialDate.getDate() + 1);
+    return moment(initialDate).format('YYYY-MM-DD');
   }
 
   retroceder() {

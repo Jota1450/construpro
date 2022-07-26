@@ -13,7 +13,21 @@ export class LocalStorageService {
 
   setUserData(user: User) {
     // Store the value under "my-key"
+    console.log('user set', user);
+    this.storage.remove('user');
     this.storage.set('user', user);
+  }
+
+  setProjectData(project: Project) {
+    // Store the value under "my-key"
+    this.storage.remove('project');
+    return this.storage.set('project', project);
+  }
+
+  setCurrentRol(rol: Rol) {
+    // Store the value under "my-key"
+    this.storage.remove('rol');
+    return this.storage.set('rol', rol);
   }
 
   clear(){
@@ -25,14 +39,8 @@ export class LocalStorageService {
     return this.storage.remove('project');
   }
 
-  setProjectData(project: Project) {
-    // Store the value under "my-key"
-    return this.storage.set('project', project);
-  }
-
-  setCurrentRol(rol: Rol) {
-    // Store the value under "my-key"
-    return this.storage.set('rol', rol);
+  deleteUserData(){
+    return this.storage.remove('user');
   }
 
   async getUserData(): Promise<User>{

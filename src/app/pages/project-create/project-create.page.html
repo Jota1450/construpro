@@ -80,7 +80,7 @@
 
         <div class="row">
           <div class="col">
-            <pro-input [title]="'Fecha inicio'" (click)="formProject.get('initialDate').markAsTouched()" [type]="'date'"
+            <pro-input [title]="'Fecha inicio'" [minimo]="initialMin()" (click)="formProject.get('initialDate').markAsTouched()" [type]="'date'"
               (outputValue)="setValue('initialDate', $event)">
             </pro-input>
             <div class="error"
@@ -90,7 +90,7 @@
           </div>
 
           <div class="col">
-            <pro-input [title]="'Fecha fin'" (click)="formProject.get('finalDate').markAsTouched()" [type]="'date'"
+            <pro-input [title]="'Fecha fin'" [minimo]="finalMin()" (click)="formProject.get('finalDate').markAsTouched()" [type]="'date'"
               (outputValue)="setValue('finalDate', $event)"></pro-input>
 
             <div class="error"
@@ -178,7 +178,7 @@
 
         <div class="submit">
           <pro-button [text]="'Crear'" [type]="'submit'" (click)="saveProject()"></pro-button>
-          <!--pro-button [text]="'Test'" (click)="logForm()"></!--pro-button---->
+          <!--pro-button [text]="'Test'" (click)="areEnoughRoles()"></!--pro-button>
         </div>
 
       </form>

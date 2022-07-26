@@ -44,11 +44,14 @@
       <ion-spinner></ion-spinner>
     </div>
   </ng-template>
-  <div class="floatingbutton">
-    <ion-fab-button [routerLink]="['/note-create']" class="addbutton">
-      <ion-icon class="addicon" name="add"></ion-icon>
-    </ion-fab-button>
-  </div>
+  <ng-container *ngIf="rol">
+    <div class="floatingbutton" *ngIf="canCreateNote()">
+      <ion-fab-button [routerLink]="['/note-create']" class="addbutton">
+        <ion-icon class="addicon" name="add"></ion-icon>
+      </ion-fab-button>
+    </div>
+  </ng-container>
+
   <div class="button-space">
 
   </div>

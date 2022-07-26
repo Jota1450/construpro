@@ -53,6 +53,11 @@ export class HomePage implements OnDestroy {
     console.log(this.user);
   }
 
+  async logUser(){
+    const user = await this.localStorage.getUserData();
+    console.log(user);
+  }
+
   ionViewDidLeave() {
     this.subscriptions.unsubscribe();
   }
