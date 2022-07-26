@@ -34,6 +34,9 @@ export class Tab2Page implements OnDestroy {
     private navController: NavController
   ) { }
 
+  logRol(){
+    console.log('currentRol', this.rol);
+  }
   async ionViewWillEnter() {
     if (this.subscriptions.closed) {
       this.subscriptions.unsubscribe();
@@ -42,18 +45,29 @@ export class Tab2Page implements OnDestroy {
     this.notes = await this.getNotes();
     this.rol = await this.localStorageService.getCurrentRol();
     console.log('Rol', this.rol);
+    this.verifyIfProjectIsEditable();
+  }
+
+  async verifyIfProjectIsEditable(){
     if (this.project.isEditable && this.notes.length > 0) {
       this.project.isEditable = false;
       await this.localStorageService.setProjectData(this.project);
     }
   }
 
-  ionViewDidLeave() {
+  async ionViewDidLeave() {
     this.subscriptions.unsubscribe();
+    this.verifyIfProjectIsEditable();
   }
 
-  ngOnDestroy(): void {
+  async ngOnDestroy(): Promise<void> {
     this.subscriptions.unsubscribe();
+    this.verifyIfProjectIsEditable();
+  }
+
+  canCreateNote(): boolean {
+    const rolId = this.rol.id;
+    return rolId === 'IZ00zAUWIUTo4ASO4ugR' || rolId === 'xNmfGl6yMzlbOTuBl8jm';
   }
 
   formatDate(date) {
@@ -87,6 +101,7 @@ export class Tab2Page implements OnDestroy {
                 }
                 return 0;
               });
+              this.verifyIfProjectIsEditable();
               resolver(notes);
             }
           )
@@ -108,6 +123,7 @@ export class Tab2Page implements OnDestroy {
             this.notesService.getNotesByCreator(id, this.filterCreatorValue).subscribe(
               notes => {
                 this.notes = notes;
+                this.verifyIfProjectIsEditable();
                 resolver(notes);
               }
             )
@@ -130,6 +146,7 @@ export class Tab2Page implements OnDestroy {
             this.notesService.getNotesByState(id, this.filterStateValue).subscribe(
               notes => {
                 this.notes = notes;
+                this.verifyIfProjectIsEditable();
                 resolver(notes);
               }
             )

@@ -46,6 +46,9 @@ export class LoginPage implements OnInit {
       if (this.authService.getUid != null) {
         this.navController.navigateBack(['/menu/home']);
       };
+    } else {
+      this.localStorage.clear();
+      this.localStorage.deleteUserData();
     }
   }
 

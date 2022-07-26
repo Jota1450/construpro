@@ -4,6 +4,7 @@ import { NavController } from '@ionic/angular';
 import * as moment from 'moment';
 import * as tz from 'moment-timezone';
 import { Project } from 'src/app/models/project';
+import { Rol } from 'src/app/models/rol';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { ProjectsService } from 'src/app/services/projects.service';
 import Swal from 'sweetalert2';
@@ -19,6 +20,7 @@ export class ProjectInfoPage implements OnInit {
   project: Project;
   formProject: FormGroup;
   error = false;
+  rol: Rol;
 
   alert = Swal.mixin({
     toast: true,
@@ -37,6 +39,7 @@ export class ProjectInfoPage implements OnInit {
 
   async ngOnInit() {
     this.project = await this.localStorageService.getProjectData();
+    this.rol = await this.localStorageService.getCurrentRol();
     this.initForm();
   }
 
@@ -60,6 +63,11 @@ export class ProjectInfoPage implements OnInit {
 
   retroceder() {
     this.navController.navigateBack(['/tabs/tab1']);
+  }
+
+  canEdit(): boolean {
+    const rolId = this.rol.id;
+    return rolId === 'IZ00zAUWIUTo4ASO4ugR' || rolId === 'sc2gb0ZG1A19fBILZDCD';
   }
 
   async updateProject() {
