@@ -9,7 +9,10 @@
               <ion-label>
                 <h2 style=" font-weight: 900; font-size: 20px; color:white; text-transform: capitalize;">
                   <ng-container *ngIf="user">
-                    {{user.names}} {{user.lastNames}}
+                    <div style="text-transform: uppercase;">
+                      {{user.names}} {{user.lastNames}}
+                    </div>
+
                   </ng-container>
                 </h2>
               </ion-label>
