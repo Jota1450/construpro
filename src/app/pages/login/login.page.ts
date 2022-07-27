@@ -52,6 +52,10 @@ export class LoginPage implements OnInit {
     }
   }
 
+  async ionViewWillEnter() {
+    console.log('login again');
+  }
+
   async logIn() {
     if (this.email && this.password && this.email !== '' && this.password !== '') {
       this.loadingScreen = this.loadingController.create({
@@ -59,7 +63,7 @@ export class LoginPage implements OnInit {
         message: 'Cargando...',
       });
       await (await this.loadingScreen).present();
-      this.localStorage.clear();
+      await this.localStorage.clear();
       await this.authService.signIn(this.email, this.password).then(
         async (res) => {
           if (res) {

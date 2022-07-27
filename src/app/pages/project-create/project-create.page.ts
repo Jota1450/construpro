@@ -536,4 +536,11 @@ export class ProjectCreatePage implements OnInit {
   retroceder() {
     this.navController.navigateBack(['/menu/home']);
   }
+
+  validateField(field: string): boolean{
+    return (
+    this.formProject.get(field).invalid && this.formProject.get(field).touched ||
+    this.formProject.get(field).invalid && this.formSended
+    );
+  }
 }

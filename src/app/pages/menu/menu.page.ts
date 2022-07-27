@@ -28,9 +28,10 @@ export class MenuPage implements OnInit {
     this.user = await this.localStorage.getUserData();
   }
 
-  signOut() {
+  async signOut() {
     this.authService.signOut();
-    this.localStorage.clear();
+    await this.localStorage.deleteUserData();
+    await this.localStorage.clear();
     this.menu.close();
     this.navController.navigateBack(['/login']);
   }

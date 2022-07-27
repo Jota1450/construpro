@@ -95,10 +95,20 @@
             [type]="'test'" (outputValue)="setValue('professionalCard', $event)">
           </pro-input>
         </div>
-        <div class="error"
-          *ngIf="formRegister.get('professionalCard').hasError('required') && formRegister.get('professionalCard').touched || formRegister.get('professionalCard').invalid && formSended">
-          Tarjeta profesional requerida
-        </div>
+
+        <ng-container *ngIf="validateField('professionalCard')">
+          <ng-container *ngIf="formRegister.get('professionalCard').hasError('required'); else elseTemplateProfessionalCard">
+            <div class="error">
+              Tarjeta profesional requerida
+            </div>
+          </ng-container>
+          <ng-template #elseTemplateProfessionalCard>
+            <div class="error">
+              Tarjeta profesional invalida
+            </div>
+          </ng-template>
+        </ng-container>
+
       </div>
 
       <div class="row">
