@@ -24,6 +24,7 @@ export class UsersInfoPage implements OnInit {
   project: Project;
   formProject: FormGroup;
   numOriginalUsers: number;
+  originalUsers: User[];
   formHasChange = false;
 
   selectedUsersId: string[] = [];
@@ -62,6 +63,8 @@ export class UsersInfoPage implements OnInit {
     this.roles = await this.getAllRoles();
     this.project = await this.localStorage.getProjectData();
     this.users = this.project.party;
+    this.originalUsers  = this.project.party;
+
     this.setInitialUsers();
     await (await this.loadingScreen).dismiss();
     this.numOriginalUsers = this.users.length;
@@ -84,7 +87,10 @@ export class UsersInfoPage implements OnInit {
   }
 
   log() {
-    console.log(this.formProject.value.party);
+    console.log('------------------------------------');
+    console.log('form', this.formProject);
+    console.log('party', this.formProject.value.party);
+    console.log('------------------------------------');
   }
 
   ionViewDidLeave() {
@@ -131,6 +137,7 @@ export class UsersInfoPage implements OnInit {
   removePartyUserWithUser(index: number) {
     const userId = this.party.get(index.toString()).get('user').value.id;
     this.removeSelectedUsersId(userId);
+    this.originalUsers.splice(index, 1);
     this.party.removeAt(index);
     this.numOriginalUsers--;
     this.formHasChange = true;

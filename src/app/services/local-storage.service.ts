@@ -30,7 +30,7 @@ export class LocalStorageService {
     return this.storage.set('rol', rol);
   }
 
-  clear(){ 
+  clear(){
     return this.storage.clear();
   }
 

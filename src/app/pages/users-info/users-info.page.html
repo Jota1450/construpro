@@ -31,12 +31,12 @@
 
               <ng-container *ngIf="i < numOriginalUsers; else elseTemplate">
                 <div class="col">
-                  <pro-select [title]="'Usuario'" [options]="mapUsers([project.party[i]])"
+                  <pro-select [title]="'Usuario'" [options]="mapUsers([originalUsers[i]])"
                     (outputValue)="setUser(i.toString() ,'id', $event)" [selected]="0" [disabled]="true">
                   </pro-select>
                 </div>
                 <div class="col">
-                  <pro-select [title]="'Rol'" [options]="[getRol(project.party[i].rol)]"
+                  <pro-select [title]="'Rol'" [options]="[getRol(originalUsers[i].rol)]"
                     (outputValue)="setUser(i.toString(),'rol', $event)" [selected]="0" [disabled]="true">
                   </pro-select>
                 </div>
@@ -77,7 +77,7 @@
         <div class="submit">
           <pro-button [text]="'Actualizar'" [type]="'submit'" (click)="updateProject()"></pro-button>
           <pro-button [text]="'Cancelar'" [type]="'submit'" (click)="retroceder()"></pro-button>
-          <!--pro-button [text]="'Test'" [type]="'submit'" (click)="log()"></!--pro-button-->
+          <pro-button [text]="'Test'" [type]="'submit'" (click)="log()"></pro-button>
         </div>
       </form>
     </div>
