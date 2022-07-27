@@ -36,7 +36,7 @@
   </calendar>
 
   <div class="row" *ngFor="let note of notes">
-    <div class="col card">
+    <div class="col card " style="margin: 10px;">
     <pro-card-note [routerLink]="['/note-detail/'+note.id]" [time]="formatTime(note.date)" [names]="note.creatorUser.names"
     [lastNames]="note.creatorUser.lastNames" [date]="formatDate(note.date)" [note]="note.body"></pro-card-note>
     </div>
