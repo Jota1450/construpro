@@ -66,10 +66,20 @@
               Fecha Invalida o anterior a la existente.
             </div>
           </div>
-          <div class="submit">
-            <pro-button [text]="'Actualizar'" [type]="'submit'" (click)="updateProject()"></pro-button>
-            <pro-button [text]="'Reestablecer'" [type]="'submit'" (click)="reestablecer()"></pro-button>
+          
+          <div class="col">
+
+            <div class="row pt-4">
+              <div class="col buttons">
+                <div style="display: flex;">
+                  <pro-button style="margin: 5px;" [text]="'Actualizar'" [type]="'submit'" (click)="updateProject()"></pro-button>
+                  <pro-button style="margin: 5px;" [text]="'Reestablecer'" [type]="'submit'" (click)="reestablecer()"></pro-button>
+                </div>
+              </div>
+            </div>
+
           </div>
+          
         </div>
       </div>
     </form>
