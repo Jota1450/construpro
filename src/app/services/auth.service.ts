@@ -32,7 +32,7 @@ export class AuthService {
 
   }
 
-  async signIn(email, password){
+  async signIn(email, password) {
     try {
       const dataS = await this.fireAuth.signInWithEmailAndPassword(
         email,
@@ -86,15 +86,7 @@ export class AuthService {
   // Recover password
   passwordRecover(passwordResetEmail: string) {
     try {
-      return this.fireAuth.sendPasswordResetEmail(passwordResetEmail)
-        .then(() => {
-          /*window.alert(
-            'Password reset email has been sent, please check your inbox.'
-          );*/
-        })
-        .catch((error) => {
-          //window.alert(error);
-        });
+      return this.fireAuth.sendPasswordResetEmail(passwordResetEmail);
     } catch (error) {
       return error;
     }

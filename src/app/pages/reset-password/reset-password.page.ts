@@ -44,8 +44,10 @@ export class ResetPasswordPage implements OnInit {
     );
   }
 
-  log(){
-    console.log('goku', this.formEmail);
+  validateField(field: string): boolean {
+    return (
+      this.formEmail.get(field).invalid && this.formEmail.get(field).touched
+    );
   }
 
   resetPassword() {
@@ -66,7 +68,7 @@ export class ResetPasswordPage implements OnInit {
         (err) => {
           this.alert.fire({
             title: 'Parece que algo salió mal',
-            text: 'Por favor revisa que el correo sea valido.',
+            text: 'Por favor revisa que el correo sea valido o tal vez no existe.',
             icon: 'error',
             confirmButtonText: 'ok',
             timer: 3000,
@@ -74,6 +76,15 @@ export class ResetPasswordPage implements OnInit {
           });
         }
       );
+    } else {
+      this.alert.fire({
+        title: 'Formulario Invalido',
+        text: 'Por favor revisa que el correo sea valido.',
+        icon: 'error',
+        confirmButtonText: 'ok',
+        timer: 3000,
+        timerProgressBar: true
+      });
     }
   }
 

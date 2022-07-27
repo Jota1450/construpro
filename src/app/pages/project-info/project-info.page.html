@@ -52,7 +52,7 @@
           <ng-container *ngIf="canEdit(); else elseTemplateDateInput">
             <form [formGroup]="formProject">
               <div class="col">
-                <pro-input [title]="'Fecha fin'" [type]="'date'" [value]="formatDateStringCalendar(project.finalDate)"
+                <pro-input [title]="'Fecha fin'" [type]="'date'" [minimo]="limitDate" [value]="formatDateStringCalendar(project.finalDate)"
                   (outputValue)="formProject.get('newFinalDate').setValue($event)">
                 </pro-input>
                 <div class="error" *ngIf="error">

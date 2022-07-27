@@ -67,6 +67,15 @@ export class ProjectEditPage implements OnInit {
     );
   }
 
+  reestablecer() {
+    this.formProject.get('newName').setValue(this.project.name);
+    this.formProject.get('newContractNumber').setValue(this.project.contractNumber);
+    this.formProject.get('newNIT').setValue(this.project.NIT);
+    this.formProject.get('newAddress').setValue(this.project.address);
+    this.formProject.get('newInitialDate').setValue(this.formatDateStringCalendar(this.project.initialDate));
+    this.formProject.get('newFinalDate').setValue(this.formatDateStringCalendar(this.project.finalDate));
+  }
+
   formatDateString(date: string) {
     return moment(date).format('dddd, D MMMM YYYY');
   }
@@ -154,12 +163,64 @@ export class ProjectEditPage implements OnInit {
       this.project.contractNumber === this.formProject.get('newContractNumber').value &&
       this.project.NIT === this.formProject.get('newNIT').value &&
       this.project.address === this.formProject.get('newAddress').value &&
-      this.project.initialDate === this.formProject.get('newInitialDate').value &&
-      this.project.finalDate === this.formProject.get('newFinalDate').value
+      (this.project.initialDate === this.formProject.get('newInitialDate').value ||
+        this.formProject.get('newInitialDate').value === this.formatDateStringCalendar(this.project.initialDate)) &&
+      (this.project.finalDate === this.formProject.get('newFinalDate').value ||
+        this.formProject.get('newFinalDate').value === this.formatDateStringCalendar(this.project.finalDate))
     );
   }
 
   async print() {
     console.log('form', this.formProject);
   }
+
+  // nuevos
+
+  initialMin() {
+    const value = this.project.initialDate;
+    const date = new Date(tz.tz(value, 'America/Bogota').format());
+    this.finalMin();
+    return moment(date).format('yyyy-MM-DD');
+  }
+
+  finalMin() {
+    if (this.verifyDates()) {
+      this.formProject.get('newFinalDate').setValue('');
+      return '';
+    } else {
+      const value = this.formProject.get('newInitialDate').value;
+
+      let initialDate = new Date();
+      if (value) {
+        initialDate = new Date(tz.tz(value, 'America/Bogota').format());
+      }
+      initialDate.setDate(initialDate.getDate() + 1);
+      const a = moment(initialDate).format('yyyy-MM-DD');
+      return a;
+    }
+
+    /*
+    if (this.project.initialDate !== this.formProject.get('newFinalDate').value) {
+      const finalDate = new Date(tz.tz(this.formProject.get('newFinalDate').value, 'America/Bogota').format());
+      this.newProject.finalDate = finalDate.toISOString();
+    }
+    */
+  }
+
+  verifyDates() {
+    const initialValue = this.formProject.get('newInitialDate').value;
+    const finalValue = this.formProject.get('newFinalDate').value;
+    if (initialValue !== '' && finalValue !== '') {
+      const initialDate = new Date(tz.tz(initialValue, 'America/Bogota').format());
+      const finalDate = new Date(tz.tz(finalValue, 'America/Bogota').format());
+      if (finalDate <= initialDate) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
 }

@@ -524,23 +524,50 @@ export class ProjectCreatePage implements OnInit {
 
   initialMin() {
     const date = new Date();
+    this.finalMin();
     return moment(date).format('YYYY-MM-DD');
   }
 
   finalMin() {
-    const initialDate = new Date(tz.tz(this.formProject.get('initialDate').value, 'America/Bogota').format());
-    initialDate.setDate(initialDate.getDate() + 1);
-    return moment(initialDate).format('YYYY-MM-DD');
+    if (this.verifyDates()) {
+      this.formProject.get('finalDate').setValue('');
+      return '';
+    } else {
+      const value = this.formProject.get('initialDate').value;
+      let initialDate = new Date();
+      if (value) {
+        initialDate = new Date(tz.tz(value, 'America/Bogota').format());
+      }
+      initialDate.setDate(initialDate.getDate() + 1);
+      return moment(initialDate).format('YYYY-MM-DD');
+    }
+  }
+
+  verifyDates() {
+    const initialValue = this.formProject.get('initialDate').value;
+    const finalValue = this.formProject.get('finalDate').value;
+    if (initialValue !== '' && finalValue !== '') {
+      const initialDate = new Date(tz.tz(initialValue, 'America/Bogota').format());
+      const finalDate = new Date(tz.tz(finalValue, 'America/Bogota').format());
+      //console.log('jungle',finalDate <= initialDate);
+      if (finalDate <= initialDate) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
   }
 
   retroceder() {
     this.navController.navigateBack(['/menu/home']);
   }
 
-  validateField(field: string): boolean{
+  validateField(field: string): boolean {
     return (
-    this.formProject.get(field).invalid && this.formProject.get(field).touched ||
-    this.formProject.get(field).invalid && this.formSended
+      this.formProject.get(field).invalid && this.formProject.get(field).touched ||
+      this.formProject.get(field).invalid && this.formSended
     );
   }
 }

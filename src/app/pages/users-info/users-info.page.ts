@@ -63,7 +63,7 @@ export class UsersInfoPage implements OnInit {
     this.roles = await this.getAllRoles();
     this.project = await this.localStorage.getProjectData();
     this.users = this.project.party;
-    this.originalUsers  = this.project.party;
+    this.originalUsers = this.project.party;
 
     this.setInitialUsers();
     await (await this.loadingScreen).dismiss();
@@ -199,47 +199,49 @@ export class UsersInfoPage implements OnInit {
         text: 'Por favor realiza algún cambio.',
       });
     } else {
-      if (this.formProject.valid) {
-        this.loadingScreen = this.loadingController.create({
-          cssClass: 'my-custom-class',
-          message: 'Cargando...',
-        });
-        (await this.loadingScreen).present();
-        const projectToUpdate: Project = this.project;
-        const party = this.mapParty();
-        projectToUpdate.party = party;
-        projectToUpdate.partyIds = this.getPartyIds(party);
-        this.projectsService.updateProject(this.project.id, projectToUpdate).then(
-          async () => {
-            await this.localStorage.setProjectData(projectToUpdate);
-            this.alert.fire({
-              icon: 'success',
-              title: 'Bien!!!',
-              text: 'Proyecto actualizado correctamente',
-              allowOutsideClick: false,
-              allowEscapeKey: false,
-            }).then(
-              async (result) => {
-                if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
-                  (await this.loadingScreen).dismiss();
-                  this.retroceder();
+      if (await this.areEnoughRoles()) {
+        if (this.formProject.valid) {
+          this.loadingScreen = this.loadingController.create({
+            cssClass: 'my-custom-class',
+            message: 'Cargando...',
+          });
+          (await this.loadingScreen).present();
+          const projectToUpdate: Project = this.project;
+          const party = this.mapParty();
+          projectToUpdate.party = party;
+          projectToUpdate.partyIds = this.getPartyIds(party);
+          this.projectsService.updateProject(this.project.id, projectToUpdate).then(
+            async () => {
+              await this.localStorage.setProjectData(projectToUpdate);
+              this.alert.fire({
+                icon: 'success',
+                title: 'Bien!!!',
+                text: 'Proyecto actualizado correctamente',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+              }).then(
+                async (result) => {
+                  if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
+                    (await this.loadingScreen).dismiss();
+                    this.retroceder();
+                  }
                 }
-              }
-            );
-          }
-        );
-      } else {
-        this.alert.fire({
-          icon: 'error',
-          title: 'Parece que algo salió mal!',
-          text: 'Por favor Revisa el formulario',
-        }).then(
-          async (result) => {
-            if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
-              (await this.loadingScreen).dismiss();
+              );
             }
-          }
-        );
+          );
+        } else {
+          this.alert.fire({
+            icon: 'error',
+            title: 'Parece que algo salió mal!',
+            text: 'Por favor Revisa el formulario',
+          }).then(
+            async (result) => {
+              if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
+                (await this.loadingScreen).dismiss();
+              }
+            }
+          );
+        }
       }
     }
   }
@@ -293,6 +295,39 @@ export class UsersInfoPage implements OnInit {
       userName = formValue.get('user').value.names;
     }
     return userName;
+  }
+
+  async areEnoughRoles(): Promise<boolean> {
+    // Contratista, Contratante, Interventor
+    //['IZ00zAUWIUTo4ASO4ugR', 'sc2gb0ZG1A19fBILZDCD', 'xNmfGl6yMzlbOTuBl8jm'];
+    const party: any = await this.mapParty();
+    const roles = party.map(user => user = user.rol);
+
+    if (!roles.includes('IZ00zAUWIUTo4ASO4ugR')) {
+      this.alert.fire({
+        icon: 'warning',
+        title: 'Formulario Invalido',
+        text: 'No hay Contratistas',
+      });
+      return false;
+    } else if (!roles.includes('sc2gb0ZG1A19fBILZDCD')) {
+      this.alert.fire({
+        icon: 'warning',
+        title: 'Formulario Invalido',
+        text: 'No hay Contratante',
+      });
+      return false;
+    } else if (!roles.includes('xNmfGl6yMzlbOTuBl8jm')) {
+      this.alert.fire({
+        icon: 'warning',
+        title: 'Formulario Invalido',
+        text: 'No hay Interventor',
+      });
+      return false;
+    } else {
+      return true;
+    }
+
   }
 
   async getValues() {

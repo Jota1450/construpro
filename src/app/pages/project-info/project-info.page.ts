@@ -21,6 +21,8 @@ export class ProjectInfoPage implements OnInit {
   formProject: FormGroup;
   error = false;
   rol: Rol;
+  limitDate: string;
+
 
   alert = Swal.mixin({
     toast: true,
@@ -41,6 +43,8 @@ export class ProjectInfoPage implements OnInit {
     this.project = await this.localStorageService.getProjectData();
     this.rol = await this.localStorageService.getCurrentRol();
     this.initForm();
+    this.limitDate = moment(this.project.finalDate).format('YYYY-MM-DD');
+    console.log(this.limitDate);
   }
 
   initForm() {
@@ -51,6 +55,12 @@ export class ProjectInfoPage implements OnInit {
         ]),
       }
     );
+  }
+
+  initialMin() {
+    const date = new Date();
+    //this.finalMin();
+    return moment(date).format('YYYY-MM-DD');
   }
 
   formatDateString(date: string) {

@@ -125,7 +125,7 @@
                 </ng-container>
                 <ng-template #elseTemplateInitialDate>
                   <div class="error">
-                    Fecha incial invalida.
+                    Fecha inicial invalida.
                   </div>
                 </ng-template>
               </ng-container>
@@ -133,7 +133,7 @@
             </div>
 
             <div class="col">
-              <pro-input [title]="'Fecha fin'" [minimo]="finalMin()"
+              <pro-input [value]="formProject.get('finalDate').value" [title]="'Fecha fin'" [minimo]="finalMin()"
                 (click)="formProject.get('finalDate').markAsTouched()" [type]="'date'"
                 (outputValue)="setValue('finalDate', $event)"></pro-input>
 
@@ -230,7 +230,7 @@
 
           <div class="submit">
             <pro-button [text]="'Crear'" [type]="'submit'" (click)="saveProject()"></pro-button>
-            <!--pro-button [text]="'Test'" (click)="areEnoughRoles()"></!--pro-button-->
+            <!--pro-button [text]="'Test'" (click)="logForm()"></!--pro-button-->
           </div>
 
       </form>

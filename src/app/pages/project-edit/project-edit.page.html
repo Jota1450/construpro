@@ -17,7 +17,8 @@
 
         <div class="row">
           <div class="col">
-            <pro-input [title]="'Nombre del proyecto'" [type]="'text'" [value]="project.name" (outputValue)="formProject.get('newName').setValue($event)">
+            <pro-input [title]="'Nombre del proyecto'" [type]="'text'" [value]="formProject.get('newName').value"
+              (outputValue)="formProject.get('newName').setValue($event)">
             </pro-input>
           </div>
         </div>
@@ -25,12 +26,14 @@
         <div class="row">
 
           <div class="col">
-            <pro-input [title]="'N.I.T.'" [type]="'text'" [value]="project.NIT" (outputValue)="formProject.get('newNIT').setValue($event)">
+            <pro-input [title]="'N.I.T.'" [type]="'text'" [value]="formProject.get('newNIT').value"
+              (outputValue)="formProject.get('newNIT').setValue($event)">
             </pro-input>
           </div>
 
           <div class="col">
-            <pro-input [title]="'No. Contrato'" [type]="'text'" [value]="project.contractNumber" (outputValue)="formProject.get('newContractNumber').setValue($event)">
+            <pro-input [title]="'No. Contrato'" [type]="'text'" [value]="formProject.get('newContractNumber').value"
+              (outputValue)="formProject.get('newContractNumber').setValue($event)">
             </pro-input>
           </div>
 
@@ -38,21 +41,24 @@
 
         <div class="row">
           <div class="col">
-            <pro-input [title]="'Dirección de la obra'" [type]="'text'" [value]="project.address" (outputValue)="formProject.get('newAddress').setValue($event)">
+            <pro-input [title]="'Dirección de la obra'" [type]="'text'" [value]="formProject.get('newAddress').value"
+              (outputValue)="formProject.get('newAddress').setValue($event)">
             </pro-input>
           </div>
         </div>
 
         <div class="row">
           <div class="col">
-            <pro-input [title]="'Fecha inicio'" [type]="'date'" [value]="formatDateStringCalendar(project.initialDate)"
+            <pro-input [title]="'Fecha inicio'" [type]="'date'" [minimo]="initialMin()"
+              [value]="formatDateStringCalendar(formProject.get('newInitialDate').value)"
               (outputValue)="formProject.get('newInitialDate').setValue($event)">
             </pro-input>
           </div>
 
           <div class="col">
 
-            <pro-input [title]="'Fecha fin'" [type]="'date'" [value]="formatDateStringCalendar(project.finalDate)"
+            <pro-input [title]="'Fecha fin'" [type]="'date'" [minimo]="finalMin()"
+              [value]="formatDateStringCalendar(formProject.get('newFinalDate').value)"
               (outputValue)="formProject.get('newFinalDate').setValue($event)">
             </pro-input>
 
@@ -62,8 +68,8 @@
           </div>
           <div class="submit">
             <pro-button [text]="'Actualizar'" [type]="'submit'" (click)="updateProject()"></pro-button>
+            <pro-button [text]="'Reestablecer'" [type]="'submit'" (click)="reestablecer()"></pro-button>
           </div>
-          <!---pro-button [text]="'Test'" (click)="print()"></!---pro-button--->
         </div>
       </div>
     </form>
