@@ -130,6 +130,7 @@ export class ProjectCreatePage implements OnInit {
         ]),
         contractNumber: new FormControl('', [
           Validators.required,
+          Validators.pattern('^[a-zA-Z0-9]{5,10}$')
         ]),
         // eslint-disable-next-line @typescript-eslint/naming-convention
         NIT: new FormControl('', [
