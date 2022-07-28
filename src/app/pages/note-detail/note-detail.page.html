@@ -33,17 +33,16 @@
         <h3>
           <span class="interventor-label">
             <ion-label>Interventor Asignado</ion-label></span>
-
         </h3>
 
         <h5>
           <span class="interventor">
-            <ion-label>Interventor Asignado</ion-label></span>
+            <ion-label>{{ inspector.names }} {{ inspector.lastNames }}</ion-label></span>
         </h5>
 
       </div>
     </div>
-    
+
 
     <ng-container *ngIf="note.signatureBase64 && note.signatureImageUrl; else elseTemplate">
       <div class="line mb-4">

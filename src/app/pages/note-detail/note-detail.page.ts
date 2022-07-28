@@ -11,6 +11,7 @@ import * as moment from 'moment';
 import { ProjectsService } from 'src/app/services/projects.service';
 import { Project } from 'src/app/models/project';
 import Swal from 'sweetalert2';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-note-detail',
@@ -21,6 +22,7 @@ export class NoteDetailPage implements OnInit {
 
   note: Note;
   user: User;
+  inspector: User;
   project: Project;
   comments: Comment[];
 
@@ -33,6 +35,7 @@ export class NoteDetailPage implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private notesService: NotesService,
+    private usersService: UsersService,
     private commentsService: CommentsService,
     private localStorage: LocalStorageService,
   ) { }
@@ -41,18 +44,40 @@ export class NoteDetailPage implements OnInit {
     try {
       this.project = await this.localStorage.getProjectData();
       const id = this.activatedRoute.snapshot.paramMap.get('id');
-      this.notesService.getNote(id).subscribe(
+      /*this.notesService.getNote(id).subscribe(
         (note) => {
           if (note) {
             this.note = note;
           }
         }
-      );
+      );*/
+      this.note = await this.getNote(id);
       this.user = await this.localStorage.getUserData();
+      this.inspector = await this.getUser(this.note.inspectorId);
       await this.getComments(id);
     } catch (error) {
       console.log(error);
     }
+  }
+
+  async getUser(userId: string): Promise<User>{
+    return await new Promise((resolve, reject) => {
+      this.usersService.getUser(userId).subscribe(
+        result => {
+          resolve(result);
+        }
+      );
+    });
+  }
+
+  async getNote(noteId: string): Promise<Note>{
+    return await new Promise((resolve, reject) => {
+      this.notesService.getNote(noteId).subscribe(
+        result => {
+          resolve(result);
+        }
+      );
+    });
   }
 
   async getComments(id: string) {

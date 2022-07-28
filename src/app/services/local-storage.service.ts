@@ -13,7 +13,6 @@ export class LocalStorageService {
 
   setUserData(user: User) {
     // Store the value under "my-key"
-    console.log('user set', user);
     this.storage.remove('user');
     this.storage.set('user', user);
   }
