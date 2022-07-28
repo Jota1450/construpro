@@ -10,6 +10,7 @@ button-inner {
   color: #980000;
 }
 
+
 .toolbartitle {
   color: #980000;
   font-weight: 700;
@@ -43,6 +44,17 @@ button-inner {
 .slide-evidencias>img {
   width: 250px;
   scroll-snap-align: start;
+}
+
+.interventor-label{
+  font-style: normal;
+  font-weight: 700;
+
+  color: #980000;
+}
+.interventor{
+  font-style: normal;
+  font-weight: 500;
 }
 
 .date-anotacion {

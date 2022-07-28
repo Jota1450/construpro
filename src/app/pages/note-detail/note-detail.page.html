@@ -28,6 +28,23 @@
       </ion-label>
     </div>
 
+    <div class="mb-4" style="display: flex; justify-content: center;">
+      <div style="align-content: center; text-align: center;">
+        <h3>
+          <span class="interventor-label">
+            <ion-label>Interventor Asignado</ion-label></span>
+
+        </h3>
+
+        <h5>
+          <span class="interventor">
+            <ion-label>Interventor Asignado</ion-label></span>
+        </h5>
+
+      </div>
+    </div>
+    
+
     <ng-container *ngIf="note.signatureBase64 && note.signatureImageUrl; else elseTemplate">
       <div class="line mb-4">
         <img *ngIf="note.signatureImageUrl" [src]="note.signatureImageUrl" alt="firma" style=" max-width: 200px;">
