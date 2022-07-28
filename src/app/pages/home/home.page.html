@@ -9,6 +9,7 @@
 
 <ion-content>
   <ng-container *ngIf="projects; else elseTemplate">
+
     <ng-container *ngIf="projects.length > 0; else elseTemplate">
       <div class="row" *ngFor="let project of projects">
         <div class="col card" (click)="saveProjectData(project, user.id, project.party)">
@@ -18,6 +19,8 @@
             [img]="(project.imageUrl) ? project.imageUrl : '../../../assets/no-image.png'"
             [rol]="findUserRole(user.id, project.party).espName"></pro-card-project>
         </div>
+      </div>
+      <div class="button-space">
       </div>
     </ng-container>
     <ng-template #elseTemplate>
@@ -37,9 +40,6 @@
     <ion-fab-button (click)="goTo('/project-create')" class="addbutton">
       <ion-icon class="addicon" name="add"></ion-icon>
     </ion-fab-button>
-  </div>
-
-  <div class="button-space">
   </div>
 
 </ion-content>
