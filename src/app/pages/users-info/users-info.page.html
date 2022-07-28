@@ -74,11 +74,16 @@
             <ion-icon class="adduserrole" (click)="getValues()" name="add-circle"></ion-icon>
           </div>
         </div>
-        <div class="submit">
-          <pro-button [text]="'Actualizar'" [type]="'submit'" (click)="updateProject()"></pro-button>
-          <pro-button [text]="'Cancelar'" [type]="'submit'" (click)="retroceder()"></pro-button>
-          <!--pro-button [text]="'Test'" [type]="'submit'" (click)="log()"></!--pro-button-->
+
+        <div class="row pt-4">
+          <div class="col buttons">
+            <div style="display: flex;">
+              <pro-button style="margin: 5px;" [text]="'Actualizar'" [type]="'submit'" (click)="updateProject()"></pro-button>
+              <pro-button style="margin: 5px;" [text]="'Cancelar'" [type]="'submit'" (click)="retroceder()"></pro-button>
+            </div>
+          </div>
         </div>
+
       </form>
     </div>
   </div>
