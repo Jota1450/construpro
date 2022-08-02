@@ -126,7 +126,7 @@ export class ProjectCreatePage implements OnInit {
       {
         name: new FormControl('', [
           Validators.required,
-          Validators.pattern('^[a-zA-ZáÁéÉíÍóÓüúÚñÑ&- 0-9]{4,50}$')
+          Validators.pattern('^[a-zA-ZáÁéÉíÍóÓüúÚñÑ& -0-9]{4,50}$')
         ]),
         contractNumber: new FormControl('', [
           Validators.required,
