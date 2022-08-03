@@ -1,0 +1,88 @@
+.card {
+  background: #FFFFFF;
+  border: 1px solid #171717;
+  border-radius: 10px;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  width: 100% !important;
+}
+
+.card-title {
+  font-style: normal !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  line-height: 20px !important;
+}
+
+.content {
+  padding-left: 0px;
+}
+
+.image {
+  display: flex;
+  justify-content: center;
+}
+
+.card-img-top {
+  border-top-left-radius: inherit;
+  object-fit: cover;
+  border-radius: 10px 0 0 10px;
+  border-top-right-radius: inherit;
+  object-position: center;
+  align-items: center;
+}
+
+.max-height {
+  max-height: 150px;
+}
+
+.contract-id {
+  font-style: normal;
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 18px;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  text-align: right;
+  padding: inherit;
+  color: #C4C4C4;
+}
+
+.project-adress {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.project-date {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.role {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 20px;
+  display: flex;
+  align-items: end;
+  justify-content: end;
+  padding-right: 20px;
+}
+
+.role-text {
+  padding-left: 2px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 20px;
+  color: #980000;
+}

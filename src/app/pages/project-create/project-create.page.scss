@@ -1,0 +1,98 @@
+.imgcontainer {
+  text-align: center;
+}
+
+.img {
+  object-fit: fill;
+}
+
+.buttonback {
+  position: absolute;
+  --background: #FFFFFF;
+  --color: #980000;
+}
+
+.form {
+  margin: 5%;
+}
+
+.buttoncreate {
+  align-content: center;
+}
+
+.error {
+  padding-left: 15px;
+  padding-bottom: 5px;
+  color: red;
+}
+
+.formTitle {
+  font-size: 22px;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-color: #980000;
+  margin-bottom: 8px;
+}
+
+.usersTitle {
+  font-size: 20px;
+  padding: 10px;
+}
+
+.childcard {
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.adduserrole {
+  color: #980000;
+  font-size: 60px;
+}
+
+.addusercenter {
+  display: flex;
+  justify-content: center;
+}
+
+.createbutton {
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+}
+
+.select {
+  font-family: 'Poppins', sans-serif;
+  border-radius: 10px !important;
+  border: 1px solid #171717 !important;
+}
+
+.submit {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+
+.custom-img {
+  height: 16rem;
+  object-fit: cover;
+  object-position: center;
+  width: 100%;
+}
+
+.fab-container {
+  display: flex;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: inherit;
+  z-index: 1;
+  margin-top: 28px;
+}
+
+.addbutton {
+  --background: #980000;
+  --transition: background-color 15ms linear;
+  z-index: 999;
+}

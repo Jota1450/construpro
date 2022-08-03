@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button class="backbutton" [routerLink]="['/menu/home/']">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ng-container *ngIf="project; else elseTemplate">
+      <ion-title class="toolbartitle">{{ project.name }}</ion-title>
+    </ng-container>
+    <ng-template #elseTemplate>
+      <ion-title class="toolbartitle">Project Name</ion-title>
+    </ng-template>
+
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ng-container *ngIf="project">
+    <ng-container *ngIf="rol">
+
+
+      <ng-container *ngIf="project.isEditable && canEdit(); else elseOptionTemplate">
+        <ion-item (click)="goTo('/project-edit')">
+          <ion-icon name="business"></ion-icon>
+          <ion-label>Información del Proyecto</ion-label>
+        </ion-item>
+      </ng-container>
+      <ng-template #elseOptionTemplate>
+        <ion-item (click)="goTo('/project-info')">
+          <ion-icon name="business"></ion-icon>
+          <ion-label>Información del Proyecto</ion-label>
+        </ion-item>
+      </ng-template>
+
+      <ng-container *ngIf="user">
+        <ion-item *ngIf="user.id === project.createdBy.id" (click)="goTo('/users-info')">
+          <ion-icon name="people"></ion-icon>
+          <ion-label>Asignación Usuarios</ion-label>
+        </ion-item>
+      </ng-container>
+
+    </ng-container>
+  </ng-container>
+</ion-content>

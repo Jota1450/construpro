@@ -1,0 +1,241 @@
+<ion-content>
+  <ng-container *ngIf="users && roles">
+    <header class="header" style="background-color: #E3E3E3;">
+      <ion-card-header style="padding: 0;">
+        <ion-button class="buttonback" (click)="retroceder()">
+          <ion-icon name="arrow-back"></ion-icon>
+        </ion-button>
+        <div class="imgcontainer">
+
+          <ng-container *ngIf="images.length > 0; else elseTemplate">
+            <img class="img-fluid custom-img" [src]="images[0]">
+          </ng-container>
+          <ng-template #elseTemplate>
+            <img class="img-fluid" style="max-height: 30%;" src="../../../assets/no-image.png">
+          </ng-template>
+          <div>
+            <ion-fab vertical="bottom" horizontal="end" edge>
+              <ion-fab-button class="addbutton" (click)="pickImages()">
+                <ion-icon name="duplicate-outline"></ion-icon>
+              </ion-fab-button>
+            </ion-fab>
+          </div>
+
+        </div>
+      </ion-card-header>
+    </header>
+
+    <div class="form">
+      <form [formGroup]="formProject">
+        <div class="formTitle">
+          Creación de proyectos
+        </div>
+        <div class="row">
+          <div class="col">
+            <pro-input [title]="'Nombre del proyecto'" (click)="formProject.get('name').markAsTouched()" [type]="'text'"
+              (outputValue)="setValue('name', $event)">
+            </pro-input>
+            <ng-container *ngIf="validateField('name')">
+              <ng-container *ngIf="formProject.get('name').hasError('required'); else elseTemplateProjectName">
+                <div class="error">
+                  Nombre de proyecto requerido.
+                </div>
+              </ng-container>
+              <ng-template #elseTemplateProjectName>
+                <div class="error">
+                  Nombre de proyecto invalido.
+                </div>
+              </ng-template>
+            </ng-container>
+          </div>
+        </div>
+
+        <div class="row">
+
+          <div class="col">
+            <pro-input [title]="'N.I.T.'" (click)="formProject.get('NIT').markAsTouched()" [type]="'number'"
+              (outputValue)="setValue('NIT', $event)"></pro-input>
+            <ng-container *ngIf="validateField('NIT')">
+              <ng-container *ngIf="formProject.get('NIT').hasError('required'); else elseTemplateNIT">
+                <div class="error">
+                  N.I.T. Requerido.
+                </div>
+              </ng-container>
+              <ng-template #elseTemplateNIT>
+                <div class="error">
+                  N.I.T. invalido.
+                </div>
+              </ng-template>
+            </ng-container>
+
+          </div>
+
+          <div class="col">
+            <pro-input [title]="'No. Contrato'" (click)="formProject.get('contractNumber').markAsTouched()"
+              [type]="'text'" (outputValue)="setValue('contractNumber', $event)">
+            </pro-input>
+            <ng-container *ngIf="validateField('contractNumber')">
+              <ng-container
+                *ngIf="formProject.get('contractNumber').hasError('required'); else elseTemplateContractNumber">
+                <div class="error">
+                  Numero de contrato requerido.
+                </div>
+              </ng-container>
+              <ng-template #elseTemplateContractNumber>
+                <div class="error">
+                  Numero de contrato invalido.
+                </div>
+              </ng-template>
+            </ng-container>
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <pro-input [title]="'Dirección de la obra'" (click)="formProject.get('address').markAsTouched()"
+              [type]="'text'" (outputValue)="setValue('address', $event)">
+            </pro-input>
+          </div>
+          <ng-container *ngIf="validateField('address')">
+            <ng-container *ngIf="formProject.get('address').hasError('required'); else elseTemplateAddress">
+              <div class="error">
+                Dirección requerida.
+              </div>
+            </ng-container>
+            <ng-template #elseTemplateAddress>
+              <div class="error">
+                Dirección invalida.
+              </div>
+            </ng-template>
+          </ng-container>
+
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <pro-input [title]="'Fecha inicio'" [minimo]="initialMin()"
+              (click)="formProject.get('initialDate').markAsTouched()" [type]="'date'"
+              (outputValue)="setValue('initialDate', $event)">
+            </pro-input>
+            <ng-container *ngIf="validateField('initialDate')">
+              <ng-container *ngIf="formProject.get('initialDate').hasError('required'); else elseTemplateInitialDate">
+                <div class="error">
+                  Fecha inicial requerida.
+                </div>
+              </ng-container>
+              <ng-template #elseTemplateInitialDate>
+                <div class="error">
+                  Fecha inicial invalida.
+                </div>
+              </ng-template>
+            </ng-container>
+
+          </div>
+
+          <div class="col">
+            <pro-input [value]="formProject.get('finalDate').value" [title]="'Fecha fin'" [minimo]="finalMin()"
+              (click)="formProject.get('finalDate').markAsTouched()" [type]="'date'"
+              (outputValue)="setValue('finalDate', $event)"></pro-input>
+
+            <ng-container *ngIf="validateField('finalDate')">
+              <ng-container *ngIf="formProject.get('finalDate').hasError('required'); else elseTemplateFinalDate">
+                <div class="error">
+                  Fecha final requerida.
+                </div>
+              </ng-container>
+              <ng-template #elseTemplateFinalDate>
+                <div class="error">
+                  Fecha final invalida.
+                </div>
+              </ng-template>
+            </ng-container>
+          </div>
+
+        </div>
+
+        <div class="card" style="padding: 10px;">
+          <div class="usersTitle">
+            Usuarios asignados
+          </div>
+          <div class="card" style="padding: 10px;" formArrayName="party"
+            *ngFor="let user of party.controls; let i = index">
+            <span *ngIf="i !== 0"
+              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+              (click)="removePartyUser(i)">
+              x
+            </span>
+
+            <div class="row" [formGroupName]="i">
+              <div class="col">
+                <label for="basic-url" class="form-label"> Usuario </label>
+                <div class="input-group mb-1">
+                  <ng-container *ngIf="i === 0; else elseTemplate">
+                    <select class="form-select select" formControlName="user" [attr.disabled]="true">
+                      <option [ngValue]="creator" [selected]="'true'">
+                        {{ creator.names }}
+                      </option>
+                    </select>
+                  </ng-container>
+                  <ng-template #elseTemplate>
+                    <!---select class="form-select select" formControlName="user" (change)="addSelectedUsersId($event)">
+                      <option *ngFor="let option of mapUsers(getFilterUsers()); let i = index" [ngValue]="option.value">
+                        {{ option.text }}
+                      </option>
+                    </select-->
+                    <select class="form-select select" formControlName="user" [attr.disabled]="true">
+                      <option [selected]="'true'">
+                        {{ getUserFromForm(i) }}
+                      </option>
+                    </select>
+                  </ng-template>
+                </div>
+              </div>
+
+              <div class="col">
+                <label for="basic-url" class="form-label"> Rol </label>
+                <div class="input-group mb-1">
+
+                  <ng-container *ngIf="i === 0; else elseTemplate2">
+                    <select class="form-select select" formControlName="rol">
+                      <option *ngFor="let option of creatorUsers(); let i = index" [ngValue]="option.value">
+                        {{ option.text }}
+                      </option>
+                    </select>
+                  </ng-container>
+                  <ng-template #elseTemplate2>
+                    <select class="form-select select" formControlName="rol">
+                      <option *ngFor="let option of mapRoles(roles); let i = index" [ngValue]="option.value">
+                        {{ option.text }}
+                      </option>
+                    </select>
+                  </ng-template>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <ng-container *ngIf="formProject">
+            <div class="error" *ngIf="party.length < 2 && formSended">
+              Se requieren mas de dos usuarios.
+            </div>
+          </ng-container>
+          <div class="addusercenter">
+            <!--ion-icon class="adduserrole" (click)="addPartyUser()" name="add-circle"></!--ion-icon-->
+            <ion-icon class="adduserrole" (click)="getValues()" name="add-circle"></ion-icon>
+
+          </div>
+
+        </div>
+
+        <div class="submit">
+          <pro-button [text]="'Crear'" [type]="'submit'" (click)="saveProject()"></pro-button>
+          <!--pro-button [text]="'Test'" (click)="logForm()"></!--pro-button-->
+        </div>
+
+      </form>
+    </div>
+
+  </ng-container>
+</ion-content>

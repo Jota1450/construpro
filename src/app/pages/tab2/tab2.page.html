@@ -1,0 +1,120 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button class="backbutton" (click)="retroceder()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ng-container *ngIf="project; else elseTemplate3">
+      <ion-title class="toolbartitle">{{ project.name }}</ion-title>
+    </ng-container>
+    <ng-template #elseTemplate3>
+      <ion-title class="toolbartitle">Project Name</ion-title>
+    </ng-template>
+    <ion-buttons slot="end">
+      <ion-button class="backbutton" id="open-modal">
+        <ion-icon name="filter"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ng-container *ngIf="notes; else elseTemplate">
+    <ng-container *ngIf="notes.length > 0; else elseTemplate2">
+      <div class="row" *ngFor="let note of notes">
+        <div class="col card">
+          <div class="procard">
+            <pro-card-note [routerLink]="['/note-detail/'+note.id]" [time]="formatTime(note.date)"
+              [date]="formatDate(note.date)" [note]="note.body" [names]="note.creatorUser.names"
+              [lastNames]="note.creatorUser.lastNames" [finished]="note.isSigned">
+            </pro-card-note>
+          </div>
+        </div>
+      </div>
+      <div class="button-space"></div>
+    </ng-container>
+    <ng-template #elseTemplate2>
+      <div div class="no-notes">
+        Presiona el simbolo de añadir para crear nuevas anotaciones.
+      </div>
+    </ng-template>
+  </ng-container>
+  <ng-template #elseTemplate>
+    <div div class="no-projects">
+      <ion-spinner></ion-spinner>
+    </div>
+  </ng-template>
+  <ng-container *ngIf="rol">
+    <div class="floatingbutton" *ngIf="canCreateNote()">
+      <ion-fab-button [routerLink]="['/note-create']" class="addbutton">
+        <ion-icon class="addicon" name="add"></ion-icon>
+      </ion-fab-button>
+    </div>
+  </ng-container>
+
+
+  <ion-modal #modal trigger="open-modal" [initialBreakpoint]="0.4" [breakpoints]="[0, 0.4]">
+    <ng-template>
+      <ion-content>
+        <div class="row modaltitle-div">
+          <div class="col-5">
+            <ion-label class="modal-title">Filtrar por</ion-label>
+          </div>
+          <div class="col-7 toggle">
+            <ion-label>
+              Cambio de filtro
+            </ion-label>
+            <ion-toggle [(ngModel)]="toggleFilter">
+
+            </ion-toggle>
+          </div>
+        </div>
+        <div class="buttons">
+
+          <div class="row">
+            <ng-container *ngIf="toggleFilter; else toggleTemplate">
+              <ng-container *ngIf="project">
+                <div>
+                  <ion-label>Filtrar anotantes</ion-label>
+                  <select class="form-select select" [(ngModel)]="filterCreatorValue">
+                    <option *ngFor="let option of mapUsers(project.party); let i = index" [ngValue]="option.value">
+                      {{ option.text }}
+                    </option>
+                  </select>
+                </div>
+                <div class="col filter">
+                  <pro-button-outline [text]="'Aplicar'" (click)="getNotesByCreator()"></pro-button-outline>
+                </div>
+              </ng-container>
+            </ng-container>
+
+            <ng-template #toggleTemplate>
+              <div>
+                <ion-label>Filtrar estados</ion-label>
+                <select class="form-select select" [(ngModel)]="filterStateValue">
+                  <ng-container *ngFor="let option of filterStateOptions; let i = index">
+                    <option [ngValue]="option.value">
+                      {{ option.text }}
+                    </option>
+                  </ng-container>
+                </select>
+              </div>
+              <div class="col filter">
+                <pro-button-outline [text]="'Aplicar'" (click)="getNotesByState()"></pro-button-outline>
+              </div>
+            </ng-template>
+
+          </div>
+
+          <div class="row">
+            <div class="col reestablecer">
+              <pro-button [text]="'Reestablecer'" (click)="getNotes()"></pro-button>
+            </div>
+          </div>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+</ion-content>

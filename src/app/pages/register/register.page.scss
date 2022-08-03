@@ -1,0 +1,52 @@
+.title-container{
+    margin-top: 25px;
+}
+.title{
+    text-align: center;
+}
+.Constru{
+    font-style: normal;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 40px;
+    /* identical to box height */
+    
+    text-align: center;
+    
+    color: #ffffff;
+}
+.Pro{
+    font-style: normal;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 40px;
+    /* identical to box height */
+    
+    text-align: center;
+    
+    color: #333333;
+}
+
+.error{
+    padding-left: 15px;
+    padding-bottom: 5px;
+    color: red;
+  }
+
+.registrotext{
+    margin-left: 15px;
+    border-bottom-color: #000;
+    border-bottom-width: 2px;
+    border-bottom-style: solid;
+}
+.registrolabel{
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 36px;
+    color: #3C3844;
+}
+.buttons{
+    display: flex;
+    justify-content: space-around;
+}

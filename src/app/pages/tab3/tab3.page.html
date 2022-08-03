@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button class="backbutton" [routerLink]="['/menu/home/']">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ng-container *ngIf="project; else elseTemplate">
+      <ion-title class="toolbartitle">{{ project.name }}</ion-title>
+    </ng-container>
+    <ng-template #elseTemplate>
+      <ion-title class="toolbartitle">Project Name</ion-title>
+    </ng-template>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div>
+    <ion-item slot="end">
+      <ion-label>{{ viewTitle | uppercase }}</ion-label>
+
+      <ion-buttons>
+        <pro-button [text]="'Hoy'" (click)="today()" style="margin: 5px;"></pro-button>
+      </ion-buttons>
+    </ion-item>
+  </div>
+
+  <calendar [locale]="'es-ES'" [eventSource]="eventSource" [calendarMode]="calendar.mode" [showEventDetail]="false"
+    [currentDate]="calendar.currentDate" (onCurrentDateChanged)="onCurrentDateChanged($event)"
+    (onEventSelected)="onEventSelected($event)" (onTitleChanged)="onViewTitleChanged($event)"
+    (onTimeSelected)="onTimeSelected($event)" [step]="calendar.step">
+  </calendar>
+
+  <div class="row" *ngFor="let note of notes">
+    <div class="col card " style="margin: 10px;">
+      <pro-card-note [routerLink]="['/note-detail/'+note.id]" [time]="formatTime(note.date)"
+        [names]="note.creatorUser.names" [lastNames]="note.creatorUser.lastNames" [date]="formatDate(note.date)"
+        [note]="note.body" [finished]="note.isSigned"></pro-card-note>
+    </div>
+  </div>
+
+</ion-content>

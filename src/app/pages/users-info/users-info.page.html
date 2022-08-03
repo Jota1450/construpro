@@ -1,0 +1,92 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button class="backbutton" (click)="retroceder()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="toolbartitle">Usuarios</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="card" style="padding: 10px;">
+    <div class="card">
+      <form [formGroup]="formProject">
+
+
+
+        <div class="card" style="padding: 10px;">
+          <div class="usersTitle">
+            Usuarios asignados
+          </div>
+          <div class="card" style="padding: 10px;" formArrayName="party"
+            *ngFor="let user of party.controls; let i = index">
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+              (click)="(i < numOriginalUsers) ? removePartyUserWithUser(i) : removePartyUser(i)" *ngIf="party.length > 2 && ((i < users.length)? currentUser.id !== users[i].id : true)">
+              x
+            </span>
+
+            <div class="row" [formGroupName]="i">
+
+              <ng-container *ngIf="i < numOriginalUsers; else elseTemplate">
+                <div class="col">
+                  <pro-select [title]="'Usuario'" [options]="mapUsers([originalUsers[i]])"
+                    (outputValue)="setUser(i.toString() ,'id', $event)" [selected]="0" [disabled]="true">
+                  </pro-select>
+                </div>
+                <div class="col">
+                  <pro-select [title]="'Rol'" [options]="[getRol(originalUsers[i].rol)]"
+                    (outputValue)="setUser(i.toString(),'rol', $event)" [selected]="0" [disabled]="true">
+                  </pro-select>
+                </div>
+              </ng-container>
+              <ng-template #elseTemplate>
+                <div class="col">
+                  <label for="basic-url" class="form-label"> Usuario </label>
+                  <div class="input-group mb-1">
+                    <select class="form-select select" formControlName="user" [attr.disabled]="true">
+                      <option [selected]="'true'">
+                        {{ getUserFromForm(i) }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col">
+                  <label for="basic-url" class="form-label"> Rol </label>
+                  <div class="input-group mb-1">
+                    <select class="form-select select" formControlName="rol">
+                      <option *ngFor="let option of mapRoles(roles); let i = index" [ngValue]="option.value">
+                        {{ option.text }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+          <ng-container *ngIf="formProject">
+            <div class="error" *ngIf="formProject.get('party').value < 2">
+              Se requieren mas de dos usuarios.
+            </div>
+          </ng-container>
+          <div class="addusercenter">
+            <ion-icon class="adduserrole" (click)="getValues()" name="add-circle"></ion-icon>
+          </div>
+        </div>
+
+        <div class="row pt-4">
+          <div class="col buttons">
+            <div style="display: flex;">
+              <pro-button style="margin: 5px;" [text]="'Actualizar'" [type]="'submit'" (click)="updateProject()"></pro-button>
+              <pro-button style="margin: 5px;" [text]="'Cancelar'" [type]="'submit'" (click)="retroceder()"></pro-button>
+            </div>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+
+</ion-content>

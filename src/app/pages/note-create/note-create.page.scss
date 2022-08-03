@@ -1,0 +1,83 @@
+.menubutton {
+  color: #980000;
+}
+
+.select {
+  font-family: 'Poppins', sans-serif;
+  border-radius: 10px !important;
+  border: 1px solid #171717 !important;
+}
+
+.toolbartitle {
+  color: #980000;
+  font-weight: 700;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 36px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0 90px 1px;
+  position: absolute;
+  text-align: center;
+}
+
+.buttonback {
+  position: absolute;
+  --background: #FFFFFF;
+  --color: #980000;
+}
+
+.btn-img {
+  margin-top: 15px;
+  margin-bottom: 10px;
+}
+
+.notedate {
+  padding-bottom: 20px;
+}
+
+.date {
+  font-style: normal !important;
+  font-weight: 500 !important;
+  font-size: 20px !important;
+  line-height: 22px !important;
+}
+
+.form {
+  margin: 5%;
+}
+
+.textArea {
+  border-radius: 10px !important;
+  border: 1px solid #171717 !important;
+}
+
+.btn {
+  justify-content: center;
+  display: flex;
+  padding-top: 10px;
+  z-index: 9999;
+}
+.no-images{
+  padding-left: 10px;
+  padding-top: 5px;
+  font-size: 18px;
+}
+
+.addbutton {
+  --background: #980000;
+  --transition: background-color 15ms linear;
+  z-index: 999;
+}
+
+.error{
+  padding-left: 15px;
+  padding-bottom: 5px;
+  color: red;
+}
+.bin{
+  color: #980000;
+  z-index: 9999;
+}

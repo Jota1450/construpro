@@ -1,0 +1,45 @@
+<ion-app>
+  <ion-menu side="start" menuId="first" contentId="main">
+    <ion-header>
+
+
+        <div class="headerbg">
+          <div class="headercontent">
+            <img src="https://thumbs.dreamstime.com/b/perfil-de-avatar-predeterminado-en-estilo-moda-para-icono-usuario-medios-sociales-187599373.jpg" alt="" style="border-radius: 100%; height:64px; width:64px;">
+              <ion-label>
+                <h2 style=" font-weight: 900; font-size: 20px; color:white; text-transform: capitalize;">
+                  <ng-container *ngIf="user">
+                    <div style="text-transform: uppercase;">
+                      {{user.names}} {{user.lastNames}}
+                    </div>
+
+                  </ng-container>
+                </h2>
+              </ion-label>
+          </div>
+        </div>
+
+    </ion-header>
+    <ion-content>
+      <ion-list>
+
+        <ion-buttons slot="end">
+          <ion-menu-toggle menu="menuId"></ion-menu-toggle>
+        </ion-buttons>
+
+      </ion-list>
+    </ion-content>
+    <ion-footer slot="">
+      <ion-item (click)="signOut()">
+        <ion-icon name="log-out"></ion-icon>
+        <ion-label class="menutext">Cerrar Sesión</ion-label>
+      </ion-item>
+      <ion-toolbar class="footer">
+        <ion-title>Construpro &copy;</ion-title>
+      </ion-toolbar>
+    </ion-footer>
+  </ion-menu>
+
+
+  <ion-router-outlet id="main"></ion-router-outlet>
+</ion-app>

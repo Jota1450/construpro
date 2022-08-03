@@ -1,0 +1,43 @@
+.backbutton {
+  color: #980000;
+  font-size: 24px;
+  padding-right: 15px;
+}
+ion-icon {
+  font-size: 26px;
+}
+
+.toolbartitle {
+  color: #980000;
+  font-weight: 700;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 36px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0 90px 1px;
+  position: absolute;
+  text-align: center;
+}
+
+.addusercenter {
+  display: flex;
+  justify-content: center;
+}
+
+.adduserrole {
+  color: #980000;
+  font-size: 60px;
+}
+
+.select {
+  font-family: 'Poppins', sans-serif;
+  border-radius: 10px !important;
+  border: 1px solid #171717 !important;
+}
+.buttons{
+  display: flex;
+  justify-content: space-around;
+}

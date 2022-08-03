@@ -1,0 +1,88 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button class="backbutton" (click)="retroceder()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="toolbartitle">Proyecto</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ng-container *ngIf="project">
+    <form [formGroup]="formProject">
+      <div class="form">
+
+
+        <div class="row">
+          <div class="col">
+            <pro-input [title]="'Nombre del proyecto'" [type]="'text'" [value]="formProject.get('newName').value"
+              (outputValue)="formProject.get('newName').setValue($event)">
+            </pro-input>
+          </div>
+        </div>
+
+        <div class="row">
+
+          <div class="col">
+            <pro-input [title]="'N.I.T.'" [type]="'text'" [value]="formProject.get('newNIT').value"
+              (outputValue)="formProject.get('newNIT').setValue($event)">
+            </pro-input>
+          </div>
+
+          <div class="col">
+            <pro-input [title]="'No. Contrato'" [type]="'text'" [value]="formProject.get('newContractNumber').value"
+              (outputValue)="formProject.get('newContractNumber').setValue($event)">
+            </pro-input>
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <pro-input [title]="'Dirección de la obra'" [type]="'text'" [value]="formProject.get('newAddress').value"
+              (outputValue)="formProject.get('newAddress').setValue($event)">
+            </pro-input>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <pro-input [title]="'Fecha inicio'" [type]="'date'" [minimo]="initialMin()"
+              [value]="formatDateStringCalendar(formProject.get('newInitialDate').value)"
+              (outputValue)="formProject.get('newInitialDate').setValue($event)">
+            </pro-input>
+          </div>
+
+          <div class="col">
+
+            <pro-input [title]="'Fecha fin'" [type]="'date'" [minimo]="finalMin()"
+              [value]="formatDateStringCalendar(formProject.get('newFinalDate').value)"
+              (outputValue)="formProject.get('newFinalDate').setValue($event)">
+            </pro-input>
+
+            <div class="error" *ngIf="error">
+              Fecha Invalida o anterior a la existente.
+            </div>
+          </div>
+          
+          <div class="col">
+
+            <div class="row pt-4">
+              <div class="col buttons">
+                <div style="display: flex;">
+                  <pro-button style="margin: 5px;" [text]="'Actualizar'" [type]="'submit'" (click)="updateProject()"></pro-button>
+                  <pro-button style="margin: 5px;" [text]="'Reestablecer'" [type]="'submit'" (click)="reestablecer()"></pro-button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          
+        </div>
+      </div>
+    </form>
+  </ng-container>
+
+</ion-content>

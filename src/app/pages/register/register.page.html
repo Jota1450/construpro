@@ -1,0 +1,189 @@
+<ion-content>
+  <div class="row" style="background: #980000;">
+    <div class="col title-container">
+      <h3 class="title"><span class="Constru">CONSTRU </span><span class="Pro">PRO</span></h3>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-5 registrotext">
+      <h5 class="registrolabel">Registro</h5>
+    </div>
+  </div>
+
+  <form [formGroup]="formRegister">
+    <div style="padding-left: 9%; padding-right: 9%; padding-top: 24px;">
+      <p>Registra tus datos para tener acceso a la aplicación.</p>
+
+      <div class="row">
+        <div class="col">
+          <pro-input [title]="'Nombres'" (click)="formRegister.get('names').markAsTouched()" [type]="'text'"
+            (outputValue)="setValue('names', $event)"></pro-input>
+        </div>
+        <ng-container *ngIf="validateField('names')">
+          <ng-container *ngIf="formRegister.get('names').hasError('required'); else elseTemplateNames">
+            <div class="error">
+              Nombre requerido
+            </div>
+          </ng-container>
+          <ng-template #elseTemplateNames>
+            <div class="error">
+              Nombre inválido
+            </div>
+          </ng-template>
+        </ng-container>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <pro-input [title]="'Apellidos'" (click)="formRegister.get('lastNames').markAsTouched()" [type]="'text'"
+            (outputValue)="setValue('lastNames', $event)"></pro-input>
+        </div>
+        <ng-container *ngIf="validateField('lastNames')">
+          <ng-container *ngIf="formRegister.get('lastNames').hasError('required'); else elseTemplateLastNames">
+            <div class="error">
+              Apellido requerido
+            </div>
+          </ng-container>
+          <ng-template #elseTemplateLastNames>
+            <div class="error">
+              Apellido inválido
+            </div>
+          </ng-template>
+        </ng-container>
+      </div>
+
+
+      <div class="row">
+        <div class="col">
+          <pro-select id="typeD" [title]="'Tipo de documento'"
+            (click)="formRegister.get('documentType').markAsTouched()" [options]="options" [selected]="0"
+            (outputValue)=" setValue('documentType', $event)">
+          </pro-select>
+        </div>
+        <div class="error"
+          *ngIf="formRegister.get('documentType').hasError('required') && formRegister.get('documentType').touched || formRegister.get('documentType').invalid && formSended">
+          Tipo de documento requerido
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col">
+          <pro-input [title]="'Numero de documento'" (click)="formRegister.get('documentNumber').markAsTouched()"
+            [type]="getDocumentNumberInputType()" (outputValue)="setValue('documentNumber', $event)">
+          </pro-input>
+        </div>
+        <ng-container *ngIf="validateField('documentNumber')">
+          <ng-container
+            *ngIf="formRegister.get('documentNumber').hasError('required'); else elseTemplateDocumentNumber">
+            <div class="error">
+              Numero de documento requerido
+            </div>
+          </ng-container>
+          <ng-template #elseTemplateDocumentNumber>
+            <div class="error">
+              Numero de documento inválido
+            </div>
+          </ng-template>
+        </ng-container>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <pro-input [title]="'Tarjeta Profesional'" (click)="formRegister.get('professionalCard').markAsTouched()"
+            [type]="'test'" (outputValue)="setValue('professionalCard', $event)">
+          </pro-input>
+        </div>
+
+        <ng-container *ngIf="validateField('professionalCard')">
+          <ng-container *ngIf="formRegister.get('professionalCard').hasError('required'); else elseTemplateProfessionalCard">
+            <div class="error">
+              Tarjeta profesional requerida
+            </div>
+          </ng-container>
+          <ng-template #elseTemplateProfessionalCard>
+            <div class="error">
+              Tarjeta profesional invalida
+            </div>
+          </ng-template>
+        </ng-container>
+
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <pro-input [title]="'Correo'" (click)="formRegister.get('email').markAsTouched()" [type]="'email'"
+            (outputValue)="setValue('email', $event)"></pro-input>
+        </div>
+        <ng-container *ngIf="validateField('email')">
+          <ng-container *ngIf="formRegister.get('email').hasError('required'); else elseTemplateEmail">
+            <div class="error">
+              Correo requerido
+            </div>
+          </ng-container>
+          <ng-template #elseTemplateEmail>
+            <div class="error">
+              Correo inválido
+            </div>
+          </ng-template>
+        </ng-container>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <pro-input [title]="'Contraseña'" (click)="formRegister.get('password').markAsTouched()" [type]="'password'"
+            (outputValue)="setValue('password', $event)">
+          </pro-input>
+        </div>
+        <ng-container *ngIf="validateField('password')">
+          <ng-container *ngIf="formRegister.get('password').hasError('required'); else elseTemplatePassword">
+            <div class="error">
+              Contraseña requerida
+            </div>
+          </ng-container>
+          <ng-template #elseTemplatePassword>
+            <div class="error">
+              Contraseña inválida
+            </div>
+          </ng-template>
+        </ng-container>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <pro-input [title]="'Confirmar contraseña'" (click)="formRegister.get('confirmPassword').markAsTouched()"
+            [type]="'password'" (outputValue)="setValue('confirmPassword', $event)">
+          </pro-input>
+        </div>
+        <ng-container *ngIf="validateField('confirmPassword'); else elseTemplateConfirmPassword">
+          <ng-container
+            *ngIf="formRegister.get('confirmPassword').hasError('required'); else innerElseTemplateConfirmPassword">
+            <div class="error">
+              Valida la Contraseña
+            </div>
+          </ng-container>
+          <ng-template #innerElseTemplateConfirmPassword>
+            <div class="error">
+              Confirmar contraseña es inválida
+            </div>
+          </ng-template>
+        </ng-container>
+        <ng-template #elseTemplateConfirmPassword>
+          <div class="error" *ngIf="passAreValid() === false">
+            Las contraseñas no coinciden
+          </div>
+        </ng-template>
+      </div>
+    </div>
+
+    <div class="row pt-4">
+      <div class="col buttons">
+        <div style="display: flex;">
+          <pro-button-outline [text]="'Volver'" [routerLink]="['/login']" style="margin: 5px;"></pro-button-outline>
+          <pro-button [text]="'Registrar'" [type]="'submit'" (click)="saveUser()" style="margin: 5px;"></pro-button>
+        </div>
+      </div>
+    </div>
+  </form>
+</ion-content>

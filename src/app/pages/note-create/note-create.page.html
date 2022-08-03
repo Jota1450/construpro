@@ -1,0 +1,88 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button style="color: #980000 !important;"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="toolbartitle">Crear Anotación</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div>
+
+    <div class="form" [formGroup]="formNote">
+      <div class="notedate">
+        <ion-label class="date">{{ formatDate() }}</ion-label>
+      </div>
+      <ion-label>Anotación</ion-label>
+      <ion-textarea autoGrow="true" class="textArea" formControlName="body"
+        (click)="formNote.get('body').markAsTouched()" placeholder="Detalles de la anotación">
+      </ion-textarea>
+      <div class="error" *ngIf="formNote.get('body').hasError('required') && formNote.get('body').touched || formNote.get('body').invalid && formSended">
+        Contenido de la anotación requerido.
+      </div>
+
+      <div class="row btn-img">
+        <div class="col">
+          <pro-button [text]="'Cargar Imágenes'" (click)="pickImages()"></pro-button>
+
+          <div *ngIf="images.length > 0; else noImagesTemplate">
+            <swiper style="width: 100% !important;
+            height: auto !important;
+            object-fit: cover !important;
+            object-position: center !important;
+            max-height: 350px !important;" [zoom]="false">
+              <ng-template swiperSlide *ngFor="let image of images; let i = index">
+                <ion-fab vertical="top" horizontal="end" slot="fixed">
+                  <ion-fab-button class="addbutton" (click)="removeImg(i)">
+                    <ion-icon name="trash" style="color: white;"></ion-icon>
+                  </ion-fab-button>
+                </ion-fab>
+                <img [src]="image" alt="" style="
+                width: 100% !important;
+                object-fit: cover !important;
+                max-height: 350px !important;" >
+              </ng-template>
+            </swiper>
+          </div>
+          <ng-template #noImagesTemplate>
+            <div class="no-images">
+              No se han cargado imagenes.
+            </div>
+          </ng-template>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="users">
+        <div class="col">
+          <!---pro-select [title]="'Interventor Asignado'" [options]="mapUsers(users)"
+            (outputValue)="setValue('user', $event)">
+          </!---pro-select--->
+          <label for="basic-url" class="form-label"> Interventor Asignado </label>
+          <div class="input-group mb-1">
+            <select class="form-select select" formControlName="user">
+              <option *ngFor="let option of mapUsers(users); let i = index" [ngValue]="option.value">
+                {{ option.text }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="error" *ngIf="formNote.get('user').hasError('required') && formNote.get('user').touched|| formNote.get('user').invalid && formSended">
+          Interventor requerido.
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col btn">
+          <pro-button [text]="'Crear'" [type]="'submit'" (click)="saveNote()"></pro-button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</ion-content>

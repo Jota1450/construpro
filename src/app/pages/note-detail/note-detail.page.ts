@@ -1,0 +1,124 @@
+import { CommentsService } from './../../services/comments.service';
+import { Comment } from 'src/app/models/comment';
+import { SignatureEvent } from './../../../../node_modules/signature_pad/src/signature_pad';
+import { NotesService } from './../../services/notes.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Note } from 'src/app/models/note';
+import { User } from 'src/app/models/user';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
+import * as moment from 'moment';
+import { ProjectsService } from 'src/app/services/projects.service';
+import { Project } from 'src/app/models/project';
+import Swal from 'sweetalert2';
+import { UsersService } from 'src/app/services/users.service';
+
+@Component({
+  selector: 'app-note-detail',
+  templateUrl: './note-detail.page.html',
+  styleUrls: ['./note-detail.page.scss'],
+})
+export class NoteDetailPage implements OnInit {
+
+  note: Note;
+  user: User;
+  inspector: User;
+  project: Project;
+  comments: Comment[];
+
+
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  //@ViewChild('signature', { static: true }) signaturePadElement: any;
+  //signaturePad: any;
+  //signature: any;
+
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private notesService: NotesService,
+    private usersService: UsersService,
+    private commentsService: CommentsService,
+    private localStorage: LocalStorageService,
+  ) { }
+
+  async ngOnInit() {
+    try {
+      this.project = await this.localStorage.getProjectData();
+      const id = this.activatedRoute.snapshot.paramMap.get('id');
+      this.note = await this.getNote(id);
+      this.user = await this.localStorage.getUserData();
+      this.inspector = await this.getUser(this.note.inspectorId);
+      await this.getComments(id);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async getUser(userId: string): Promise<User>{
+    return await new Promise((resolve, reject) => {
+      this.usersService.getUser(userId).subscribe(
+        result => {
+          resolve(result);
+        }
+      );
+    });
+  }
+
+  async getNote(noteId: string): Promise<Note>{
+    return await new Promise((resolve, reject) => {
+      this.notesService.getNote(noteId).subscribe(
+        result => {
+          resolve(result);
+        }
+      );
+    });
+  }
+
+  async getComments(id: string) {
+    await this.commentsService.getAllComments(id).subscribe(
+      (resp) => {
+        this.comments = resp;
+        console.log('resp', resp);
+      }
+    );
+  }
+
+  formatDate(date) {
+    return moment(date).format('dddd, D MMMM YYYY');
+  }
+
+  formatDateString(date: string) {
+    return moment(date).format('MMMM D YYYY');
+  }
+
+  formatTimeString(date: string) {
+    return moment(date).format('hh:mm A');
+  }
+
+  userCanSign(): boolean {
+    return this.note.inspectorId === this.user.id;
+  }
+
+  deleteComment(commentId: string) {
+    Swal.fire({
+      title: '¿Seguro que deseas eliminar este comentario?',
+      showCancelButton: true,
+      showConfirmButton: true,
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar',
+      heightAuto: false,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.commentsService.deleteComment(this.note.id, commentId);
+        Swal.fire({
+          icon: 'success',
+          position: 'center',
+          title: 'Eliminado',
+          text: 'Comentario Eliminado Correctamente!',
+          heightAuto: false,
+          toast: true,
+          showConfirmButton: true,
+        });
+      }
+    });
+  }
+}
