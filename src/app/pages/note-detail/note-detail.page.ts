@@ -44,13 +44,6 @@ export class NoteDetailPage implements OnInit {
     try {
       this.project = await this.localStorage.getProjectData();
       const id = this.activatedRoute.snapshot.paramMap.get('id');
-      /*this.notesService.getNote(id).subscribe(
-        (note) => {
-          if (note) {
-            this.note = note;
-          }
-        }
-      );*/
       this.note = await this.getNote(id);
       this.user = await this.localStorage.getUserData();
       this.inspector = await this.getUser(this.note.inspectorId);
