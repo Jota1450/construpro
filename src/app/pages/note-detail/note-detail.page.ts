@@ -128,5 +128,4 @@ export class NoteDetailPage implements OnInit {
       }
     });
   }
-
 }
