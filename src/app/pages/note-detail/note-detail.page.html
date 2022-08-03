@@ -32,14 +32,17 @@
       <div style="align-content: center; text-align: center;">
         <h3>
           <span class="interventor-label">
-            <ion-label>Interventor Asignado</ion-label></span>
+            <ion-label>Interventor Asignado</ion-label>
+          </span>
         </h3>
 
-        <h5>
+        <h5 *ngIf="inspector">
           <span class="interventor">
-            <ion-label>{{ inspector.names }} {{ inspector.lastNames }}</ion-label></span>
+            <ion-label>
+              {{ inspector.names }} {{ inspector.lastNames }}
+            </ion-label>
+          </span>
         </h5>
-
       </div>
     </div>
 
@@ -59,8 +62,8 @@
     </ng-container>
 
     <ng-template #elseTemplate>
-      <ng-container *ngIf="userCanSign()">
-        <div class="line mb-4">
+      <ng-container *ngIf="user">
+        <div class="line mb-4" *ngIf="userCanSign()">
           <app-signature [note]="note" [user]="user" *ngIf="userCanSign()">
           </app-signature>
         </div>
