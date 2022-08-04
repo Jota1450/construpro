@@ -24,9 +24,16 @@
       </div>
     </ng-container>
     <ng-template #elseTemplate>
-      <div div class="no-projects">
-        Presiona el simbolo de añadir para crear nuevos proyectos.
-      </div>
+      <ng-container *ngIf="user && user.canCreateProject; else elseTemplateTexto">
+        <div div class="no-projects">
+          Presiona el simbolo de añadir para crear nuevos proyectos.
+        </div>
+      </ng-container>
+      <ng-template #elseTemplateTexto>
+        <div div class="no-projects">
+          Muy pronto serás añadido a un proyecto.
+        </div>
+      </ng-template>
     </ng-template>
 
   </ng-container>
